@@ -32,7 +32,7 @@ $page_start = (($page_num-1) * $per_page);
 /* End Pagination */
 ?>
 
-<table id="pagging-1" class="t-control w90">
+<table id="pagging-1" class="t-control w100">
 <tr>
 	<td class="text-right">
 		<input type="button" id="prev_page" value=" < ">
@@ -44,7 +44,7 @@ $page_start = (($page_num-1) * $per_page);
 </tr>
 </table>
 
-<table class="t-data w90">
+<table class="t-data w100">
 <tr>
 	<th class="w1"><input type="checkbox" id="cb_all"></th>
 	<th class="w10">BLOK / NOMOR</th>
@@ -84,7 +84,7 @@ if ($total_data > 0)
 ?>
 </table>
 
-<table id="pagging-2" class="t-control w90"></table>
+<table id="pagging-2" class="t-control w100"></table>
 
 <script type="text/javascript">
 jQuery(function($) {

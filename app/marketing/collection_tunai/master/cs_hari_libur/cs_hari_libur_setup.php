@@ -98,7 +98,7 @@ function loadData()
 function showPopup(act, id)
 {
 	var url =	base_marketing + 'collection_tunai/master/cs_hari_libur/cs_hari_libur_popup.php' + '?act=' + act + '&id=' + id;
-	setPopup(act + ' cs_hari_libur', url, 400, 300);
+	setPopup(act + ' Hari Libur', url, 400, 300);
 	return false;
 }
 

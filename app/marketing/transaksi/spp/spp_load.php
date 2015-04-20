@@ -44,7 +44,7 @@ $page_start = (($page_num-1) * $per_page);
 /* End Pagination */
 ?>
 
-<table id="pagging-1" class="t-control w60">
+<table id="pagging-1" class="t-control w100">
 <tr>
 	<td>
 		<input type="button" id="hapus" value=" Hapus ">	
@@ -60,12 +60,13 @@ $page_start = (($page_num-1) * $per_page);
 </tr>
 </table>
 
-<table class="t-data w60">
+<table class="t-data w100">
 <tr>
 	<th class="w1"><input type="checkbox" id="cb_all"></th>
-	<th class="w10">BLOK / NOMOR</th>
-	<th class="w40">NAMA PEMBELI</th>
-	<th class="w7">NOMOR SPP</th>
+	<th class="w15">BLOK / NOMOR</th>
+	<th class="w20">NAMA PEMBELI</th>
+	<th class="w10">NOMOR SPP</th>
+	<th class="w45">ALAMAT RUMAH</th>
 </tr>
 
 <?php
@@ -76,20 +77,22 @@ if ($total_data > 0)
 	FROM 
 		SPP
 	$query_search
-	ORDER BY NOMOR_SPP
+	ORDER BY KODE_BLOK
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
 
 	while( ! $obj->EOF)
 	{
-		$id = $obj->fields['KODE_BLOK'];		
+		$id = $obj->fields['KODE_BLOK'];
+			
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>"> 
 			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td>
 			<td><?php echo $id; ?></td>
 			<td><?php echo $obj->fields['NAMA_PEMBELI'];  ?></td>
-			<td class="text-right"><?php echo to_money($obj->fields['NOMOR_SPP']);  ?></td>
-		</tr>
+			<td class="text-center"><?php echo to_money($obj->fields['NOMOR_SPP']);  ?></td>
+			<td><?php echo $obj->fields['ALAMAT_RUMAH'];  ?></td>
+	</tr>
 		<?php
 		$obj->movenext();
 	}
@@ -97,7 +100,7 @@ if ($total_data > 0)
 ?>
 </table>
 
-<table id="pagging-2" class="t-control w60"></table>
+<table id="pagging-2" class="t-control w100"></table>
 
 <script type="text/javascript">
 jQuery(function($) {

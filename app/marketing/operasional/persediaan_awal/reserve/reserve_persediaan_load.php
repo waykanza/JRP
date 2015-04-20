@@ -21,9 +21,9 @@ if ($s_opv1 != '')
 # Pagination
 $query = "
 SELECT  
-	COUNT(KODE_BLOK) AS TOTAL
+	COUNT(s.KODE_BLOK) AS TOTAL
 FROM 
-	RESERVE
+	RESERVE s
 $query_search
 ";
 $total_data = $conn->Execute($query)->fields['TOTAL'];
@@ -115,14 +115,8 @@ jQuery(function($) {
 	});
 	
 	/* -- BUTTON -- */
-	/*
-	$(document).on('click', '#apply', function(e) {
-		e.preventDefault();
-		loadData3();
-		return false;
-	});
 	
-
+	/*
 	$(document).on('keyup', '#s_opv1', function(e) {
 		e.preventDefault();
 		loadData3();
@@ -150,7 +144,7 @@ jQuery(function($) {
 
 function showPopup2(act, id, nm)
 {
-	var url = base_marketing_operasional + 'persediaan_awal/reserve_persediaan/spp_popup.php' + '?act=' + act + '&id=' + id + '&nm=' + nm;
+	var url = base_marketing_operasional + 'persediaan_awal/reserve/spp_popup.php' + '?act=' + act + '&id=' + id + '&nm=' + nm;
 	setPopup(act + ' SPP', url, 830, 550);	
 	return false;
 }

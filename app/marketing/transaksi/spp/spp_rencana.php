@@ -35,6 +35,7 @@ function rencana_pembayaran() {
 <tr>
 	<th class="w5"><input type="checkbox" id="cb_all"></th>
 	<th class="w5">NO.</th>
+	<th class="w15">KODE BLOK</th>
 	<th class="w15">TANGGAL</th>
 	<th class="w15">JENIS PEMBAYARAN</th>
 	<th class="w15">NILAI (RP)</th>
@@ -60,6 +61,7 @@ function rencana_pembayaran() {
 		<tr class="onclick" id="<?php echo $id; ?>">
 			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td> 			
 			<td class="text-center"><?php echo $i; ?></td>
+			<td><?php echo $obj->fields['KODE_BLOK'];  ?></td>
 			<td><?php echo $id; ?></td>
 			<td><?php echo $obj->fields['JENIS_BAYAR'];  ?></td>
 			<td class="text-right"><?php echo to_money($obj->fields['NILAI']);  ?></td>

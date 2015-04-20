@@ -191,13 +191,8 @@ $(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
 		showPopup4('Ubah', id);
 		return false;
 	});
+
 	/*
-	$(document).on('click', '#apply', function(e) {
-		e.preventDefault();
-		loadData4();
-		return false;
-	});
-	
 	$(document).on('keyup', '#s_opv1', function(e) {
 	e.preventDefault();
 		loadData4();

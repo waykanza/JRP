@@ -1,5 +1,5 @@
 <?php
-require_once('../../../../config/config.php');
+require_once('../../../../../config/config.php');
 die_login();
 //die_app('C01');
 //die_mod('COF02');

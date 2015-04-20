@@ -48,13 +48,13 @@ jQuery(function($) {
 	
 	$(document).on('click', '#excel', function(e) {
 		e.preventDefault();
-		location.href = base_kredit_utilitas + 'laporan_kuitansi/laporan_kuitansi_xls.php?' + $('#form').serialize();
+		location.href = base_marketing + 'kredit/utilitas/penomoran_fp/lap_penomoranfp_xls.php?' + $('#form').serialize();
 		return false;
 	});
 	
 	$(document).on('click', '#print', function(e) {
 		e.preventDefault();
-		var url = base_kredit_utilitas + 'laporan_kuitansi/laporan_kuitansi_print.php?' + $('#form').serialize();
+		var url = base_marketing + 'kredit/utilitas/laporan_kuitansi/laporan_kuitansi_print.php?' + $('#form').serialize();
 		open_print(url)
 		return false;
 	});
@@ -85,13 +85,13 @@ function loadData()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#t-detail').load(base_kredit_utilitas + 'penomoran_fp/penomoran_fp_load.php', data);	
+	jQuery('#t-detail').load(base_marketing + 'kredit/utilitas/penomoran_fp/penomoran_fp_load.php', data);	
 	return false;
 }
 
 function showPopup(act, id)
 {
-	var url =	base_kredit_utilitas + 'penomoran_fp/penomoran_fp_popup.php' + '?act=' + act + '&id=' + id;	
+	var url =	base_marketing + 'kredit/utilitas/penomoran_fp/penomoran_fp_popup.php' + '?act=' + act + '&id=' + id;	
 	setPopup(act + ' Faktur Pajak', url, 500, 230);	
 	return false;
 }

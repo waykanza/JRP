@@ -35,7 +35,7 @@ jQuery(function($) {
 	$(document).on('click', '#save1', function(e) {
 	jQuery('#act').val('ubah1');
 		e.preventDefault();
-		var url = base_kredit_utilitas + 'parameter/parameter_proses.php',
+		var url = base_marketing + 'kredit/utilitas/parameter/parameter_proses.php',
 			data = $('#form').serialize();
 				
 		if (confirm("Apakah anda yakin mengubah data parameter ?") == false)
@@ -60,7 +60,7 @@ jQuery(function($) {
 	$(document).on('click', '#save2', function(e) {
 	jQuery('#act').val('ubah2');
 		e.preventDefault();
-		var url = base_kredit_utilitas + 'parameter/parameter_proses.php',
+		var url = base_marketing + 'kredit/utilitas/parameter/parameter_proses.php',
 			data = $('#form').serialize();
 				
 		if (confirm("Apakah anda yakin mengubah data parameter ?") == false)
@@ -96,7 +96,7 @@ function loadData1()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#tab1').load(base_kredit_utilitas + 'parameter/parameter_identitas.php', data);	
+	jQuery('#tab1').load(base_marketing + 'kredit/utilitas/parameter/parameter_identitas.php', data);	
 	return false;
 }
 
@@ -104,7 +104,7 @@ function loadData2()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#tab2').load(base_kredit_utilitas + 'parameter/parameter_nomor_registrasi.php', data);	
+	jQuery('#tab2').load(base_marketing + 'kredit/utilitas/parameter/parameter_nomor_registrasi.php', data);	
 	return false;
 }
 </script>

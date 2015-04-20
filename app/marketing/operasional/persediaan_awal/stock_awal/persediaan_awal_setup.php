@@ -9,13 +9,13 @@ jQuery(function($) {
 	});	
 	
 	/* -- BUTTON -- */
-/*
-$(document).on('click', '#apply', function(e) {
+
+	$(document).on('click', '#apply', function(e) {
 		e.preventDefault();
 		loadData1();
 		return false;
 	});	
-*/
+
 	$(document).on('click', '#next_page', function(e) {
 		e.preventDefault();
 		var total_page = parseInt($('#total_page').val()), page_num = parseInt($('.page_num').val()) + 1;

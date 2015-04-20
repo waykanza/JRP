@@ -75,8 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				TANGGAL_BAST_I				= CONVERT(DATETIME,'$tglkonpro',105),
 				TGL_SERAH_TERIMA_KAWASAN	= CONVERT(DATETIME,'$tgl_propur',105),
 				TANGGAL_AMBIL_IMB			= CONVERT(DATETIME,'$masaberlaku',105),
-				JUMLAH_KUNCI				= $jml_kunci,
-				JUMLAH_ANAK_KUNCI			= $anak_kunci,
+				JUMLAH_KUNCI				= '$jml_kunci',
+				JUMLAH_ANAK_KUNCI			= '$anak_kunci',
 				TANGGAL_SERAH_KUNCI			= CONVERT(DATETIME,'$tgl_serah_kunci',105)
 			WHERE
 				KODE_BLOK = '$id'

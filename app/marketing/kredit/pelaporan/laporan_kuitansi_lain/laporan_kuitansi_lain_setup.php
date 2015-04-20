@@ -47,7 +47,7 @@ jQuery(function($) {
 	
 	$(document).on('click', '#excel', function(e) {
 		e.preventDefault();
-		location.href = base_marketing + 'kredit/pelaporan/laporan_kuitansi_lain/laporan_kuitansi_lain_xls.php?' + $('#form').serialize();
+		location.href = base_marketing + 'kredit/pelaporan/laporan_kuitansi_lain/print_report_kuitansi.php?' + $('#form').serialize();
 		return false;
 	});
 	

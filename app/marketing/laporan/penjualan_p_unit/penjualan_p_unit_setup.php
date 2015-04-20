@@ -21,7 +21,7 @@
 </table>
 
 <script type="text/javascript">
-var this_base = base_marketing + 'laporan/penjualan_p_unit/';
+//var this_base = base_marketing + 'laporan/penjualan_p_unit/';
 jQuery(function($) {
 	/* -- FILTER -- */
 	$(document).on('keypress', '.apply', function(e) {
@@ -45,10 +45,10 @@ jQuery(function($) {
 		loadData();
 		return false;
 	});
-	/*
+	
 	$(document).on('click', '#excel', function(e) {
 		e.preventDefault();
-		location.href = base_marketing_laporan + 'penjualan_p_unit/penjualan_p_unit__xls.php?' + $('#form').serialize();
+		location.href = base_marketing + 'laporan/penjualan_p_unit/penjualan_p_unit_xls.php?' + $('#form').serialize();
 		return false;
 	});
 	
@@ -58,7 +58,7 @@ jQuery(function($) {
 		open_print(url)
 		return false;
 	});
-	*/
+	
 	$(document).on('click', '#next_page', function(e) {
 		e.preventDefault();
 		var total_page = parseInt($('#total_page').val()),
@@ -85,7 +85,7 @@ function loadData()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#t-data').load(this_base + 'penjualan_p_unit_load.php', data);	
+	jQuery('#t-data').load(base_marketing + 'laporan/penjualan_p_unit/penjualan_p_unit_load.php', data);	
 	return false;
 }
 </script>

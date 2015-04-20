@@ -1,7 +1,7 @@
 <?php
 require_once('spp_tidak_valid_proses.php');
 //require_once('informasi_pembeli_rencana_proses.php');
-require_once('../../../../config/terbilang.php');
+require_once('../../../../../config/terbilang.php');
 $terbilang = new Terbilang;
 ?>
 
@@ -10,25 +10,25 @@ $terbilang = new Terbilang;
 <head>
 <meta charset="UTF-8">
 <!-- CSS -->
-<link type="text/css" href="../../../../config/css/style.css" rel="stylesheet">
-<link type="text/css" href="../../../../plugin/css/zebra/default.css" rel="stylesheet">
-<link type="text/css" href="../../../../plugin/window/themes/default.css" rel="stylesheet">
-<link type="text/css" href="../../../../plugin/window/themes/mac_os_x.css" rel="stylesheet">
+<link type="text/css" href="../../../../../config/css/style.css" rel="stylesheet">
+<link type="text/css" href="../../../../../plugin/css/zebra/default.css" rel="stylesheet">
+<link type="text/css" href="../../../../../plugin/window/themes/default.css" rel="stylesheet">
+<link type="text/css" href="../../../../../plugin/window/themes/mac_os_x.css" rel="stylesheet">
 
 <!-- JS -->
-<script type="text/javascript" src="../../../../plugin/js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/jquery.inputmask.custom.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/keymaster.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/zebra_datepicker.js"></script>
-<script type="text/javascript" src="../../../../plugin/window/javascripts/prototype.js"></script>
-<script type="text/javascript" src="../../../../plugin/window/javascripts/window.js"></script>
-<script type="text/javascript" src="../../../../config/js/main.js"></script>
-<script type="text/javascript" src="../../../../config/js/terbilang_js.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/jquery.inputmask.custom.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/keymaster.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/zebra_datepicker.js"></script>
+<script type="text/javascript" src="../../../../../plugin/window/javascripts/prototype.js"></script>
+<script type="text/javascript" src="../../../../../plugin/window/javascripts/window.js"></script>
+<script type="text/javascript" src="../../../../../config/js/main.js"></script>
+<script type="text/javascript" src="../../../../../config/js/terbilang_js.js"></script>
 
 <!-- TAB -->
-<link rel="stylesheet" type="text/css" href="../../../../tab/css/screen.css" media="screen" />
-<script type="text/javascript" src="../../../../tab/js/jquery-1.4.2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../tab/css/screen.css" media="screen" />
+<script type="text/javascript" src="../../../../../tab/js/jquery-1.4.2.min.js"></script>
 <script type="text/javascript"> var jQuery142 = $.noConflict(true); </script>
 
 <style type="text/css">
@@ -65,7 +65,7 @@ jQuery(function($) {
 	
 	$(document).on('click', '#save', function(e) {
 		e.preventDefault();
-		var url = base_collection_tunai_lain + 'spp_tidak_valid/spp_tidak_valid_proses.php',
+		var url = base_marketing + 'collection_tunai/lain/spp_tidak_valid/spp_tidak_valid_proses.php',
 			data = $('#form').serialize();
 				
 		if (confirm("Apakah data SPP ini akan disimpan?") == false)
@@ -101,7 +101,7 @@ function loadData1()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#tab1').load(base_collection_tunai_lain + 'spp_tidak_valid/spp_tidak_valid_spp.php', data);	
+	jQuery('#tab1').load(base_marketing + 'collection_tunai/lain/spp_tidak_valid/spp_tidak_valid_spp.php', data);	
 	return false;
 }
 
@@ -109,7 +109,7 @@ function loadData2()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#tab2').load(base_collection_tunai_lain + 'spp_tidak_valid/spp_tidak_valid_rencana.php', data);	
+	jQuery('#tab2').load(base_marketing + 'collection_tunai/lain/spp_tidak_valid/spp_tidak_valid_rencana.php', data);	
 	return false;
 }
 

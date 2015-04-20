@@ -7,6 +7,7 @@ $error	= FALSE;
 $act				= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 $id					= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 $nm					= (isset($_REQUEST['nm'])) ? clean($_REQUEST['nm']) : '';
+$adress				= (isset($_REQUEST['adress'])) ? clean($_REQUEST['adress']) : '';
 
 $kode_blok			= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 $no_customer		= (isset($_REQUEST['no_customer'])) ? clean($_REQUEST['no_customer']) : '';
@@ -88,79 +89,80 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_empty($koordinator, 'Koordinator harus diisi.');
 			ex_empty($jumlah_kpr, 'Jumlah KPR harus diisi.');
 			ex_empty($tanda_jadi, 'Tanda jadi harus diisi.');
-		
+			
 			$query = "SELECT COUNT(KODE_BLOK) AS TOTAL FROM SPP WHERE KODE_BLOK = '$id'";
 			ex_found($conn->Execute($query)->fields['TOTAL'], "Kode blok \'$id\' telah terdaftar.");
 		
-$query = "INSERT INTO SPP(
-KODE_BLOK, 
-NOMOR_CUSTOMER,
-NOMOR_SPP,
-NAMA_PEMBELI,
-ALAMAT_RUMAH,
-ALAMAT_SURAT,
-ALAMAT_NPWP,
-ALAMAT_EMAIL,
-IDENTITAS,
-NO_IDENTITAS,
-NPWP,
-JENIS_NPWP,
-TELP_RUMAH,
-TELP_KANTOR,
-TELP_LAIN,
-KODE_BANK,
-TANGGAL_SPP,
-KODE_AGEN,
-KODE_KOORDINATOR,  
-JUMLAH_KPR,
-STATUS_KOMPENSASI,
-TANGGAL_AKAD,
-TANDA_JADI,
-TANGGAL_TANDA_JADI,
-STATUS_SPP,
-TANGGAL_PROSES,
-SPP_REDISTRIBUSI,
-SPP_REDISTRIBUSI_TANGGAL,
-KETERANGAN)
-VALUES(
-'$id',
-'$no_customer',
-'$no_spp',
-'$nama',
-'$alamat_rumah',
-'$alamat_surat',
-'$alamat_npwp',
-'$email',
-'$identitas',
-'$no_identitas',
-'$npwp',
-'$jenis_npwp',
-'$tlp_rumah',
-'$tlp_kantor',
-'$tlp_lain',
-'$bank',
-CONVERT(DATETIME,'$tgl_spp',105),
-'$agen',
-'$koordinator',
-'$jumlah_kpr',
-'$status_kompensasi',
-CONVERT(DATETIME,'$tgl_akad',105),
-'$tanda_jadi',
-CONVERT(DATETIME,'$tgl_tanda_jadi',105),
-'$status_spp',
-CONVERT(DATETIME,'$tgl_proses',105),
-'$redistribusi',
-CONVERT(DATETIME,'$tgl_redistribusi',105),
-'$keterangan'
-)";
+			$query = "
+			INSERT INTO SPP 
+			(KODE_BLOK,
+							 NOMOR_CUSTOMER,
+							 NOMOR_SPP,
+							 NAMA_PEMBELI,
+							 ALAMAT_RUMAH,
+							 ALAMAT_SURAT,
+							 ALAMAT_NPWP,
+							 ALAMAT_EMAIL,
+							 IDENTITAS,
+							 NO_IDENTITAS,
+							 NPWP,
+							 JENIS_NPWP,
+							 TELP_RUMAH,
+							 TELP_KANTOR,
+							 TELP_LAIN,
+							 KODE_BANK,
+							 TANGGAL_SPP,
+							 KODE_AGEN,
+							 KODE_KOORDINATOR,
+							 JUMLAH_KPR,
+							 STATUS_KOMPENSASI,
+							 TANGGAL_AKAD,
+							 TANDA_JADI,
+							 TANGGAL_TANDA_JADI,
+							 STATUS_SPP,
+							 TANGGAL_PROSES,
+							 SPP_REDISTRIBUSI,
+							 SPP_REDISTRIBUSI_TANGGAL,
+							 KETERANGAN)
+			VALUES('$id',
+				   '$no_customer',
+				   '$no_spp',
+				   '$nama',
+				   '$alamat_rumah',
+				   '$alamat_surat',
+				   '$alamat_npwp',
+				   '$email',
+				   '$identitas',
+				   '$no_identitas',
+				   '$npwp',
+			       '$jenis_npwp',
+				   '$tlp_rumah',
+				   '$tlp_kantor',
+				   '$tlp_lain',
+				   '$bank',
+				   CONVERT(DATETIME,'$tgl_spp',105),
+				   '$agen',
+				   '$koordinator',
+				   '$jumlah_kpr',
+				   '$status_kompensasi',
+				   CONVERT(DATETIME,'$tgl_akad',105),
+				   '$tanda_jadi',
+				   CONVERT(DATETIME,'$tgl_tanda_jadi',105),
+				   '$status_spp',
+				   CONVERT(DATETIME,'$tgl_proses',105),
+				   '$redistribusi',
+				   CONVERT(DATETIME,'$tgl_redistribusi',105),
+				   '$keterangan')";
+			ex_false($conn->execute($query), $query);
+			$query = "UPDATE SPP SET OTORISASI = '0' WHERE KODE_BLOK = '$id'";		
+			ex_false($conn->execute($query), $query);
+			
+			$query = "DELETE FROM RESERVE WHERE KODE_BLOK = '$id'";		
+			ex_false($conn->execute($query), $query);
 
-ex_false($conn->Execute($query), $query);
-$query = "UPDATE SPP SET OTORISASI = '0' WHERE KODE_BLOK = '$id'";		
-ex_false($conn->execute($query), $query);
-$msg = 'Data SPP berhasil ditambahkan.';
-}
+			$msg = 'Data SPP berhasil disimpan.';
+		}
 	
-		
 		$conn->committrans(); 
 	}
 	catch(Exception $e)
@@ -169,7 +171,6 @@ $msg = 'Data SPP berhasil ditambahkan.';
 		$error = TRUE;
 		if ($conn) { $conn->rollbacktrans(); } 
 	}
-
 	close($conn);
 	$json = array('act' => $act, 'error'=> $error, 'msg' => $msg);
 	echo json_encode($json);
@@ -182,10 +183,41 @@ die_login();
 $conn = conn($sess_db);
 die_conn($conn);
 	
-
 if ($act == 'Ubah')
 {
+	$query = "SELECT * FROM SPP WHERE KODE_BLOK = '$id'";
+	$obj = $conn->execute($query);
 	
+	$tgl_spp			= tgltgl(f_tgl($obj->fields['TANGGAL_SPP']));	
+	$no_spp				= $obj->fields['NOMOR_SPP'];
+	$nama				= $obj->fields['NAMA_PEMBELI'];
+	$alamat_rumah		= $obj->fields['ALAMAT_RUMAH'];
+	$alamat_surat		= $obj->fields['ALAMAT_SURAT'];	
+	$alamat_npwp		= $obj->fields['ALAMAT_NPWP'];
+	$email				= $obj->fields['ALAMAT_EMAIL'];
+	$tlp_rumah			= $obj->fields['TELP_RUMAH'];
+	$tlp_kantor			= $obj->fields['TELP_KANTOR'];
+	$tlp_lain			= $obj->fields['TELP_LAIN'];
+	$identitas			= $obj->fields['IDENTITAS'];
+	$no_identitas		= $obj->fields['NO_IDENTITAS'];
+	$npwp				= $obj->fields['NPWP'];
+	$jenis_npwp			= $obj->fields['JENIS_NPWP'];
+	$bank				= $obj->fields['KODE_BANK'];
+	$jumlah_kpr			= $obj->fields['JUMLAH_KPR'];
+	$agen				= $obj->fields['KODE_AGEN'];
+	$koordinator		= $obj->fields['KODE_KOORDINATOR'];	
+	$tgl_akad			= tgltgl(f_tgl($obj->fields['TANGGAL_AKAD']));
+	$status_kompensasi	= $obj->fields['STATUS_KOMPENSASI'];
+	$tanda_jadi			= $obj->fields['TANDA_JADI'];
+	$status_spp			= $obj->fields['STATUS_SPP'];
+	$tgl_proses			= tgltgl(f_tgl($obj->fields['TANGGAL_PROSES']));
+	$tgl_tanda_jadi		= tgltgl(f_tgl($obj->fields['TANGGAL_TANDA_JADI']));
+	$redistribusi		= $obj->fields['SPP_REDISTRIBUSI'];
+	$tgl_redistribusi	= tgltgl(f_tgl($obj->fields['SPP_REDISTRIBUSI_TANGGAL']));
+	$keterangan			= $obj->fields['KETERANGAN'];	
+}
+if ($act == 'Ubah')
+{
 	$obj = $conn->Execute("
 	SELECT  
 		s.*,
@@ -309,9 +341,9 @@ if ($act == 'Ubah')
 }
 if ($act == 'Simpan')
 {
+	
 	$query = "SELECT * FROM CS_REGISTER_CUSTOMER_SERVICE";
 	$obj = $conn->execute($query);
-	
 	$no_spp		= 1 + $obj->fields['NOMOR_SPP'];
 }
 ?>

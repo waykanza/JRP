@@ -10,6 +10,7 @@ switch (trim(base64_decode($cmd)))
 	## denda_keterlambatan
 		case 'C01_entry' 					: die_mod('COT01'); die_ha('COT01', 'R'); include('collection_tunai/transaksi/denda_keterlambatan/entry/entry_setup.php');break;
 		case 'C01_otoritas'					: die_mod('COT02'); die_ha('COT02', 'R'); include('collection_tunai/transaksi/denda_keterlambatan/otorisasi/otorisasi_setup.php');break;
+	case 'C01_virtual_account'			: include('collection_tunai/transaksi/virtual_account/virtual_account_setup.php');break;
 	case 'C01_ver_kwitansi_col'			: die_mod('COT03'); die_ha('COT03', 'R'); include('collection_tunai/transaksi/ver_kwitansi_col/ver_kwitansi_col_setup.php');break;
 	case 'C01_ver_kwitansi_keu' 		: die_mod('COT04'); die_ha('COT04', 'R'); include('collection_tunai/transaksi/ver_kwitansi_keu/ver_kwitansi_keu_setup.php');break;
 	case 'C01_pemulihan_wanprestasi'	: die_mod('COT05'); die_ha('COT05', 'R'); include('collection_tunai/transaksi/pemulihan_wanprestasi/pemulihan_wanprestasi_setup.php');break;

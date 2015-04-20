@@ -103,6 +103,11 @@ function get_kode_penjualan() {
 	setPopup('Daftar Jenis Penjualan', url, 300, winHeight-100); 
 	return false; 
 }
+function get_kode_bayar() {
+	var url = get_base + 'kode_bayar.php'; 
+	setPopup('Daftar Jenis Pembayaran', url, 300, winHeight-100); 
+	return false; 
+}
 </script>
 </head>
 

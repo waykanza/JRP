@@ -1,7 +1,7 @@
-<li><a href="">MARKETING</a>
+<li><a href="">MASTER</a>
 	<ul>
-		<li><a href="">Master <span></span></a>
-				<ul>
+		<li><a href="">Marketing <span></span></a>
+			<ul>
 		<li><a href="<?php echo base64_encode('A01_lokasi'); ?>">Lokasi</a></li>
 		<li><a href="<?php echo base64_encode('A01_desa'); ?>">Desa</a></li>
 		<li><a href="<?php echo base64_encode('A01_tipe'); ?>">Tipe Bangunan</a></li>
@@ -12,16 +12,33 @@
 		<li><a href="<?php echo base64_encode('A01_harga_tanah'); ?>">Harga Tanah</a></li>
 		<li><a href="<?php echo base64_encode('A01_harga_bangunan'); ?>">Harga Bangunan</a></li>
 		<li><a href="<?php echo base64_encode('A01_jenis_pembayaran'); ?>">Jenis Pembayaran</a></li>
-		<li><a href="<?php echo base64_encode('A01_club_personal'); ?>">Club Personal</a></li>
-				</ul>
+		<li><a href="<?php echo base64_encode('A01_agen'); ?>">Agen</a></li>
+		<li><a href="<?php echo base64_encode('A01_koordinator'); ?>">Koordinator</a></li>
+			</ul>
 		</li>
+		<li><a href="">Colllection<span></span></a>
+			<ul>
+		<li><a href="<?php echo base64_encode('AO1_informasi_pembeli'); ?>">Customer / Pembeli / Pemilik</a></li>
+		<li><a href="<?php echo base64_encode('AO1_hari_libur'); ?>">Hari Libur</a></li>
+			</ul>
+		</li>
+		<li><a href="">PPJB<span></span></a>
+			<ul>
+		<li><a href="<?php echo base64_encode('A01_kelurahan'); ?>">Kelurahan</a></li>
+		<li><a href="<?php echo base64_encode('A01_kecamatan'); ?>">Kecamatan</a></li>
+		<li><a href="<?php echo base64_encode('A01_jenis_ppjb'); ?>">Jenis PPJB</a></li>
+		<li><a href="<?php echo base64_encode('A01_jenis_add_ppjb'); ?>">Jenis Addendum PPJB</a></li>
+		<li><a href="<?php echo base64_encode('A01_tipe_bangunan'); ?>">Tipe Bangunan</a></li>
+			</ul>
+		</li>
+	</ul>	
+</li>
+
+<li><a href="">MARKETING</a>
+	<ul>
 		<li><a href="">Operasional <span></span></a>
 				<ul>
 		<li><a href="<?php echo base64_encode('A01_persediaan_awal'); ?>">Persediaan Stok</a></li>
-		<li><a href="<?php echo base64_encode('A01_rencana_p_unit_p_tahun'); ?>">Rencana Per Unit / Tahun</a></li>
-		<li><a href="<?php echo base64_encode('A01_rencana_p_tipe_p_tahun'); ?>">Rencana Per Tipe / Tahun</a></li>
-		<li><a href="<?php echo base64_encode('A01_rencana_p_lokasi_p_tahun'); ?>">Rencana Per Lokasi / Tahun</a></li>
-		<li><a href="<?php echo base64_encode('A01_rencana_p_jenis_unit_p_tahun'); ?>">Rencana Per Jenis Unit / Tahun</a></li>
 				</ul>
 		</li>
 		<li><a href="">Transaksi <span></span></a>
@@ -47,39 +64,11 @@
 		<li><a href="<?php echo base64_encode('A01_laporan_persediaan_stok'); ?>">Laporan Persediaan (Stok)</a></li>
 				</ul>
 		</li>
-		<li><a href="">Utilitas <span></span></a>
-				<ul>
-		<li><a href="<?php echo base64_encode('A01_ubah_password'); ?>">Ubah Password</a></li>
-		<li><a href="<?php echo base64_encode('A01_configurasi_sistem'); ?>">Configurasi Sistem</a></li>
-		<li><a href="<?php echo base64_encode('A01_backup'); ?>">Backup</a></li>
-		<li><a href="<?php echo base64_encode('A01_recovery'); ?>">Recovery</a></li>
-		<li><a href="">Security Management <span></span></a>
-			<ul>
-				<li><a href="<?php echo base64_encode('A01_users'); ?>">Users</a></li>
-				<li><a href="<?php echo base64_encode('A01_aplications'); ?>">Aplications</a></li>
-				<li><a href="<?php echo base64_encode('A01_modules'); ?>">Modules</a></li>
-				<li><a href="<?php echo base64_encode('A01_rights'); ?>">Rights</a></li>
-			
-			</ul>
-		</li>
-		<li><a href="<?php echo base64_encode('A01_nomor_customer'); ?>">Nomor Customer</a></li>
-		<li><a href="<?php echo base64_encode('A01_kartu_pembeli'); ?>">Kartu Pembeli</a></li>
-		<li><a href="<?php echo base64_encode('A01_spp_belum_distribusi'); ?>">SPP Belum Distribusi</a></li>
-		<li><a href="<?php echo base64_encode('A01_spp_redistribusi'); ?>">SPP Redistribusi</a></li>
-		<li><a href="<?php echo base64_encode('A01_ekspor_data_spp'); ?>">Ekspor Data SPP</a></li>
-				</ul>
-		</li>
 	</ul>
 </li>
 
 <li><a href="">COLLECTION</a>
 	<ul>
-		<li><a href="">File<span></span></a>
-			<ul>
-		<li><a href="<?php echo base64_encode('AO1_informasi_pembeli'); ?>">Customer / Pembeli / Pemilik</a></li>
-		<li><a href="<?php echo base64_encode('AO1_hari_libur'); ?>">Hari Libur</a></li>
-			</ul>
-		</li>
 		<li><a href="">Transaksi<span></span></a>
 		<ul>
 			<li><a href="">Denda Keterlambatan Pembayaran<span></span></a>
@@ -87,8 +76,9 @@
 		<li><a href="<?php echo base64_encode('A01_entry'); ?>">Entry</a></li>
 		<li><a href="<?php echo base64_encode('A01_otoritas'); ?>">Otoritas</a></li>
 			</ul>
+			<li><a href="<?php echo base64_encode('A01_virtual_account'); ?>">Virtual Account</a></li>
 			<li class="separator"></li>
-			<li><a href="<?php echo base64_encode('A01_ver_kwitansi_col'); ?>">Verifikasi Kwitansi (Biro Colllection)</a></li>
+			<li><a href="<?php echo base64_encode('A01_ver_kwitansi_col'); ?>">Pembayaran</a></li>
 			<li><a href="<?php echo base64_encode('A01_ver_kwitansi_keu'); ?>">Verifikasi Kwitansi (Div. Keuangan)</a></li>
 			<li class="separator"></li>
 			<li><a href="<?php echo base64_encode('A01_pemulihan_wanprestasi'); ?>">Pemulihan Wanprestasi</a></li>
@@ -127,32 +117,12 @@
 			</ul>
 		<li><a href="<?php echo base64_encode('A01_rencana_realisasi'); ?>">Rencana-Realisasi Seluruh Blok</a></li>
 		<li><a href="<?php echo base64_encode('A01_daftar_spp'); ?>">Daftar SPP</a></li>
-		</ul>
-		<li><a href="">Lain-lain<span></span></a>
-		<ul>
-		<li><a href="<?php echo base64_encode('A01_parameter_program'); ?>">Parameter Program</a></li>
-		<li><a href="<?php echo base64_encode('A01_registrasi_user'); ?>">Registrasi Pengguna/User Program</a></li>
-		<li><a href="<?php echo base64_encode('A01_nomor_surat'); ?>">Nomor Surat</a></li>
-		<li class="separator"></li>
-		<li><a href="<?php echo base64_encode('A01_spp_tidak_valid'); ?>">SPP Tidak Valid</a></li>
-		<li><a href="<?php echo base64_encode('A01_denda_manual'); ?>">Denda Manual</a></li>
-		<li class="separator"></li>
-		<li><a href="<?php echo base64_encode('A01_ubah_sandi'); ?>">Ubah Sandi</a></li>
 		</ul>		
 	</ul>
 </li>
 
 <li><a href="">PPJB</a>
 	<ul>
-		<li><a href="">File<span></span></a>
-		<ul>
-		<li><a href="<?php echo base64_encode('A01_kelurahan'); ?>">Kelurahan</a></li>
-		<li><a href="<?php echo base64_encode('A01_kecamatan'); ?>">Kecamatan</a></li>
-		<li><a href="<?php echo base64_encode('A01_jenis_ppjb'); ?>">Jenis PPJB</a></li>
-		<li><a href="<?php echo base64_encode('A01_jenis_add_ppjb'); ?>">Jenis Addendum PPJB</a></li>
-		<li><a href="<?php echo base64_encode('A01_tipe_bangunan'); ?>">Tipe Bangunan</a></li>
-		</ul>
-		</li>
 		<li><a href="">Transaksi<span></span></a>
 		<ul>
 		<li><a href="<?php echo base64_encode('A01_ppjb'); ?>">Perjanjian Pengikatan Jual Beli (PPJB)</a></li>
@@ -169,18 +139,10 @@
 		<li><a href="<?php echo base64_encode('A01_daftar_spp_belum_ppjb'); ?>">Daftar SPP Belum PPJB</a></li>
 		</ul>
 		</li>
-		<li><a href="">Lain-lain<span></span></a>
-		<ul>
-		<li><a href="<?php echo base64_encode('A01_parameter_program'); ?>">Parameter Program</a></li>
-		<li><a href="<?php echo base64_encode('A01_registrasi_user'); ?>">Registrasi User</a></li>
-		<li class="separator"></li>
-		<li><a href="<?php echo base64_encode('A01_ubah_sandi'); ?>">Ubah Sandi</a></li>
-		</ul>
-		</li>
 	</ul>
 </li>
 
-<li><a href="">KREDIT</a>
+<li><a href="">KWITANSI</a>
 	<ul>
 	<li><a href="">Transaksi<span></span></a>
 		<ul>
@@ -198,7 +160,55 @@
 		<li><a href="<?php echo base64_encode('A01_faktur_pajak'); ?>">Daftar Faktur Pajak</a></li>
 		</ul>
 	</li>
-	<li><a href="">Utilitas<span></span></a>
+	</ul>
+</li>
+
+<li><a href="">UTILITAS</a>
+	<ul>
+		<li><a href="">Marketing <span></span></a>
+			<ul>
+		<li><a href="<?php echo base64_encode('A01_ubah_password'); ?>">Ubah Password</a></li>
+		<li><a href="<?php echo base64_encode('A01_configurasi_sistem'); ?>">Configurasi Sistem</a></li>
+		<li><a href="<?php echo base64_encode('A01_backup'); ?>">Backup</a></li>
+		<li><a href="<?php echo base64_encode('A01_recovery'); ?>">Recovery</a></li>
+		<li><a href="">Security Management <span></span></a>
+			<ul>
+				<li><a href="<?php echo base64_encode('A01_users'); ?>">Users</a></li>
+				<li><a href="<?php echo base64_encode('A01_aplications'); ?>">Aplications</a></li>
+				<li><a href="<?php echo base64_encode('A01_modules'); ?>">Modules</a></li>
+				<li><a href="<?php echo base64_encode('A01_rights'); ?>">Rights</a></li>
+			</ul>
+		</li>
+		<li><a href="<?php echo base64_encode('A01_nomor_customer'); ?>">Nomor Customer</a></li>
+		<li><a href="<?php echo base64_encode('A01_kartu_pembeli'); ?>">Kartu Pembeli</a></li>
+		<li><a href="<?php echo base64_encode('A01_spp_belum_distribusi'); ?>">SPP Belum Distribusi</a></li>
+		<li><a href="<?php echo base64_encode('A01_spp_redistribusi'); ?>">SPP Redistribusi</a></li>
+		<li><a href="<?php echo base64_encode('A01_ekspor_data_spp'); ?>">Ekspor Data SPP</a></li>
+				</ul>
+		</li>
+		
+		<li><a href="">CoLllection<span></span></a>
+			<ul>
+		<li><a href="<?php echo base64_encode('A01_parameter_program'); ?>">Parameter Program</a></li>
+		<li><a href="<?php echo base64_encode('A01_registrasi_user'); ?>">Registrasi Pengguna/User Program</a></li>
+		<li><a href="<?php echo base64_encode('A01_nomor_surat'); ?>">Nomor Surat</a></li>
+		<li class="separator"></li>
+		<li><a href="<?php echo base64_encode('A01_spp_tidak_valid'); ?>">SPP Tidak Valid</a></li>
+		<li><a href="<?php echo base64_encode('A01_denda_manual'); ?>">Denda Manual</a></li>
+		<li class="separator"></li>
+		<li><a href="<?php echo base64_encode('A01_ubah_sandi'); ?>">Ubah Sandi</a></li>
+			</ul>	
+		</li>
+
+		<li><a href="">PPJB<span></span></a>
+			<ul>
+		<li><a href="<?php echo base64_encode('A01_parameter_program'); ?>">Parameter Program</a></li>
+		<li><a href="<?php echo base64_encode('A01_registrasi_user'); ?>">Registrasi User</a></li>
+		<li class="separator"></li>
+		<li><a href="<?php echo base64_encode('A01_ubah_sandi'); ?>">Ubah Sandi</a></li>
+			</ul>
+		</li>
+		<li><a href="">Kwitansi<span></span></a>
 		<ul>
 		<li><a href="<?php echo base64_encode('A01_parameter'); ?>">Update Nomor Register</a></li>
 		<li><a href="<?php echo base64_encode('A01_denda'); ?>">Update Tarif Denda</a></li>
@@ -206,7 +216,7 @@
 		<li><a href="<?php echo base64_encode('A01_penomoran_fp'); ?>">Penomoran Faktur Pajak</a></li>
 		</ul>
 	</li>
-	</ul>
+	</ul>	
 </li>
 
 	

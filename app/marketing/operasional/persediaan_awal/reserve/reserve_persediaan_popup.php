@@ -35,7 +35,7 @@ jQuery(function($) {
 	//showPopup7 ada di folder persediaan_awal/persediaan_awal_setup
 	$('#spp').on('click', function(e) {
 		e.preventDefault();
-		parent.showPopup7('Simpan', '<?php echo $id; ?>','<?php echo $nama_calon_pembeli; ?>');
+		parent.showPopup7('Simpan', '<?php echo $id; ?>','<?php echo $nama_calon_pembeli; ?>','<?php echo $alamat; ?>');
 		return false;
 	});
 	
@@ -109,6 +109,10 @@ jQuery(function($) {
 	<td><input type="text" name="nama_calon_pembeli" id="nama_calon_pembeli" size="40" value="<?php echo $nama_calon_pembeli; ?>"></td>
 </tr>
 <tr>
+	<td>Alamat</td></td><td>:</td>
+	<td><input type="text" name="alamat" id="alamat" size="40" value="<?php echo $alamat; ?>"></td>
+</tr>
+<tr>
 	<td>Tanggal Reserve</td><td>:</td>
 	<td><input type="text" name="tanggal_reserve" id="tanggal_reserve" value="<?php echo $tanggal_reserve; ?>" class="apply dd-mm-yyyy" size="10"></td>
 </tr>
@@ -116,10 +120,7 @@ jQuery(function($) {
 	<td>Berlaku sampai dengan</td><td>:</td>
 	<td><input type="text" name="berlaku_sampai" id="berlaku_sampai" value="<?php echo $berlaku_sampai; ?>" class="apply dd-mm-yyyy" size="10"></td>
 </tr>
-<tr>
-	<td>Alamat</td></td><td>:</td>
-	<td><input type="text" name="alamat" id="alamat" size="40" value="<?php echo $alamat; ?>"></td>
-</tr>
+
 <tr>
 	<td>Telepon</td></td><td>:</td>
 	<td><input type="text" name="telepon" id="telepon" size="20" value="<?php echo $telepon; ?>"></td>

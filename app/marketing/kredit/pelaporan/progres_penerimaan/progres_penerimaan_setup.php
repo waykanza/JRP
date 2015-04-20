@@ -47,7 +47,7 @@ jQuery(function($) {
 	
 	$(document).on('click', '#excel', function(e) {
 		e.preventDefault();
-		location.href = base_marketing + 'kredit/pelaporan/progres_penerimaan/laporan_kuitansi_xls.php?' + $('#form').serialize();
+		location.href = base_marketing + 'kredit/pelaporan/progres_penerimaan/print_report_kuitansi.php?' + $('#form').serialize();
 		return false;
 	});
 	

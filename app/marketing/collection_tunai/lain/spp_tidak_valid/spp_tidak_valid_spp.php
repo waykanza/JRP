@@ -1,6 +1,6 @@
 <?php
 require_once('spp_tidak_valid_proses.php');
-require_once('../../../../config/config.php');
+require_once('../../../../../config/config.php');
 die_login();
 //die_app('');
 //die_mod('');

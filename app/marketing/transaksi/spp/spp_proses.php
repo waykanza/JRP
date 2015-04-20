@@ -26,7 +26,8 @@ $bank				= (isset($_REQUEST['bank'])) ? clean($_REQUEST['bank']) : '';
 $jumlah_kpr			= (isset($_REQUEST['jumlah_kpr'])) ? to_number($_REQUEST['jumlah_kpr']) : '0';
 $agen				= (isset($_REQUEST['agen'])) ? clean($_REQUEST['agen']) : '';
 $koordinator		= (isset($_REQUEST['koordinator'])) ? clean($_REQUEST['koordinator']) : '';
-$tgl_akad			= (isset($_REQUEST['tgl_akad'])) ? clean($_REQUEST['tgl_akad']) : '';
+$tgl_akad			= (isset($_REQUEST['tgl_akad'])) ? clean($_REQUEST['tgl_akad']) : '';  
+$tgl_akad_kredit	= (isset($_REQUEST['tgl_akad_kredit'])) ? clean($_REQUEST['tgl_akad_kredit']) : '';  
 $status_kompensasi	= (isset($_REQUEST['status_kompensasi'])) ? clean($_REQUEST['status_kompensasi']) : '';
 $tanda_jadi			= (isset($_REQUEST['tanda_jadi'])) ? to_number($_REQUEST['tanda_jadi']) : '0';
 $status_spp			= (isset($_REQUEST['status_spp'])) ? clean($_REQUEST['status_spp']) : '';
@@ -74,95 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		ex_conn($conn);
 
 		$conn->begintrans(); 
-		if ($act == 'Tambah') # Proses Tambah
-		{
-			//ex_ha('', 'I');
-		
-			ex_empty($alamat_rumah, 'Alamat rumah harus diisi.');
-			/*
-			ex_empty($identitas, 'Identitas harus diisi.');
-			ex_empty($no_identitas, 'No identitas harus diisi.');
-			ex_empty($tgl_spp, 'Tanggal SPP harus diisi.');
-			ex_empty($koordinator, 'Koordinator harus diisi.');
-			ex_empty($jumlah_kpr, 'Jumlah KPR harus diisi.');
-			ex_empty($tanda_jadi, 'Tanda jadi harus diisi.');
-			*/
-			$query = "SELECT COUNT(KODE_BLOK) AS TOTAL FROM SPP WHERE KODE_BLOK = '$id'";
-			ex_found($conn->Execute($query)->fields['TOTAL'], "Kode blok \'$id\' telah terdaftar.");
-		
-			$query = "
-			INSERT INTO SPP 
-			(				 
-							 KODE_BLOK,
-							 NOMOR_CUSTOMER,
-							 NOMOR_SPP,
-							 NAMA_PEMBELI,
-							 ALAMAT_RUMAH,
-							 ALAMAT_SURAT,
-							 ALAMAT_NPWP,
-							 ALAMAT_EMAIL,
-							 IDENTITAS,
-							 NO_IDENTITAS,
-							 NPWP,
-							 JENIS_NPWP,
-							 TELP_RUMAH,
-							 TELP_KANTOR,
-							 TELP_LAIN,
-							 KODE_BANK,
-							 TANGGAL_SPP,
-							 KODE_AGEN,
-							 KODE_KOORDINATOR,
-							 JUMLAH_KPR,
-							 STATUS_KOMPENSASI,
-							 TANGGAL_AKAD,
-							 TANDA_JADI,
-							 TANGGAL_TANDA_JADI,
-							 STATUS_SPP,
-							 TANGGAL_PROSES,
-							 SPP_REDISTRIBUSI,
-							 SPP_REDISTRIBUSI_TANGGAL,
-							 KETERANGAN				 
-			)
-			VALUES
-			(
-							 '$id',
-							 '$nama',
-							 '$no_customer',
-							 '$alamat_rumah',
-							 '$alamat_surat',
-							 '$alamat_npwp',
-							 '$email',
-							 '$identitas',
-							 '$no_identitas',
-							 '$npwp',
-							 '$jenis_npwp',
-							 '$tlp_rumah',
-							 '$tlp_kantor',
-							 '$tlp_lain',
-							 '$bank',
-							 CONVERT(DATETIME,$tgl_spp,105),
-							 $jumlah_kpr,
-							 '$agen',
-							 '$koordinator',
-							 CONVERT(DATETIME,'$tgl_akad',105),
-							 '$status_kompensasi',
-							 $tanda_jadi,
-							 CONVERT(DATETIME,'$tgl_tanda_jadi',105),
-							 '$status_spp',
-							 CONVERT(DATETIME,'$tgl_proses',105),
-							 '$redistribusi',
-							 CONVERT(DATETIME,'$tgl_redistribusi',105),
-							 '$keterangan'
-			)				 
-			";
-			ex_false($conn->execute($query), $query);
-			$query = "
-			UPDATE SPP SET OTORISASI <> '1' WHERE KODE_BLOK = '$id'";		
-			ex_false($conn->execute($query), $query);
 			
-			$msg = 'Data SPP berhasil ditambahkan.';
-		}
-		elseif ($act == 'Ubah') # Proses Ubah
+		if ($act == 'Ubah') # Proses Ubah
 		{
 			//ex_ha('', 'U');
 			
@@ -221,8 +135,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				}
 			}		
 			
-			$msg = ($error) ? 'Sebagian data SPP gagal dihapus.' : 'Data SPP berhasil dihapus.'; 
+			$msg = ($error) ? 'Sebagian data SPP gagal dihapus.' : 'Data SPP berhasil dihapus.'; 	
+		}
+		
+		elseif ($act == 'Otorisasi') # Proses Otorisasi
+		{
+			//ex_ha('PT05', 'U');
 			
+			$act = array();
+			$cb_data = $_REQUEST['cb_data'];
+			ex_empty($cb_data, 'Pilih data yang akan diotorisasi.');
+			
+			foreach ($cb_data as $id_del)
+			{	
+				if ($conn->Execute("UPDATE SPP SET OTORISASI = '1' WHERE KODE_BLOK = '$id_del'")) {
+					$act[] = $id_del;
+				} else {
+					$error = TRUE;
+				}
+			}
+			
+			$msg = ($error) ? 'Sebagian data gagal diotorisasi.' : 'Data berhasil diotorisasi.';
+		}
+		
+		elseif ($act == 'Batal_Otorisasi') # Proses Batal Otorisasi
+		{
+			//ex_ha('PT05', 'U');
+			
+			$act = array();
+			$cb_data = $_REQUEST['cb_data'];
+			ex_empty($cb_data, 'Pilih data yang akan dibatalkan diotorisasi.');
+			
+			foreach ($cb_data as $id_del)
+			{	
+				if ($conn->Execute("UPDATE SPP SET OTORISASI = '0' WHERE KODE_BLOK = '$id_del'")) {
+					$act[] = $id_del;
+				} else {
+					$error = TRUE;
+				}
+			}
+			
+			$msg = ($error) ? 'Sebagian data gagal dibatalkan otorisasi.' : 'Data berhasil dibatalkan otorisasi.';
 		}
 		
 		$conn->committrans(); 
@@ -248,7 +201,9 @@ die_conn($conn);
 	
 if ($act == 'Ubah')
 {
-	$query 		= "SELECT * FROM SPP WHERE KODE_BLOK = '$id'";
+	$query 		= "SELECT * FROM SPP S
+				   LEFT JOIN BANK B ON S.KODE_BANK = B.KODE_BANK
+				WHERE S.KODE_BLOK = '$id'";
 	$obj 		= $conn->execute($query);
 	
 	$tgl_spp			= tgltgl(f_tgl($obj->fields['TANGGAL_SPP']));	
@@ -266,10 +221,17 @@ if ($act == 'Ubah')
 	$npwp				= $obj->fields['NPWP'];
 	$jenis_npwp			= $obj->fields['JENIS_NPWP'];
 	$bank				= $obj->fields['KODE_BANK'];
+	$nospk				= $obj->fields['NOMOR_SPK_BANK'];
+	$plafonkpr			= $obj->fields['PLAFON_KPR_DISETUJUI'];
+	$retensi			= $obj->fields['NILAI_RETENSI'];
 	$jumlah_kpr			= $obj->fields['JUMLAH_KPR'];
 	$agen				= $obj->fields['KODE_AGEN'];
 	$koordinator		= $obj->fields['KODE_KOORDINATOR'];	
-	$tgl_akad			= tgltgl(f_tgl($obj->fields['TANGGAL_AKAD']));
+	$tgl_akad			= tgltgl(f_tgl($obj->fields['TANGGAL_AKAD'])); 
+	$tgl_akad			= tgltgl(f_tgl($obj->fields['TANGGAL_REALISASI_AKAD_KREDIT']));
+	$tgl_spk			= tgltgl(f_tgl($obj->fields['TANGGAL_SPK_BANK']));
+	$tgl_cair_kpr		= tgltgl(f_tgl($obj->fields['TANGGAL_CAIR_KPR'])); 
+	$tgl_retensi		= tgltgl(f_tgl($obj->fields['TANGGAL_RETENSI'])); 
 	$status_kompensasi	= $obj->fields['STATUS_KOMPENSASI'];
 	$tanda_jadi			= $obj->fields['TANDA_JADI'];
 	$status_spp			= $obj->fields['STATUS_SPP'];

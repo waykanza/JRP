@@ -66,7 +66,7 @@ if ($field1 < 5)
 	JOIN SPP b ON a.KODE_BLOK = b.KODE_BLOK
 	$query_search
 	";
-}
+}cs
 else if ($field1 == 5)
 {
 	$query = "

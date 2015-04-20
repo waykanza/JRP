@@ -30,8 +30,8 @@ jQuery(function($) {
 	$('#login').on('click', function(e) {
 		e.preventDefault();
 		
-		var app_id = $('#app_id').val(),
-			db = $('#db').val(),
+		var //app_id = $('#app_id').val(),
+			//db = $('#db').val(),
 			login_id = $('#login_id').val(),
 			password_id = $('#password_id').val();
 			

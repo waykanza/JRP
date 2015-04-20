@@ -34,8 +34,7 @@ jQuery(function($) {
 	$('#masa_berlaku_denda').inputmask('numeric', { repeat: '2' });
 });
 </script>
-	<div class="t-control" style="margin-left:auto;margin-right:auto;width:700px">
-
+	
 	  <table width="613" border="0" cellspacing="1" cellpadding="0.5" align="center">
 		<tr class="input_label">
 		  <td>&nbsp;</td>

@@ -1,6 +1,6 @@
 <?php
 require_once('spp_tidak_valid_proses.php');
-require_once('../../../../config/config.php');
+require_once('../../../../../config/config.php');
 die_login();
 //die_app('');
 //die_mod('');
@@ -15,13 +15,9 @@ jQuery(function($) {
 		readonly_element : false,
 		inside: true
 	});
-	
-
 });
 
 </script>
-
-
 </head>
 <body class="popup2">
 

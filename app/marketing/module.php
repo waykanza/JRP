@@ -12,7 +12,8 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_harga_tanah' 				: die_mod('PM07'); include('marketing/master/harga_tanah/harga_tanah_setup.php');break;
 	case 'A01_harga_bangunan' 			: die_mod('PM08'); include('marketing/master/harga_bangunan/harga_bangunan_setup.php');break;
 	case 'A01_jenis_pembayaran'			: die_mod('PM10'); include('marketing/master/jenis_pembayaran/jenis_pembayaran_setup.php');break;
-	case 'A01_club_personal'			: die_mod('PM11'); include('marketing/master/club_personal/club_personal_setup.php');break;
+	case 'A01_agen'						: die_mod('PM12'); include('marketing/master/agen/agen_setup.php');break;
+	case 'A01_koordinator'				: die_mod('PM13'); include('marketing/master/koordinator/koordinator_setup.php');break;
 	
 	# Operasional
 	
@@ -90,7 +91,8 @@ switch (trim(base64_decode($cmd)))
 	## denda_keterlambatan
 		case 'A01_entry' 					: die_mod('PJ01'); die_ha('PJ01', 'R'); include('marketing/collection_tunai/transaksi/denda_keterlambatan/entry/entry_setup.php');break;
 		case 'A01_otoritas'					: die_mod('PJ02'); die_ha('PJ02', 'R'); include('marketing/collection_tunai/transaksi/denda_keterlambatan/otorisasi/otorisasi_setup.php');break;
-	case 'A01_ver_kwitansi_col'			: die_mod('PJ03'); die_ha('PJ03', 'R'); include('marketing/collection_tunai/transaksi/ver_kwitansi_col/ver_kwitansi_col_setup.php');break;
+	case 'A01_virtual_account'			: include('marketing/collection_tunai/transaksi/virtual_account/virtual_account_setup.php');break;
+	case 'A01_ver_kwitansi_col'			: include('marketing/collection_tunai/transaksi/pembayaran/pembayaran_setup.php');break;
 	case 'A01_ver_kwitansi_keu' 		: die_mod('PJ04'); die_ha('PJ04', 'R'); include('marketing/collection_tunai/transaksi/ver_kwitansi_keu/ver_kwitansi_keu_setup.php');break;
 	case 'C01_pemulihan_wanprestasi'	: die_mod('COT05'); die_ha('COT05', 'R'); include('collection_tunai/transaksi/pemulihan_wanprestasi/pemulihan_wanprestasi_setup.php');break;
 	case 'C01_memo_pembatalan'			: die_mod('COT07'); die_ha('COT07', 'R'); include('collection_tunai/transaksi/memo_pembatalan/memo_pembatalan_setup.php');break;

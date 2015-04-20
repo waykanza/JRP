@@ -1,4 +1,5 @@
 <?php
+require_once('rencana_proses.php');
 require_once('../../../../config/config.php');
 $conn = conn($sess_db);
 ex_conn($conn);
@@ -24,6 +25,8 @@ ex_conn($conn);
 <script type="text/javascript" src="../../../../plugin/window/javascripts/window.js"></script>
 <script type="text/javascript" src="../../../../config/js/main.js"></script>
 <script type="text/javascript">
+
+var get_base = base_marketing + 'operasional/get/';
 jQuery(function($) {
 	/* -- FILTER -- */
 	$(document).on('keypress', '.apply', function(e) {
@@ -35,7 +38,7 @@ jQuery(function($) {
 	$(document).on('click', '#apply', function(e) {
 		e.preventDefault();
 		if (jQuery('#periode_awal').val() == '') {
-			alert('Masukkan periode laporan!');
+			alert('Masukkan tanggal rencana!');
 			jQuery('#periode_awal').focus();
 			return false;
 		}
@@ -102,6 +105,12 @@ function loadData()
 	jQuery('#t-detail').load(base_marketing_transaksi + 'spp/daftar_pemesan_load.php', data);	
 	return false;
 }
+
+function get_kode_bayar() {
+	var url = get_base + 'kode_bayar.php'; 
+	setPopup('Daftar Jenis Pembayaran', url, 300, winHeight-100); 
+	return false; 
+}
 </script>
 </head>
 <body class="">
@@ -109,11 +118,28 @@ function loadData()
 <form name="form" id="form" method="post">
 <table class="wauto">
 <tr>	
-	<td>Periode</td><td>:</td>
-	<td><input type="text" name="periode_awal" id="periode_awal" class="apply dd-mm-yyyy" size="15" value=""> s/d
-	<input type="text" name="periode_akhir" id="periode_akhir" class="apply dd-mm-yyyy" size="15" value=""></td>
-	<td width="150" class="text-right">
-		<input type="button" name="apply" id="apply" value=" Apply "> <input type="button" id="close" value=" Tutup ">
+	<td>Tanggal</td><td>:</td>
+	<td><input type="text" name="periode_awal" id="periode_awal" class="apply dd-mm-yyyy" size="15" value=""></td>
+</tr>
+<tr>
+	<td>Jenis Pembayaran</td><td>:</td>
+	<td>
+		<input type="text" name="kode_bayar" id="kode_bayar" size="1" value="">
+		<button onclick="return get_kode_bayar()"> > </button>
+		<input type="text" id="jenis_bayar" size="25" value="">
+	</td>
+</tr>
+<tr>	
+	<td>Nilai</td><td>:</td>
+	<td><input type="text" name="nilai" id="nilai" size="15" value=""></td>
+</tr>
+<tr>	
+	<td>Keterangan</td><td>:</td>
+	<td><input type="text" name="ket" id="ket" size="45" value=""></td>
+</tr>
+	<td width="150" class="text-right"></td>
+	<tr>
+	<td><input type="button" name="apply" id="apply" value=" Apply "> <input type="button" id="close" value=" Tutup ">
 	</td>
 </tr>
 <tr>

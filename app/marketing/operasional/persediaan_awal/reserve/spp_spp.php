@@ -25,7 +25,9 @@ jQuery(function($) {
 
 	if ('<?php echo $act; ?>' == 'Simpan') {
 		jQuery('#nama').val('<?php echo $nm; ?>');
+		jQuery('#alamat_rumah').val('<?php echo $adress; ?>');
 	}
+	
 });
 </script>
 <form name="form" id="form" method="post">

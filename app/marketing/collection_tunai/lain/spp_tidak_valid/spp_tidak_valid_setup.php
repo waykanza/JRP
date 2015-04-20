@@ -68,13 +68,13 @@ function loadData()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#t-detail').load(base_collection_tunai_lain + 'spp_tidak_valid/spp_tidak_valid_load.php', data);
+	jQuery('#t-detail').load(base_marketing + 'collection_tunai/lain/spp_tidak_valid/spp_tidak_valid_load.php', data);
 	return false;
 }
 
 function showPopup(act, id)
 {
-	var url =	base_collection_tunai_lain + 'spp_tidak_valid/spp_tidak_valid_popup.php' + '?act=' + act + '&id=' + id;
+	var url =	base_marketing + 'collection_tunai/lain/spp_tidak_valid/spp_tidak_valid_popup.php' + '?act=' + act + '&id=' + id;
 	setPopup(act + ' SPP', url, 850, 550);
 	return false;
 }

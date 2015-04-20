@@ -7,16 +7,16 @@ require_once('penomoran_fp_proses.php');
 <head>
 <meta charset="UTF-8">
 <!-- CSS -->
-<link type="text/css" href="../../../../config/css/style.css" rel="stylesheet">
-<link type="text/css" href="../../../../plugin/css/zebra/default.css" rel="stylesheet">
+<link type="text/css" href="../../../../../config/css/style.css" rel="stylesheet">
+<link type="text/css" href="../../../../../plugin/css/zebra/default.css" rel="stylesheet">
 
 <!-- JS -->
-<script type="text/javascript" src="../../../../plugin/js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/jquery.inputmask.custom.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/keymaster.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/zebra_datepicker.js"></script>
-<script type="text/javascript" src="../../../../config/js/main.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/jquery.inputmask.custom.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/keymaster.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/zebra_datepicker.js"></script>
+<script type="text/javascript" src="../../../../../config/js/main.js"></script>
 <script type="text/javascript">
 $(function() {	
 	$('#pejabat, #jabatan').inputmask('varchar', { repeat: '30' });
@@ -28,7 +28,7 @@ $(function() {
 	
 	$('#save').on('click', function(e) {
 		e.preventDefault();
-		var url		= base_kredit_utilitas + 'penomoran_fp/penomoran_fp_proses.php',
+		var url		= base_marketing + '_kredit/utilitas/penomoran_fp/penomoran_fp_proses.php',
 			data	= $('#form').serialize();
 		
 		if (confirm("Nama pejabat akan disimpan ?") == false)

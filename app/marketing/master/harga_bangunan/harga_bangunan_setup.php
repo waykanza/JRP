@@ -61,7 +61,7 @@ function loadData() {
 
 function showPopup(act, id) {
 	var url = this_base + 'harga_bangunan_popup.php?act=' + act + '&id=' + id;
-	setPopup(act + ' Harga Bangunan', url, 500, 260);
+	setPopup(act + ' Harga Bangunan', url, 600, 350);
 	return false;
 }
 </script>

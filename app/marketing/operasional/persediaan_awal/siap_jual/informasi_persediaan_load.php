@@ -217,6 +217,12 @@ jQuery(function($) {
 	
 	/* -- BUTTON -- */
 
+	$(document).on('click', '#apply', function(e) {
+		e.preventDefault();
+		loadData3();
+		return false;
+	});
+	
 	$(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
 		e.preventDefault();
 		var id = $(this).parent().attr('id');

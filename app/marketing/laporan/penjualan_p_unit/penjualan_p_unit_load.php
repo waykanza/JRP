@@ -39,7 +39,7 @@ $page_start = (($page_num-1) * $per_page);
 <table id="pagging-1" class="t-control w90">
 <tr>
 	<td>
-		<input type="button" id="excel" value=" Export ">
+		<input type="button" id="excel" value=" Excel ">
 		<input type="button" id="print" value=" Print ">
 	</td>
 	<td class="text-right">

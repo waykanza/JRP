@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$query1 = "SELECT TANGGAL_AWAL FROM CS_HARI_LIBUR WHERE TANGGAL_AKHIR = CONVERT(DATETIME,'$tanggal_awal',105)";
 			ex_found($conn->Execute($query1)->recordcount(), "Tanggal \"$tanggal_awal\" telah terdaftar.");
 			
-			if ($tanggal_awal <= $tanggal_akhir)
+			if ($tanggal_awal <= $tanggal_akhir) 
 			{
 			$query = "INSERT INTO CS_HARI_LIBUR (TANGGAL_AWAL, TANGGAL_AKHIR, KETERANGAN)
 			VALUES(

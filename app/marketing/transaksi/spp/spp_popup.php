@@ -101,6 +101,8 @@ jQuery(function($) {
 	loadData1();
 	loadData2();
 	loadData3();
+	loadData4();
+	loadData5();
 });
 
 function loadData1()
@@ -124,6 +126,22 @@ function loadData3()
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
 	jQuery('#tab3').load(base_marketing_transaksi + 'spp/spp_rencana.php', data);	
+	return false;
+}
+
+function loadData4()
+{
+	if (popup) { popup.close(); }
+	var data = jQuery('#form').serialize();
+	jQuery('#tab4').load(base_marketing_transaksi + 'spp/spp_realisasi.php', data);	
+	return false;
+}
+
+function loadData5()
+{
+	if (popup) { popup.close(); }
+	var data = jQuery('#form').serialize();
+	jQuery('#tab5').load(base_marketing_transaksi + 'spp/spp_info_kpr.php', data);	
 	return false;
 }
 </script>

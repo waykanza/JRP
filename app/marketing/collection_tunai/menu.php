@@ -13,8 +13,9 @@
 				<li><a href="<?php echo base64_encode('C01_otoritas'); ?>">Otoritas</a></li>
 			</ul>
 		</li>
+		<li><a href="<?php echo base64_encode('C01_virtual_account'); ?>">Virtual Account</a></li>
 		<li class="separator"></li>
-		<li><a href="<?php echo base64_encode('C01_ver_kwitansi_col'); ?>">Verifikasi Kwitansi (Biro Colllection)</a></li>
+		<li><a href="<?php echo base64_encode('C01_ver_kwitansi_col'); ?>">Pembayaran</a></li>
 		<li><a href="<?php echo base64_encode('C01_ver_kwitansi_keu'); ?>">Verifikasi Kwitansi (Div. Keuangan)</a></li>
 		<li class="separator"></li>
 		<li><a href="<?php echo base64_encode('C01_pemulihan_wanprestasi'); ?>">Pemulihan Wanprestasi</a></li>

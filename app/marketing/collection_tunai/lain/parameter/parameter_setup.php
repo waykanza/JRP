@@ -6,7 +6,7 @@
 jQuery(function($) {
 	$('#save').on('click', function(e) {
 		e.preventDefault();
-		var url = base_collection_tunai_lain + 'parameter/parameter_proses.php',
+		var url = base_marketing + 'collection_tunai/lain/parameter/parameter_proses.php',
 			data = $('#form').serialize();
 				
 		if (confirm("Apakah data parameter akan dirubah?") == false)
@@ -29,13 +29,12 @@ function loadData()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#main_parameter').load(base_collection_tunai_lain + 'parameter/parameter_load.php', data);	
+	jQuery('#main_parameter').load(base_marketing + 'collection_tunai/lain/parameter/parameter_load.php', data);	
 	return false;
 }
 </script>
 
-	<div class="t-control" id="main_parameter"></div>
-	
+		<div class="t-control" id="main_parameter"></div>
 	<div>
 		<table class="t-form">
 		<tr><td><br></td></tr>
