@@ -3,7 +3,8 @@ require_once('../../../../../config/config.php');
 $conn = conn($sess_db);
 die_conn($conn);
 
-$id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
+$id					= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
+$status_otorisasi	= (isset($_REQUEST['status_otorisasi'])) ? clean($_REQUEST['status_otorisasi']) : '';
 ?>
 
 <table class="t-data w100">
@@ -17,13 +18,16 @@ $id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 </tr>
 
 <?php
-	$query = "
-	SELECT *
-	FROM 
-		KWITANSI
-	WHERE KODE_BLOK = '$id'
-	ORDER BY TANGGAL
-	";
+
+if ($status_otorisasi == 0)
+	{
+		$query = "	SELECT * FROM KWITANSI WHERE KODE_BLOK = '$id' ORDER BY TANGGAL";
+	}
+else if ($status_otorisasi == 1)
+	{
+		$query = "	SELECT * FROM KWITANSI_LAIN_LAIN WHERE KODE_BLOK = '$id' ORDER BY TANGGAL";
+	}
+	
 	$obj = $conn->execute($query);
 	$i = 1;
 

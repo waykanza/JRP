@@ -96,11 +96,11 @@ jQuery(function($) {
 					alert(data.msg);
 					parent.loadData();
 				}
-				else if (data.act == 'Tambah')
-				{
-					alert(data.msg);
-					parent.loadData();
-				}
+				// else if (data.act == 'Tambah')
+				// {
+					// alert(data.msg);
+					// parent.loadData();
+				// }
 		}, 'json');
 		return false;
 	});
@@ -202,13 +202,16 @@ jQuery(function($) {
 	<td class="td-action" colspan="3">
 		<input type="button" id="bon" value=" Bon ">
 		<input type="button" id="print" value=" Print ">
+		<input type="button" id="close" value=" Tutup "></td>
 	</td>
 </tr>
 <tr>
 	<td class="" colspan="3">
+		<!--
 		<input type="submit" id="save" value=" <?php echo $act; ?> ">
 		<input type="reset" id="reset" value=" Reset ">
-		<input type="button" id="close" value=" Tutup "></td>
+		-->
+		
 	</td>
 </tr>
 </table>

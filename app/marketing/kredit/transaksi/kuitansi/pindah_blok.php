@@ -1,5 +1,5 @@
 <?php
-require_once('../../../../config/config.php');
+require_once('../../../../../config/config.php');
 die_login();
 //die_app('');
 //die_mod('');
@@ -15,16 +15,16 @@ $id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 <head>
 <meta charset="UTF-8">
 <!-- CSS -->
-<link type="text/css" href="../../../../config/css/style.css" rel="stylesheet">
-<link type="text/css" href="../../../../plugin/css/zebra/default.css" rel="stylesheet">
+<link type="text/css" href="../../../../../config/css/style.css" rel="stylesheet">
+<link type="text/css" href="../../../../../plugin/css/zebra/default.css" rel="stylesheet">
 
 <!-- JS -->
-<script type="text/javascript" src="../../../../plugin/js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/jquery.inputmask.custom.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/keymaster.js"></script>
-<script type="text/javascript" src="../../../../plugin/js/zebra_datepicker.js"></script>
-<script type="text/javascript" src="../../../../config/js/main.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/jquery.inputmask.custom.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/keymaster.js"></script>
+<script type="text/javascript" src="../../../../../plugin/js/zebra_datepicker.js"></script>
+<script type="text/javascript" src="../../../../../config/js/main.js"></script>
 <script type="text/javascript">
 jQuery(function($) {	
 	$('#close').on('click', function(e) {
@@ -35,7 +35,7 @@ jQuery(function($) {
 	
 	$('#save').on('click', function(e) {
 		e.preventDefault();
-		var url		= base_kredit_transaksi + 'kuitansi/kuitansi_proses.php',
+		var url		= base_marketing + 'kredit/transaksi/kuitansi/kuitansi_proses.php',
 			data	= $('#form').serialize();
 		
 		if (confirm("Apakah anda yakin menyimpan data ini ?") == false)

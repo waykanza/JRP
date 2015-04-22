@@ -182,24 +182,24 @@ jQuery(function($) {
 					alert(data.msg);
 					parent.loadData();
 				}
-				else if (data.act == 'Tambah')
-				{
-					alert(data.msg);
-					parent.loadData();
-				}
+				// else if (data.act == 'Tambah')
+				// {
+					// alert(data.msg);
+					// parent.loadData();
+				// }
 		}, 'json');
 		return false;
 	});
 	
 	$('#bon').on('click', function(e) {
 		e.preventDefault();		
-		window.open(base_kredit_transaksi + 'kuitansi/kuitansi_bon.php?id=<?php echo base64_encode($id); ?>');		
+		window.open(base_marketing + 'kredit/transaksi/kuitansi/kuitansi_bon.php?id=<?php echo base64_encode($id); ?>');		
 		return false;
 	});
 	
 	$('#print').on('click', function(e) {
 		e.preventDefault();		
-		window.open(base_kredit_transaksi + 'kuitansi/kuitansi_print.php?id=<?php echo base64_encode($id); ?>');		
+		window.open(base_marketing + 'kredit/transaksi/kuitansi/kuitansi_print.php?id=<?php echo base64_encode($id); ?>');		
 		return false;
 	});	
 });
@@ -292,13 +292,14 @@ jQuery(function($) {
 		<input type="button" id="bon" value=" Bon ">
 		<input type="button" id="print" value=" Print ">	
 		<input type="button" id="rr" value=" R-R ">
+		<input type="button" id="close" value=" Tutup ">
 	</td>
 </tr>
 <tr>
 	<td class="" colspan="3">
-		<input type="submit" id="save" value=" <?php echo $act; ?> ">
-		<input type="reset" id="reset" value=" Reset ">
-		<input type="button" id="close" value=" Tutup "></td>
+		<!--<input type="submit" id="save" value=" <?php echo $act; ?> ">
+		<input type="reset" id="reset" value=" Reset ">-->
+		
 	</td>
 </tr>
 </table>

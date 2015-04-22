@@ -56,10 +56,12 @@
 		<li><a href="<?php echo base64_encode('A01_penjualan_p_unit'); ?>">Penjualan per Unit</a></li>
 		<li><a href="<?php echo base64_encode('A01_penjualan_p_lokasi'); ?>">Penjualan per Lokasi</a></li>
 		<li><a href="<?php echo base64_encode('A01_penjualan_p_class'); ?>">Penjualan per Class</a></li>
+		<!--
 		<li><a href="<?php echo base64_encode('A01_omset_p_unit_p_tahun'); ?>">Omset per Unit / Tahun</a></li>
 		<li><a href="<?php echo base64_encode('A01_omset_p_tipe_p_tahun'); ?>">Omset per Tipe / Tahun</a></li>
 		<li><a href="<?php echo base64_encode('A01_omset_p_lokasi_p_tahun'); ?>">Omset per Lokasi / Tahun</a></li>
 		<li><a href="<?php echo base64_encode('A01_omset_p_jenis_unit_p_tahun'); ?>">Omset per Jenis Unit / Tahun</a></li>
+		-->
 		<li><a href="<?php echo base64_encode('A01_laporan_reserve'); ?>">Laporan Reserve</a></li>
 		<li><a href="<?php echo base64_encode('A01_laporan_persediaan_stok'); ?>">Laporan Persediaan (Stok)</a></li>
 				</ul>

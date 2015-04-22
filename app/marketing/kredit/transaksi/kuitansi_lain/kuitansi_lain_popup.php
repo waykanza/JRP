@@ -142,8 +142,10 @@ function deleteData()
 <table id="pagging-1" class="t-control w100">
 <tr>
 	<td>
+		<!--
 		<input type="button" id="tambah" value=" Tambah ">
 		<input type="button" id="hapus" value=" Hapus ">
+		-->
 		<input type="button" id="close" value=" Tutup "></td>
 	</td>
 </tr>

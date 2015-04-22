@@ -1,6 +1,6 @@
 <?php
-require_once('../../../../config/config.php');
-require_once('../../../../config/terbilang.php');
+require_once('../../../../../config/config.php');
+require_once('../../../../../config/terbilang.php');
 die_login();
 //die_app('');
 //die_mod('');

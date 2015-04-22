@@ -1,5 +1,5 @@
 <?php
-require_once('kuitansi_proses.php');
+require_once('pembayaran_proses.php');
 ?>
 
 <!DOCTYPE html>
@@ -41,13 +41,6 @@ jQuery(function($) {
 		return false;
 	});
 	
-	$('#pindah').on('click', function(e) {
-		e.preventDefault();		
-		var url = base_marketing + 'kredit/transaksi/kuitansi/pindah_blok.php?id=<?php echo $id; ?>&act=Pindah';		
-		setPopup('Pindah Blok', url, 500, 250);
-		return false;
-	});
-	
 	$(document).on('click', '#hapus', function(e) {
 		e.preventDefault();
 		if (confirm('Apa anda yakin akan menghapus data ini?'))
@@ -61,6 +54,12 @@ jQuery(function($) {
 		return parent.loadData();
 	});
 	
+	$('input:radio[name="status_otorisasi"]').change(function(e){
+		e.preventDefault();
+		loadData();
+		return false;
+	});
+	
 	loadData();
 });
 
@@ -68,13 +67,13 @@ function loadData()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#t-detail').load(base_marketing + 'kredit/transaksi/kuitansi/kuitansi_load_detail.php', data);	
+	jQuery('#t-detail').load(base_marketing + 'collection_tunai/transaksi/pembayaran/pembayaran_load_detail.php', data);	
 	return false;
 }
 
 function showPopup(act, id)
 {
-	var url =	base_marketing + 'kredit/transaksi/kuitansi/kuitansi_popup_detail.php' +	'?act=' + act +	'&id=' + id,
+	var url =	base_marketing + 'collection_tunai/transaksi/pembayaran/pembayaran_popup_detail.php' +	'?act=' + act +	'&id=' + id,
 		title	= (act == 'Simpan') ? 'Tambah' : act;	
 	setPopup(title + ' Kuitansi Penjualan Unit Kaveling / Bangunan', url, 800, 400);	
 	return false;
@@ -89,7 +88,7 @@ function deleteData()
 		return false;
 	}
 	
-	var url		= base_marketing + 'kredit/transaksi/kuitansi/kuitansi_proses.php',
+	var url		= base_marketing + 'collection_tunai/transaksi/pembayaran/pembayaran_proses.php',
 		data	= jQuery('#form').serializeArray();
 	data.push({ name: 'act', value: 'Hapus' });
 	
@@ -111,10 +110,6 @@ function deleteData()
 <tr>
 	<td width="100">Blok / Nomor</td><td width="10">:</td>
 	<td><?php echo $kode_blok; ?></td>
-</tr>
-<tr>
-	<td>Nomor SPP</td></td><td>:</td>
-	<td><?php echo $no_spp; ?></td>
 </tr>
 <tr>
 	<td>Nama Pemilik</td></td><td>:</td>
@@ -142,17 +137,31 @@ function deleteData()
 	<td>NPWP</td></td><td>:</td>
 	<td><?php echo $npwp; ?></td>
 </tr>
+<tr>
+	<td>NOMOR VA</td></td><td>:</td>
+	<td><?php echo $nomor_va; ?></td>
+</tr>
+<tr>
+	<td>NILAI</td></td><td>:</td>
+	<td><?php echo $nilai; ?></td>
+</tr>
 </table>
 
 <div class="clear"><br></div>
 
-<table id="pagging-1" class="t-control w100">
+<table id="pagging-1" class="t-popup w100">
 <tr>
 	<td>
 		<input type="button" id="tambah" value=" Tambah ">
 		<input type="button" id="hapus" value=" Hapus ">
-		<input type="button" id="pindah" value=" Pindah Blok ">
-		<input type="button" id="close" value=" Tutup "></td>
+		<input type="button" id="close" value=" Tutup ">
+	</td>
+</tr>
+<br>
+<tr>
+	<td>
+		<input type="radio" name="status_otorisasi" id="sbb" value="0" checked="true"> <label for="sbb">Kwitansi</label>
+		<input type="radio" name="status_otorisasi" id="sbs" value="1"> <label for="sbs">Kwitansi Lain-Lain</label>
 	</td>
 </tr>
 </table>

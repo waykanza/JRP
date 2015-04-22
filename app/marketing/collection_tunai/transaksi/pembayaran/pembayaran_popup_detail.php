@@ -1,5 +1,5 @@
 <?php
-require_once('kuitansi_proses.php');
+require_once('pembayaran_proses.php');
 require_once('../../../../../config/terbilang.php');
 $terbilang = new Terbilang;
 ?>
@@ -57,15 +57,17 @@ function calculate(){
 		ppn		 = Math.round(jumlah-subtotal);	
 		} 
 
-		if ((kode_bayar == 25) || (kode_bayar == 26) || (kode_bayar == 27) || (kode_bayar == 28)) {
-		jp = 'Pembayaran '+ jenis_pembayaran + ' atas pembelian ' + tanah_bangunan +
-			 '\ndi ' + lokasi + ' Blok ' + blok + ' Nomor ' + nomor + ' (TYPE ' + tipe + ') \n' ;
-		}
-		else {
+		if ((kode_bayar == 1) || (kode_bayar == 2) || (kode_bayar == 3) || (kode_bayar == 4) || (kode_bayar == 5) || (kode_bayar == 6) ||
+				(kode_bayar == 10) || (kode_bayar == 14) || (kode_bayar == 15) || (kode_bayar == 21) || (kode_bayar == 22) || (kode_bayar == 23)||
+				(kode_bayar == 24)){
 		jp = 'Pembayaran '+ jenis_pembayaran + ' atas pembelian ' + tanah_bangunan +
 			 '\ndi ' + lokasi + ' Blok ' + blok + ' Nomor ' + nomor + ' (TYPE ' + tipe + ') \n' +
 			 jenis_pembayaran + ' : Rp. ' + formatNumber(subtotal) + ',-' +
 			 '\nPPN : Rp. ' + formatNumber(ppn) + ',-' ;
+		}
+		else{
+		jp = 'Pembayaran '+ jenis_pembayaran + ' atas pembelian ' + tanah_bangunan +
+			 '\ndi ' + lokasi + ' Blok ' + blok + ' Nomor ' + nomor + ' (TYPE ' + tipe + ') \n' ;
 		}
 		
 		$('#keterangan').val(jp);
@@ -89,16 +91,17 @@ function cal2(){
 		subtotal = Math.round((100/110) * jumlah);
 		ppn		 = Math.round(jumlah-subtotal);		
 		}	
-		else if ((kode_bayar == 25) || (kode_bayar == 26) || (kode_bayar == 27) || (kode_bayar == 28)) {
-		subtotal = jQuery('#jumlah').val();
-		ppn		 = 0;	
-		} 
-		else {
+		else if ((kode_bayar == 1) || (kode_bayar == 2) || (kode_bayar == 3) || (kode_bayar == 4) || (kode_bayar == 5) || (kode_bayar == 6) ||
+				(kode_bayar == 10) || (kode_bayar == 14) || (kode_bayar == 15) || (kode_bayar == 21) || (kode_bayar == 22) || (kode_bayar == 23)){
 		jumlah	= jQuery('#jumlah').val();
 		jumlah	= jumlah.replace(/[^0-9.]/g, '');
 		jumlah	= (jumlah == '') ? 0 : parseFloat(jumlah);
 		subtotal = Math.round((100/110) * jumlah);
 		ppn		 = Math.round(jumlah-subtotal);		
+		} 
+		else {
+		subtotal = jQuery('#jumlah').val();
+		ppn		 = 0;	
 		} 
 		
 		$('#subtotal').val(subtotal);
@@ -107,7 +110,7 @@ function cal2(){
 
 jQuery(function($) {
 	if ('<?php echo $act; ?>' == 'Tambah') {
-		$('#post, #bon, #print, #rr').hide();	
+		$('#post, #bon, #print').hide();	
 	}	
 	
 	$('#nama_pembayar').inputmask('varchar', { repeat: '60' });
@@ -164,7 +167,7 @@ jQuery(function($) {
 	
 	$('#save').on('click', function(e) {
 		e.preventDefault();
-		var url		= base_kredit_transaksi + 'kuitansi/kuitansi_proses.php',
+		var url		= base_marketing + 'collection_tunai/transaksi/pembayaran/pembayaran_proses.php',
 			data	= $('#form').serialize();
 			
 		if (confirm("Apakah data telah terisi dengan benar ?") == false)
@@ -191,6 +194,19 @@ jQuery(function($) {
 		return false;
 	});
 	
+	// $(document).on('click', '#rr', function(e) {
+		// e.preventDefault();
+		// showPopup('RR', '<?php echo $id; ?>');
+		// return false;
+	// });
+	
+	$('#rr').on('click', function(e) {
+		e.preventDefault();
+		var id = $(this).parent().attr('id');
+		showPopup('Detail', id);
+		return false;
+	});
+	
 	$('#bon').on('click', function(e) {
 		e.preventDefault();		
 		window.open(base_kredit_transaksi + 'kuitansi/kuitansi_bon.php?id=<?php echo base64_encode($id); ?>');		
@@ -203,6 +219,22 @@ jQuery(function($) {
 		return false;
 	});	
 });
+
+// function showPopup(act, id)
+// {
+	// var url =	base_marketing + 'collection_tunai/transaksi/pembayaran/rr_popup.php' +	'?act=' + act +	'&id=' + id,
+		// title	= (act == 'RR') ? 'RR' : act;	
+	// setPopup(title + ' Rencana-Realisasi', url, 800, 400);	
+	// return false;
+// }
+
+function showPopup(act, id)
+{
+	var url =	base_marketing + 'collection_tunai/transaksi/pembayaran/rr_popup.php' + '?act=' + act + '&id=' + id;	
+	setPopup('Rencana-Realisasi', url, 1100, 550);	
+	return false;
+}
+
 </script>
 </head>
 <body class="popup2">
@@ -219,8 +251,7 @@ jQuery(function($) {
 		SELECT *
 		FROM 
 			JENIS_PEMBAYARAN
-		WHERE
-			KELOMPOK IS NULL
+		ORDER BY KELOMPOK
 		");
 		while( ! $obj->EOF)
 		{
@@ -291,11 +322,12 @@ jQuery(function($) {
 		<input type="button" id="post" value=" Post ">
 		<input type="button" id="bon" value=" Bon ">
 		<input type="button" id="print" value=" Print ">	
-		<input type="button" id="rr" value=" R-R ">
+		
 	</td>
 </tr>
 <tr>
 	<td class="" colspan="3">
+		<input type="button" id="rr" value=" R-R ">
 		<input type="submit" id="save" value=" <?php echo $act; ?> ">
 		<input type="reset" id="reset" value=" Reset ">
 		<input type="button" id="close" value=" Tutup "></td>
