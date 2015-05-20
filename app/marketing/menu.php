@@ -80,8 +80,8 @@
 			</ul>
 			<li><a href="<?php echo base64_encode('A01_virtual_account'); ?>">Virtual Account</a></li>
 			<li class="separator"></li>
-			<li><a href="<?php echo base64_encode('A01_ver_kwitansi_col'); ?>">Pembayaran</a></li>
-			<li><a href="<?php echo base64_encode('A01_ver_kwitansi_keu'); ?>">Verifikasi Kwitansi (Div. Keuangan)</a></li>
+			<li><a href="<?php echo base64_encode('A01_ver_kwitansi_col'); ?>">Identifikasi</a></li>
+			<!--<li><a href="<?php echo base64_encode('A01_ver_kwitansi_keu'); ?>">Verifikasi Kwitansi (Div. Keuangan)</a></li>-->
 			<li class="separator"></li>
 			<li><a href="<?php echo base64_encode('A01_pemulihan_wanprestasi'); ?>">Pemulihan Wanprestasi</a></li>
 			<li><a href="<?php echo base64_encode('A01_memo_pembatalan'); ?>">Memo Pembatalan</a></li>

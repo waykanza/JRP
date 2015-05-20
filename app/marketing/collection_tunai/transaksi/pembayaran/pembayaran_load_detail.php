@@ -14,16 +14,16 @@ $status_otorisasi	= (isset($_REQUEST['status_otorisasi'])) ? clean($_REQUEST['st
 	<th class="w15">NOMOR KWITANSI</th>
 	<th class="w10">TANGGAL BAYAR</th>
 	<th class="w10">JUMLAH (Rp)</th>
-	<th class="w70">KETERANGAN</th>
+	<th class="w70">CATATAN</th>
 </tr>
 
 <?php
 
-if ($status_otorisasi == 0)
+if ($status_otorisasi== 1)
 	{
 		$query = "	SELECT * FROM KWITANSI WHERE KODE_BLOK = '$id' ORDER BY TANGGAL";
 	}
-else if ($status_otorisasi == 1)
+else if ($status_otorisasi == 2)
 	{
 		$query = "	SELECT * FROM KWITANSI_LAIN_LAIN WHERE KODE_BLOK = '$id' ORDER BY TANGGAL";
 	}
@@ -41,7 +41,7 @@ else if ($status_otorisasi == 1)
 			<td><?php echo $id; ?></td>
 			<td><?php echo date("d M Y", strtotime($obj->fields['TANGGAL']));  ?></td>
 			<td class="text-right"><?php echo to_money($obj->fields['NILAI']);  ?></td>
-			<td><?php echo $obj->fields['KETERANGAN'];  ?></td>
+			<td><?php echo $obj->fields['CATATAN'];  ?></td>
 		</tr>
 		<?php
 		$i++;

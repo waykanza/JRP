@@ -114,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' AND $act == 'login')
 	exit;
 }
 elseif ($act == 'logout') {
+	echo "<script>alert(test) </script>";
 	session_destroy();
 	header('location: ' . BASE_URL);
 }

@@ -18,7 +18,7 @@ require_once('adodb/adodb.inc.php');
 require_once('functions.php');
 
 #============== APPLICATION ==============
-define('BASE_URL', 'http://localhost:3636/market/');
+define('BASE_URL', 'http://localhost/market/');
 define('BASE_APP', BASE_URL . 'app/');
 define('APP_ROOT', 'C:\\uwamp\\www\\market\\');
 

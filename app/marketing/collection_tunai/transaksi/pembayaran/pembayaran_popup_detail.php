@@ -2,6 +2,8 @@
 require_once('pembayaran_proses.php');
 require_once('../../../../../config/terbilang.php');
 $terbilang = new Terbilang;
+$status_otorisasi	= (isset($_REQUEST['status_otorisasi'])) ? clean($_REQUEST['status_otorisasi']) : '';
+$nilai	= (isset($_REQUEST['nilai'])) ? clean($_REQUEST['nilai']) : '';
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +31,7 @@ function calculate(){
 		var sel_jenis_pembayaran	= jQuery('#jenis_pembayaran option:selected');
 			jenis_pembayaran		= sel_jenis_pembayaran.data('jenis');
 			kode_bayar				= jQuery('#jenis_pembayaran').val();
-		
+		nilai				= '<?php echo $nilai; ?>';
 		tanah_bangunan		= '<?php echo tanah_bangunan($luas_bangunan); ?>';
 		lokasi				= '<?php echo $lokasi; ?>';		
 		kode_blok			= '<?php echo $kode_blok; ?>';
@@ -42,17 +44,32 @@ function calculate(){
 		
 		if (kode_bayar == 24) {
 		jumlah	= <?php echo $kpr; ?>;
-		subtotal = Math.round((100/110) * jumlah);
-		ppn		 = Math.round(jumlah-subtotal);		
+		
+		subtotal = jQuery('#jumlah').val();
+		subtotal	= subtotal.replace(/[^0-9.]/g, '');
+		subtotal	= (subtotal == '') ? 0 : parseFloat(subtotal);
+		subtotal2= Math.round((100/110) * jumlah);
+		ppn		 = Math.round(jumlah-subtotal2);
+			if(subtotal > nilai){
+				alert("Ma'af jumlah melebihi nilai transaksi");
+			}	
 		}	
 		else if ((kode_bayar == 25) || (kode_bayar == 26) || (kode_bayar == 27) || (kode_bayar == 28)) {
 		subtotal = jQuery('#jumlah').val();
+		subtotal	= subtotal.replace(/[^0-9.]/g, '');
+		subtotal	= (subtotal == '') ? 0 : parseFloat(subtotal);
 		ppn		 = 0;	
+			if(subtotal > nilai){
+				alert("Ma'af jumlah melebihi nilai transaksi");
+			}
 		} 
 		else {
 		jumlah	= jQuery('#jumlah').val();
 		jumlah	= jumlah.replace(/[^0-9.]/g, '');
 		jumlah	= (jumlah == '') ? 0 : parseFloat(jumlah);
+			if(jumlah > nilai){
+				alert("Ma'af jumlah melebihi nilai transaksi");
+			}	
 		subtotal = Math.round((100/110) * jumlah);
 		ppn		 = Math.round(jumlah-subtotal);	
 		} 
@@ -109,9 +126,12 @@ function cal2(){
 }	
 
 jQuery(function($) {
-	if ('<?php echo $act; ?>' == 'Tambah') {
-		$('#post, #bon, #print').hide();	
-	}	
+	// if ('<?php echo $act; ?>' == 'Tambah') {
+		// $('#nama_pembayar, #nomor, #sejumlah, #keterangan, #diposting, #tanggal, #tgl_terima, #via').hide();	
+	// }	
+	// if ('<?php echo $act; ?>' == 'Ubah') {
+		// $('#nama_pembayar, #nomor, #sejumlah, #keterangan, #diposting, #tanggal, #tgl_terima, #via').hide();	
+	// }	
 	
 	$('#nama_pembayar').inputmask('varchar', { repeat: '60' });
 	$('#jumlah, #diposting').inputmask('numeric', { repeat: '16' });	
@@ -220,27 +240,16 @@ jQuery(function($) {
 	});	
 });
 
-// function showPopup(act, id)
-// {
-	// var url =	base_marketing + 'collection_tunai/transaksi/pembayaran/rr_popup.php' +	'?act=' + act +	'&id=' + id,
-		// title	= (act == 'RR') ? 'RR' : act;	
-	// setPopup(title + ' Rencana-Realisasi', url, 800, 400);	
-	// return false;
-// }
-
-function showPopup(act, id)
-{
-	var url =	base_marketing + 'collection_tunai/transaksi/pembayaran/rr_popup.php' + '?act=' + act + '&id=' + id;	
-	setPopup('Rencana-Realisasi', url, 1100, 550);	
-	return false;
-}
-
 </script>
 </head>
 <body class="popup2">
 
 <form name="form" id="form" method="post">
 <table class="t-popup">
+<tr>
+	<td width="100">Nilai Transaksi</td><td>:</td>
+	<td><input type="text" name="nilai" id="nilai" size="15" value="<?php echo to_money($nilai); ?>"></td>
+</tr>
 <tr id="tr-jp">
 	<td>Jenis Pembayaran</td><td>:</td>
 	<td>
@@ -251,6 +260,7 @@ function showPopup(act, id)
 		SELECT *
 		FROM 
 			JENIS_PEMBAYARAN
+		WHERE KELOMPOK = '$status_otorisasi'
 		ORDER BY KELOMPOK
 		");
 		while( ! $obj->EOF)
@@ -265,33 +275,37 @@ function showPopup(act, id)
 	</td>
 </tr>
 <tr>
-	<td width="100">Nomor</td><td>:</td>
-	<td><input type="text" name="nomor" id="nomor" size="20" readonly="readonly" value="<?php echo $nomor; ?>"></td>
-	<td id="td-cb" >
-	<input type="checkbox" onclick="return false" <?php echo is_checked('1', $biro); ?>> <i>Biro Collection
-	<input type="checkbox" onclick="return false" <?php echo is_checked('1', $keuangan); ?>> Div. Keuangan
-	<input type="checkbox" onclick="return false" <?php echo is_checked('1', $pindah); ?>> Pindah Blok
-	<input type="checkbox" onclick="return false" <?php echo is_checked('1', $posting); ?>> Posting</i>
-	</td>
+	<td width="100">Jumlah Rp.</td><td>:</td>
+	<td><input type="text" name="jumlah" id="jumlah" size="15" onkeyUp="javascript:autoCek();" value="<?php echo to_money($jumlah); ?>"></td>
 </tr>
 <tr>
-	<td>Telah Terima Dari</td><td>:</td>
-	<td colspan="2"><input type="text" name="nama_pembayar" id="nama_pembayar" size="50" value="<?php echo $nama_pembayar; ?>"></td>
+	<td width="100">Catatan</td><td>:</td>
+	<td colspan="2"><textarea name="catatan" id="catatan" rows="6" cols="100"><?php echo $catatan; ?></textarea></td>
 </tr>
 <tr>
-	<td>Sejumlah Uang</td><td>:</td>
-	<td colspan="2"><input type="text" name="sejumlah" id="sejumlah" size="98" readonly="readonly" style="text-transform:uppercase" value="<?php echo ucfirst($terbilang->eja($jumlah)); ?> rupiah"></td>
+	<td width="100"> </td><td></td>
+	<td><input type="hidden" name="nomor" id="nomor" size="20" readonly="readonly" value="<?php echo $nomor; ?>"></td>
+	
+</tr>
+
+<tr>
+	<td> </td><td></td>
+	<td colspan="2"><input type="hidden" name="nama_pembayar" id="nama_pembayar" size="50" value="<?php echo $nama_pembayar; ?>"></td>
 </tr>
 <tr>
-	<td>Untuk Pembayaran</td><td>:</td>
-	<td colspan="2"><textarea name="keterangan" id="keterangan" rows="6" cols="100"><?php echo $keterangan; ?></textarea></td>
+	<td> </td><td></td>
+	<td colspan="2"><input type="hidden" name="sejumlah" id="sejumlah" size="98" readonly="readonly" style="text-transform:uppercase" value="<?php echo ucfirst($terbilang->eja($jumlah)); ?> rupiah"></td>
+</tr>
+<tr>
+	<td></td><td></td>
+	<td colspan="2"><input type="hidden" name="keterangan" id="keterangan" rows="6" cols="100" value="<?php echo $keterangan; ?>"></td>
 </tr>
 </table>
 <table class="t-popup">
 <tr>
-	<td>Jumlah Rp. : <input type="text" name="jumlah" id="jumlah" size="15" value="<?php echo to_money($jumlah); ?>"></td>	
-	<td>Diposting Rp. : <input type="text" name="diposting" id="diposting" size="15" value="<?php echo to_money($diposting); ?>"></td>
-	<td>Jakarta, <input type="text" name="tanggal" id="tanggal" size="15" class="apply dd-mm-yyyy" value="<?php echo $tanggal; ?>"></td>
+		
+	<td> <input type="hidden" name="diposting" id="diposting" size="15" value="<?php echo to_money($diposting); ?>"></td>
+	<td> <input type="hidden" name="tanggal" id="tanggal" size="15" value="<?php echo $tanggal; ?>"></td>
 </tr>
 </table>
 
@@ -299,35 +313,12 @@ function showPopup(act, id)
 
 <table class="t-popup w90 f-left">
 <tr>
-	<td colspan ="3"><b><u>Informasi Pembayaran</u></b></td>
+	<td><input type="hidden" name="tgl_terima" id="tgl_terima" size="15" value="<?php echo $tgl_terima; ?>"></td>
+	
 </tr>
-<tr>
-	<td>Pembayaran Diterima Tanggal : <input type="text" name="tgl_terima" id="tgl_terima" size="15" class="apply dd-mm-yyyy" value="<?php echo $tgl_terima; ?>"></td>
-	<td> Via :
-	<select name="via" id="via">
-		<option value=""> -- Via -- </option>
-		<option value="1" <?php echo is_selected('1', $via); ?>> Tunai </option>
-		<option value="2" <?php echo is_selected('2', $via); ?>> Cek </option>
-		<option value="3" <?php echo is_selected('3', $via); ?>> Giro </option>
-		<option value="4" <?php echo is_selected('4', $via); ?>> Transfer </option>
-		<option value="5" <?php echo is_selected('5', $via); ?>> ATM </option>
-		<option value="6" <?php echo is_selected('6', $via); ?>> Kartu Debit </option>
-		<option value="7" <?php echo is_selected('7', $via); ?>> Kartu Kredit </option>
-	</select>
-	</td>
-	<td>Catatan : <input type="text" name="catatan" id="catatan" size="20" value="<?php echo $catatan; ?>"></td>
-</tr>
-<tr>
-	<td class="td-action" colspan="3">
-		<input type="button" id="post" value=" Post ">
-		<input type="button" id="bon" value=" Bon ">
-		<input type="button" id="print" value=" Print ">	
-		
-	</td>
-</tr>
+
 <tr>
 	<td class="" colspan="3">
-		<input type="button" id="rr" value=" R-R ">
 		<input type="submit" id="save" value=" <?php echo $act; ?> ">
 		<input type="reset" id="reset" value=" Reset ">
 		<input type="button" id="close" value=" Tutup "></td>

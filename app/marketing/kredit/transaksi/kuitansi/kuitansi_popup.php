@@ -146,12 +146,128 @@ function deleteData()
 
 <div class="clear"><br></div>
 
+<table class="t-data w25 f-left" style = "margin-right: 5px" >
+<tr>
+	<th colspan=4>RENCANA PENERIMAAN</th>
+</tr>
+<tr>
+	<th class="w2">NO.</th>
+	<th class="w10">TANGGAL</th>
+	<th class="w7">ANGSURAN</th>
+	<th class="w6">KETERANGAN</th>
+</tr>
+<tr>
+	<td class="text-center">1</td>
+	<td><?php echo date("d-m-Y", strtotime($tgl_jadi)); ?></td>
+	<td class="text-right"><?php echo to_money($tanda_jadi);  ?></td>
+	<td>TANDA JADI</td>
+</tr>
+
+<?php
+	$query = "
+	SELECT *
+	FROM 
+		RENCANA a
+	LEFT JOIN JENIS_PEMBAYARAN b ON a.KODE_BAYAR = b.KODE_BAYAR
+	WHERE KODE_BLOK = '$kode_blok'
+	ORDER BY TANGGAL
+	";
+	$obj = $conn->execute($query);
+	$i = 2;
+
+	while( ! $obj->EOF)
+	{
+		?>
+		<tr>
+			<td class="text-center"><?php echo $i;  ?></td>
+			<td><?php echo date("d-m-Y", strtotime($obj->fields['TANGGAL'])); ?></td>
+			<td class="text-right"><?php echo to_money($obj->fields['NILAI']);  ?></td>
+			<td><?php echo $obj->fields['JENIS_BAYAR'];  ?></td>
+		</tr>
+		<?php
+		$i++;
+		$obj->movenext();
+	}
+if ($jml_kpr > 0) {	
+?>
+<tr>
+	<td class="text-center"><?php echo $i; ?></td>
+	<td class="text-right"></td>
+	<td class="text-right"><?php echo to_money($jml_kpr);  ?></td>
+	<td>K.P.R</td>
+</tr>
+</table>
+<?php } ?>
+
+<table class="t-data w70">
+<tr>
+	<th colspan=8>REALISASI PENERIMAAN</th>
+</tr>
+<tr>
+	<th>NO.</th>
+	<th>TANGGAL</th>
+	<th>ANGSURAN</th>
+	<th>OFFICER COL.</th>
+	<th>TGL. VER COL.</th>
+	<th>OFFICER KEU.</th>
+	<th>TGL. VER KEU.</th>
+	<th>KETERANGAN</th>
+</tr>
+
+<?php
+	$query = "
+	SELECT a.*, b.FULL_NAME AS COL, c.FULL_NAME AS KEU
+	FROM 
+		KWITANSI a
+	LEFT JOIN USER_APPLICATIONS b ON a.VER_COLLECTION_OFFICER = b.USER_ID	
+	LEFT JOIN USER_APPLICATIONS c ON a.VER_KEUANGAN_OFFICER = c.USER_ID
+	WHERE KODE_BLOK = '$kode_blok'
+	ORDER BY TANGGAL
+	";
+
+	$obj = $conn->execute($query);
+	$i = 1;
+	$nilai = 0;
+	while( ! $obj->EOF)
+	{
+		?>
+		<tr> 
+			<td class="text-center"><?php echo $i; ?></td>
+			<td><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?></td>
+			<td class="text-right"><?php echo to_money($obj->fields['NILAI']); ?></td>
+			<td><?php echo $obj->fields['COL']; ?></td>
+			<td><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['VER_COLLECTION_TANGGAL']))); ?></td>
+			<td><?php echo $obj->fields['KEU']; ?></td>
+			<td><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['VER_KEUANGAN_TANGGAL']))); ?></td>
+			<td class="text-center"><?php echo $obj->fields['CATATAN']; ?></td>
+		</tr>
+		<?php
+		$i++;
+		$obj->movenext();
+	}	
+	$query = "
+	SELECT SUM(NILAI) AS TOTAL FROM KWITANSI WHERE KODE_BLOK = '$kode_blok'
+	";
+	$obj = $conn->execute($query);
+?>
+<tr>
+	<th colspan=2 lass="text-center">TOTAL</th>
+	<td class="text-right"><?php echo to_money($obj->fields['TOTAL']);  ?></td>
+</tr>
+<tr>
+	<th colspan=2 lass="text-center">SISA</th>
+	<td class="text-right"><?php echo to_money($sisa_pembayaran - $obj->fields['TOTAL']);  ?></td>
+</tr>
+</table>
+
+<div class="clear"><br></div>
+
 <table id="pagging-1" class="t-control w100">
 <tr>
 	<td>
 		<!--<input type="button" id="tambah" value=" Tambah ">
-		<input type="button" id="hapus" value=" Hapus ">-->
-		<input type="button" id="rr" value=" R-R ">
+		<input type="button" id="hapus" value=" Hapus ">
+		<input type="button" id="rr" value=" R-R ">-->
 		<input type="button" id="pindah" value=" Pindah Blok ">
 		<input type="button" id="close" value=" Tutup "></td>
 	</td>

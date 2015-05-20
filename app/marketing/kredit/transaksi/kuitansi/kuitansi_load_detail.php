@@ -8,7 +8,6 @@ $id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 
 <table class="t-data w100">
 <tr>
-	<th class="w5"><input type="checkbox" id="cb_all"></th>
 	<th class="w5">NO.</th>
 	<th class="w15">NOMOR KWITANSI</th>
 	<th class="w10">TANGGAL BAYAR</th>
@@ -31,8 +30,7 @@ $id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 	{
 		$id = $obj->fields['NOMOR_KWITANSI'];
 		?>
-		<tr class="onclick" id="<?php echo $id; ?>">
-			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td> 			
+		<tr class="onclick" id="<?php echo $id; ?>">			
 			<td class="text-center"><?php echo $i; ?></td>
 			<td><?php echo $id; ?></td>
 			<td><?php echo date("d M Y", strtotime($obj->fields['TANGGAL']));  ?></td>

@@ -203,7 +203,7 @@ die_conn($conn);
 	
 if ($act == 'Detail')
 {
-	$query = "
+$query = "
 	SELECT *
 	FROM
 		SPP a 
@@ -212,19 +212,44 @@ if ($act == 'Detail')
 		LEFT JOIN HARGA_TANAH d ON b.KODE_SK_TANAH = d.KODE_SK
 		LEFT JOIN HARGA_BANGUNAN e ON b.KODE_SK_BANGUNAN = e.KODE_SK
 		LEFT JOIN FAKTOR f ON b.KODE_FAKTOR = f.KODE_FAKTOR
+		LEFT JOIN CS_VIRTUAL_ACCOUNT g ON a.NOMOR_CUSTOMER = g.NOMOR_VA		
 	WHERE 
 		a.KODE_BLOK = '$id'";
 	$obj = $conn->execute($query);
 	
 	$kode_blok 			= $obj->fields['KODE_BLOK'];
-	$no_spp 			= $obj->fields['NOMOR_SPP'];
 	$nama_pembeli 		= $obj->fields['NAMA_PEMBELI'];
 	$alamat 			= $obj->fields['ALAMAT_RUMAH'];
 	$tlp1 				= $obj->fields['TELP_RUMAH'];
 	$tanggal_spp		= kontgl(tgltgl(date("d M Y", strtotime($obj->fields['TANGGAL_SPP']))));
 	$no_identitas		= $obj->fields['NO_IDENTITAS'];	
 	$npwp 				= $obj->fields['NPWP'];
+	$luas_tanah 		= $obj->fields['LUAS_TANAH'];
 	$luas_bangunan 		= $obj->fields['LUAS_BANGUNAN'];
+	$nomor_va			= $obj->fields['NOMOR_VA'];
+	$nilai				= $obj->fields['NILAI'];
+	
+	$tanah 				= $luas_tanah * ($obj->fields['HARGA_TANAH']) ;
+	$disc_tanah 		= round($tanah * ($obj->fields['DISC_TANAH'])/100,0) ;
+	$nilai_tambah		= round(($tanah - $disc_tanah) * ($obj->fields['NILAI_TAMBAH'])/100,0) ;
+	$nilai_kurang		= round(($tanah - $disc_tanah) * ($obj->fields['NILAI_KURANG'])/100,0) ;
+	$faktor				= $nilai_tambah - $nilai_kurang;
+	$total_tanah		= $tanah - $disc_tanah + $faktor;
+	$ppn_tanah 			= round($total_tanah * ($obj->fields['PPN_TANAH'])/100,0) ;
+	
+	$bangunan 			= $luas_bangunan * ($obj->fields['HARGA_BANGUNAN']) ;
+	$disc_bangunan 		= round($bangunan * ($obj->fields['DISC_BANGUNAN'])/100,0) ;
+	$total_bangunan		= $bangunan - $disc_bangunan;
+	$ppn_bangunan 		= round($total_bangunan * ($obj->fields['PPN_BANGUNAN'])/100,0) ;
+	
+	$total_harga 		= to_money($total_tanah + $total_bangunan);
+	$total_ppn			= to_money($ppn_tanah + $ppn_bangunan);
+	
+	$sisa_pembayaran	= ($total_tanah + $total_bangunan) + ($ppn_tanah + $ppn_bangunan);	
+	$tanda_jadi 		= $obj->fields['TANDA_JADI'];	
+	$tgl_jadi	 		= $obj->fields['TANGGAL_TANDA_JADI'];
+	$jml_kpr	 		= $obj->fields['JUMLAH_KPR'];
+	$no_spp 			= $obj->fields['NOMOR_SPP'];	
 }
 
 if ($act == 'Ubah')

@@ -23,6 +23,7 @@ $ppn				= (isset($_REQUEST['ppn'])) ? to_number($_REQUEST['ppn']) : '';
 
 $blok_baru			= (isset($_REQUEST['blok_baru'])) ? clean($_REQUEST['blok_baru']) : '';
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	try
@@ -34,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		ex_conn($conn);
 
 		$conn->begintrans(); 
-			
+		
 		if ($act == 'Ubah') # Proses Ubah
 		{
 			//ex_ha('', 'U');
@@ -45,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_empty($jumlah, 'Jumlah harus diisi.');
 			ex_empty($diposting, 'Diposting harus diisi.');
 			ex_empty($tanggal, 'Tanggal harus diisi.');
-			ex_empty($via, 'Via harus diisi.');
 			
 			$query = "SELECT * FROM KWITANSI WHERE NAMA_PEMBAYAR = '$nama_pembayar' AND TANGGAL = CONVERT(DATETIME,'$tanggal',105) AND 
 			NILAI = $jumlah AND KETERANGAN = '$keterangan' AND NILAI_DIPOSTING = $diposting AND TANGGAL_BAYAR = CONVERT(DATETIME,'$tgl_terima',105) AND
@@ -90,18 +90,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		elseif ($act == 'Tambah') # Proses Tambah
 		{
 			//ex_ha('', 'I');
-		
 			ex_empty($jenis_pembayaran, 'Jenis Pembayaran harus diisi.');
 			ex_empty($nama_pembayar, 'Telah Terima Dari harus diisi.');
 			ex_empty($keterangan, 'Untuk Pembayaran harus diisi.');
 			ex_empty($jumlah, 'Jumlah harus diisi.');
 			ex_empty($diposting, 'Diposting harus diisi.');
 			ex_empty($tanggal, 'Tanggal harus diisi.');
-			ex_empty($via, 'Via harus diisi.');
 			
 			if (($kode_bayar == 1) || ($kode_bayar == 2) || ($kode_bayar == 3) || ($kode_bayar == 4) || ($kode_bayar == 5) || ($kode_bayar == 6) ||
 				($kode_bayar == 10) || ($kode_bayar == 14) || ($kode_bayar == 15) || ($kode_bayar == 21) || ($kode_bayar == 22) || ($kode_bayar == 23)||
 				($kode_bayar == 24)||($kode_bayar == 25) || ($kode_bayar == 26) || ($kode_bayar == 27) || ($kode_bayar == 28)){
+			// if($status_otorisasi == 1){
 				$query = "
 				INSERT INTO KWITANSI (
 					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, KODE_BAYAR, NILAI, KETERANGAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, PPN, NILAI_NETT, VER_COLLECTION, VER_KEUANGAN
@@ -128,6 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				";
 			}
 			else{
+				
 				$query = "
 				INSERT INTO KWITANSI_LAIN_LAIN (
 					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, NILAI, KETERANGAN, KODE_PEMBAYARAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, VER_COLLECTION, VER_KEUANGAN
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 			$msg = 'Data Kuitansi telah ditambah.';
 		}
-		elseif ($act == 'Hapus') # Proses Hapus
+		else if($act == 'Hapus') #Proses Hapus
 		{			
 			//ex_ha('', 'D');
 		
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 			foreach ($cb_data as $id_del)
 			{
-				if ($status_otorisasi == 0)
+				if ($status_otorisasi == 1)
 				{
 					$query = "DELETE FROM KWITANSI WHERE NOMOR_KWITANSI = '$id_del'";
 					if ($conn->Execute($query)) {
@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 						$error = TRUE;
 					}
 				}
-				else if ($status_otorisasi == 1)
+				else if ($status_otorisasi == 2)
 				{
 					$query = "DELETE FROM KWITANSI_LAIN_LAIN WHERE NOMOR_KWITANSI = '$id_del'";
 					if ($conn->Execute($query)) {
@@ -254,14 +254,36 @@ if ($act == 'Detail')
 	$tanggal_spp		= kontgl(tgltgl(date("d M Y", strtotime($obj->fields['TANGGAL_SPP']))));
 	$no_identitas		= $obj->fields['NO_IDENTITAS'];	
 	$npwp 				= $obj->fields['NPWP'];
+	$luas_tanah 		= $obj->fields['LUAS_TANAH'];
 	$luas_bangunan 		= $obj->fields['LUAS_BANGUNAN'];
 	$nomor_va			= $obj->fields['NOMOR_VA'];
 	$nilai				= $obj->fields['NILAI'];
+	
+	$tanah 				= $luas_tanah * ($obj->fields['HARGA_TANAH']) ;
+	$disc_tanah 		= round($tanah * ($obj->fields['DISC_TANAH'])/100,0) ;
+	$nilai_tambah		= round(($tanah - $disc_tanah) * ($obj->fields['NILAI_TAMBAH'])/100,0) ;
+	$nilai_kurang		= round(($tanah - $disc_tanah) * ($obj->fields['NILAI_KURANG'])/100,0) ;
+	$faktor				= $nilai_tambah - $nilai_kurang;
+	$total_tanah		= $tanah - $disc_tanah + $faktor;
+	$ppn_tanah 			= round($total_tanah * ($obj->fields['PPN_TANAH'])/100,0) ;
+	
+	$bangunan 			= $luas_bangunan * ($obj->fields['HARGA_BANGUNAN']) ;
+	$disc_bangunan 		= round($bangunan * ($obj->fields['DISC_BANGUNAN'])/100,0) ;
+	$total_bangunan		= $bangunan - $disc_bangunan;
+	$ppn_bangunan 		= round($total_bangunan * ($obj->fields['PPN_BANGUNAN'])/100,0) ;
+	
+	$total_harga 		= to_money($total_tanah + $total_bangunan);
+	$total_ppn			= to_money($ppn_tanah + $ppn_bangunan);
+	
+	$sisa_pembayaran	= ($total_tanah + $total_bangunan) + ($ppn_tanah + $ppn_bangunan);	
+	$tanda_jadi 		= $obj->fields['TANDA_JADI'];	
+	$tgl_jadi	 		= $obj->fields['TANGGAL_TANDA_JADI'];
+	$jml_kpr	 		= $obj->fields['JUMLAH_KPR'];
 }
 
 if ($act == 'Ubah')
 {
-	if ($status_otorisasi == 0)
+	if ($status_otorisasi == 1)
 	{
 		$query = "
 		SELECT * FROM KWITANSI a
@@ -272,7 +294,7 @@ if ($act == 'Ubah')
 		WHERE NOMOR_KWITANSI = '$id'
 		";
 	}
-	else if ($status_otorisasi == 1)
+	else if ($status_otorisasi == 2)
 	{
 		$query = "
 		SELECT * FROM KWITANSI_LAIN_LAIN a
@@ -338,8 +360,8 @@ if ($act == 'Tambah')
 	$keterangan 	= '';
 	$jumlah 		= '';
 	$diposting 		= '';
-	$tanggal		= '';
-	$tgl_terima		= '';
+	$tanggal		= f_tgl(date("Y-m-d"));
+	$tgl_terima		= f_tgl(date("Y-m-d"));
 	$via			= '';
 	$catatan		= '';
 	$biro 				= 0;

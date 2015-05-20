@@ -20,14 +20,23 @@ jQuery(function($) {
 	
 });
 
-function rencana_pembayaran() {
-	var url = base_marketing_transaksi + 'spp/rencana_popup.php'; 
-	setPopup('Rencana Pembayaran', url, 600, 300); 
+function loadData()
+{
+	if (popup) { popup.close(); }
+	var data = jQuery('#form').serialize();
+	jQuery('#t-detail').load(base_marketing + 'spp/spp_rencana.php', data);
+	return false;
+}
+
+function rencana_pembayaran(act) {
+	var id = '<?php echo $id; ?>';
+	var url = base_marketing_transaksi + 'spp/rencana_popup.php' + '?act=' + act + '&id=' + id;
+	setPopup( 'RENCANA PEMBAYARAN', url, 700, 300);
 	return false; 
 }
 </script>
 
-<button onclick="return rencana_pembayaran()"> Rencana </button>
+<button onclick="return rencana_pembayaran('Ubah')"> Rencana </button>
 
 <div class="clear"><br></div>
 
@@ -72,16 +81,8 @@ function rencana_pembayaran() {
 		$obj->movenext();
 	}
 ?>
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td></td>
-</tr>
 </table>
-
+<div id="t-detail"></div>
 <?php
 close($conn);
 exit;

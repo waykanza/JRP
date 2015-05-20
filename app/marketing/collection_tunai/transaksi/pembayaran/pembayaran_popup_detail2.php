@@ -1,5 +1,5 @@
 <?php
-require_once('kuitansi_proses.php');
+require_once('pembayaran_proses.php');
 require_once('../../../../../config/terbilang.php');
 $terbilang = new Terbilang;
 ?>
@@ -57,15 +57,17 @@ function calculate(){
 		ppn		 = Math.round(jumlah-subtotal);	
 		} 
 
-		if ((kode_bayar == 25) || (kode_bayar == 26) || (kode_bayar == 27) || (kode_bayar == 28)) {
-		jp = 'Pembayaran '+ jenis_pembayaran + ' atas pembelian ' + tanah_bangunan +
-			 '\ndi ' + lokasi + ' Blok ' + blok + ' Nomor ' + nomor + ' (TYPE ' + tipe + ') \n' ;
-		}
-		else {
+		if ((kode_bayar == 1) || (kode_bayar == 2) || (kode_bayar == 3) || (kode_bayar == 4) || (kode_bayar == 5) || (kode_bayar == 6) ||
+				(kode_bayar == 10) || (kode_bayar == 14) || (kode_bayar == 15) || (kode_bayar == 21) || (kode_bayar == 22) || (kode_bayar == 23)||
+				(kode_bayar == 24)){
 		jp = 'Pembayaran '+ jenis_pembayaran + ' atas pembelian ' + tanah_bangunan +
 			 '\ndi ' + lokasi + ' Blok ' + blok + ' Nomor ' + nomor + ' (TYPE ' + tipe + ') \n' +
 			 jenis_pembayaran + ' : Rp. ' + formatNumber(subtotal) + ',-' +
 			 '\nPPN : Rp. ' + formatNumber(ppn) + ',-' ;
+		}
+		else{
+		jp = 'Pembayaran '+ jenis_pembayaran + ' atas pembelian ' + tanah_bangunan +
+			 '\ndi ' + lokasi + ' Blok ' + blok + ' Nomor ' + nomor + ' (TYPE ' + tipe + ') \n' ;
 		}
 		
 		$('#keterangan').val(jp);
@@ -89,16 +91,17 @@ function cal2(){
 		subtotal = Math.round((100/110) * jumlah);
 		ppn		 = Math.round(jumlah-subtotal);		
 		}	
-		else if ((kode_bayar == 25) || (kode_bayar == 26) || (kode_bayar == 27) || (kode_bayar == 28)) {
-		subtotal = jQuery('#jumlah').val();
-		ppn		 = 0;	
-		} 
-		else {
+		else if ((kode_bayar == 1) || (kode_bayar == 2) || (kode_bayar == 3) || (kode_bayar == 4) || (kode_bayar == 5) || (kode_bayar == 6) ||
+				(kode_bayar == 10) || (kode_bayar == 14) || (kode_bayar == 15) || (kode_bayar == 21) || (kode_bayar == 22) || (kode_bayar == 23)){
 		jumlah	= jQuery('#jumlah').val();
 		jumlah	= jumlah.replace(/[^0-9.]/g, '');
 		jumlah	= (jumlah == '') ? 0 : parseFloat(jumlah);
 		subtotal = Math.round((100/110) * jumlah);
 		ppn		 = Math.round(jumlah-subtotal);		
+		} 
+		else {
+		subtotal = jQuery('#jumlah').val();
+		ppn		 = 0;	
 		} 
 		
 		$('#subtotal').val(subtotal);
@@ -107,7 +110,7 @@ function cal2(){
 
 jQuery(function($) {
 	if ('<?php echo $act; ?>' == 'Tambah') {
-		$('#post, #bon, #print, #rr').hide();	
+		$('#nama_pembayar, #nomor, #sejumlah, #keterangan, #diposting, #tanggal, #tgl_terima, #via').hide();	
 	}	
 	
 	$('#nama_pembayar').inputmask('varchar', { repeat: '60' });
@@ -164,7 +167,7 @@ jQuery(function($) {
 	
 	$('#save').on('click', function(e) {
 		e.preventDefault();
-		var url		= base_kredit_transaksi + 'kuitansi/kuitansi_proses.php',
+		var url		= base_marketing + 'collection_tunai/transaksi/pembayaran/pembayaran_proses.php',
 			data	= $('#form').serialize();
 			
 		if (confirm("Apakah data telah terisi dengan benar ?") == false)
@@ -182,27 +185,41 @@ jQuery(function($) {
 					alert(data.msg);
 					parent.loadData();
 				}
-				// else if (data.act == 'Tambah')
-				// {
-					// alert(data.msg);
-					// parent.loadData();
-				// }
+				else if (data.act == 'Tambah')
+				{
+					alert(data.msg);
+					parent.loadData();
+				}
 		}, 'json');
+		return false;
+	});
+	
+	// $(document).on('click', '#rr', function(e) {
+		// e.preventDefault();
+		// showPopup('RR', '<?php echo $id; ?>');
+		// return false;
+	// });
+	
+	$('#rr').on('click', function(e) {
+		e.preventDefault();
+		var id = $(this).parent().attr('id');
+		showPopup('Detail', id);
 		return false;
 	});
 	
 	$('#bon').on('click', function(e) {
 		e.preventDefault();		
-		window.open(base_marketing + 'kredit/transaksi/kuitansi/kuitansi_bon.php?id=<?php echo base64_encode($id); ?>');		
+		window.open(base_kredit_transaksi + 'kuitansi/kuitansi_bon.php?id=<?php echo base64_encode($id); ?>');		
 		return false;
 	});
 	
 	$('#print').on('click', function(e) {
 		e.preventDefault();		
-		window.open(base_marketing + 'kredit/transaksi/kuitansi/kuitansi_print.php?id=<?php echo base64_encode($id); ?>');		
+		window.open(base_kredit_transaksi + 'kuitansi/kuitansi_print.php?id=<?php echo base64_encode($id); ?>');		
 		return false;
 	});	
 });
+
 </script>
 </head>
 <body class="popup2">
@@ -219,8 +236,7 @@ jQuery(function($) {
 		SELECT *
 		FROM 
 			JENIS_PEMBAYARAN
-		WHERE
-			KELOMPOK IS NULL
+		ORDER BY KELOMPOK
 		");
 		while( ! $obj->EOF)
 		{
@@ -233,16 +249,13 @@ jQuery(function($) {
 	</select>
 	</td>
 </tr>
+
 <tr>
 	<td width="100">Nomor</td><td>:</td>
 	<td><input type="text" name="nomor" id="nomor" size="20" readonly="readonly" value="<?php echo $nomor; ?>"></td>
-	<td id="td-cb" >
-	<input type="checkbox" onclick="return false" <?php echo is_checked('1', $biro); ?>> <i>Biro Collection
-	<input type="checkbox" onclick="return false" <?php echo is_checked('1', $keuangan); ?>> Div. Keuangan
-	<input type="checkbox" onclick="return false" <?php echo is_checked('1', $pindah); ?>> Pindah Blok
-	<input type="checkbox" onclick="return false" <?php echo is_checked('1', $posting); ?>> Posting</i>
-	</td>
+	
 </tr>
+
 <tr>
 	<td>Telah Terima Dari</td><td>:</td>
 	<td colspan="2"><input type="text" name="nama_pembayar" id="nama_pembayar" size="50" value="<?php echo $nama_pembayar; ?>"></td>
@@ -268,27 +281,27 @@ jQuery(function($) {
 
 <table class="t-popup w90 f-left">
 <tr>
-	<td colspan ="3"><b><u>Informasi Pembayaran</u></b></td>
-</tr>
-<tr>
 	<td>Pembayaran Diterima Tanggal : <input type="text" name="tgl_terima" id="tgl_terima" size="15" class="apply dd-mm-yyyy" value="<?php echo $tgl_terima; ?>"></td>
-	<td colspan ="2">Catatan : <input type="text" name="catatan" id="catatan" size="50" value="<?php echo $catatan; ?>"></td>
-</tr>
-<tr>
-	<td class="td-action" colspan="3">
-		<!--
-		<input type="button" id="post" value=" Post ">
-		<input type="button" id="bon" value=" Bon ">
-		<input type="button" id="rr" value=" R-R "> -->
-		<input type="button" id="print" value=" Print ">	
-		<input type="button" id="close" value=" Tutup ">
+	<td> Via :
+	<select name="via" id="via">
+		<option value=""> -- Via -- </option>
+		<option value="1" <?php echo is_selected('1', $via); ?>> Tunai </option>
+		<option value="2" <?php echo is_selected('2', $via); ?>> Cek </option>
+		<option value="3" <?php echo is_selected('3', $via); ?>> Giro </option>
+		<option value="4" <?php echo is_selected('4', $via); ?>> Transfer </option>
+		<option value="5" <?php echo is_selected('5', $via); ?>> ATM </option>
+		<option value="6" <?php echo is_selected('6', $via); ?>> Kartu Debit </option>
+		<option value="7" <?php echo is_selected('7', $via); ?>> Kartu Kredit </option>
+	</select>
 	</td>
+	<td>Catatan : <input type="text" name="catatan" id="catatan" size="20" value="<?php echo $catatan; ?>"></td>
 </tr>
+
 <tr>
 	<td class="" colspan="3">
-		<!--<input type="submit" id="save" value=" <?php echo $act; ?> ">
-		<input type="reset" id="reset" value=" Reset ">-->
-		
+		<input type="submit" id="save" value=" <?php echo $act; ?> ">
+		<input type="reset" id="reset" value=" Reset ">
+		<input type="button" id="close" value=" Tutup "></td>
 	</td>
 </tr>
 </table>
