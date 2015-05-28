@@ -1,9 +1,10 @@
 <?php
-require_once('pembayaran_proses.php');
+require('pembayaran_proses.php');
 require_once('../../../../../config/terbilang.php');
 $terbilang = new Terbilang;
 $status_otorisasi	= (isset($_REQUEST['status_otorisasi'])) ? clean($_REQUEST['status_otorisasi']) : '';
 $nilai	= (isset($_REQUEST['nilai'])) ? clean($_REQUEST['nilai']) : '';
+$sisa	= (isset($_REQUEST['sisa'])) ? clean($_REQUEST['sisa']) : '';
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +33,7 @@ function calculate(){
 			jenis_pembayaran		= sel_jenis_pembayaran.data('jenis');
 			kode_bayar				= jQuery('#jenis_pembayaran').val();
 		nilai				= '<?php echo $nilai; ?>';
+		sisa				= '<?php echo $sisa; ?>';
 		tanah_bangunan		= '<?php echo tanah_bangunan($luas_bangunan); ?>';
 		lokasi				= '<?php echo $lokasi; ?>';		
 		kode_blok			= '<?php echo $kode_blok; ?>';
@@ -50,7 +52,7 @@ function calculate(){
 		subtotal	= (subtotal == '') ? 0 : parseFloat(subtotal);
 		subtotal2= Math.round((100/110) * jumlah);
 		ppn		 = Math.round(jumlah-subtotal2);
-			if(subtotal > nilai){
+			if(subtotal > sisa){
 				alert("Ma'af jumlah melebihi nilai transaksi");
 			}	
 		}	
@@ -59,7 +61,7 @@ function calculate(){
 		subtotal	= subtotal.replace(/[^0-9.]/g, '');
 		subtotal	= (subtotal == '') ? 0 : parseFloat(subtotal);
 		ppn		 = 0;	
-			if(subtotal > nilai){
+			if(subtotal > sisa){
 				alert("Ma'af jumlah melebihi nilai transaksi");
 			}
 		} 
@@ -67,7 +69,7 @@ function calculate(){
 		jumlah	= jQuery('#jumlah').val();
 		jumlah	= jumlah.replace(/[^0-9.]/g, '');
 		jumlah	= (jumlah == '') ? 0 : parseFloat(jumlah);
-			if(jumlah > nilai){
+			if(jumlah > sisa){
 				alert("Ma'af jumlah melebihi nilai transaksi");
 			}	
 		subtotal = Math.round((100/110) * jumlah);
@@ -132,7 +134,6 @@ jQuery(function($) {
 	// if ('<?php echo $act; ?>' == 'Ubah') {
 		// $('#nama_pembayar, #nomor, #sejumlah, #keterangan, #diposting, #tanggal, #tgl_terima, #via').hide();	
 	// }	
-	
 	$('#nama_pembayar').inputmask('varchar', { repeat: '60' });
 	$('#jumlah, #diposting').inputmask('numeric', { repeat: '16' });	
 	$('#catatan').inputmask('varchar', { repeat: '20' });
@@ -248,7 +249,7 @@ jQuery(function($) {
 <table class="t-popup">
 <tr>
 	<td width="100">Nilai Transaksi</td><td>:</td>
-	<td><input type="text" name="nilai" id="nilai" size="15" value="<?php echo to_money($nilai); ?>"></td>
+	<td><input type="text" name="nilai" id="nilai" size="15" readonly="readonly" value="<?php echo to_money($sisa); ?>"></td>
 </tr>
 <tr id="tr-jp">
 	<td>Jenis Pembayaran</td><td>:</td>
@@ -288,6 +289,18 @@ jQuery(function($) {
 	
 </tr>
 
+<tr>
+	<td> </td><td></td>
+	<td colspan="2"><input type="hidden" name="max_tgl" id="max_tgl" size="70" value="<?php echo $max_tgl; ?>"></td>
+</tr>
+<tr>
+	<td> </td><td></td>
+	<td colspan="2"><input type="hidden" name="jumlah_awal" id="jumlah_awal" size="70" value="<?php echo $jumlah; ?>"></td>
+</tr>
+<tr>
+	<td> </td><td></td>
+	<td colspan="2"><input type="hidden" name="nomor_customer" id="nomor_customer" size="70" value="<?php echo $nomor_customer; ?>"></td>
+</tr>
 <tr>
 	<td> </td><td></td>
 	<td colspan="2"><input type="hidden" name="nama_pembayar" id="nama_pembayar" size="50" value="<?php echo $nama_pembayar; ?>"></td>

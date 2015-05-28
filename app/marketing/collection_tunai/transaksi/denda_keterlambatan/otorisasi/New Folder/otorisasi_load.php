@@ -12,7 +12,6 @@ $field1				= (isset($_REQUEST['field1'])) ? clean($_REQUEST['field1']) : '';
 $search1			= (isset($_REQUEST['search1'])) ? clean($_REQUEST['search1']) : '';
 $nama_tombol		= (isset($_REQUEST['nama_tombol'])) ? clean($_REQUEST['nama_tombol']) : '';
 
-$query_search = '';
 if ($status_otorisasi == 0)
 	{
 		$query_search .= "WHERE OTORISASI = '0' ";
@@ -21,8 +20,7 @@ else if ($status_otorisasi == 1)
 	{
 		$query_search .= "WHERE OTORISASI = '1' ";
 	}	
-	
-
+$query_search = '';
 if ($search1 != '')
 {
 	$query_search .= " AND $field1 LIKE '%$search1%' ";
@@ -34,6 +32,7 @@ SELECT
 	COUNT(*) AS TOTAL
 FROM 
 	CS_INFORMASI_DENDA
+WHERE OTORISASI = 0
 $query_search
 ";
 $total_data = $conn->execute($query)->fields['TOTAL'];
@@ -85,6 +84,7 @@ if ($total_data > 0)
 	SELECT *, DISETUJUI = CASE WHEN denda_disetujui IS null 
 	THEN '0.00' ELSE DENDA_DISETUJUI END
 	FROM CS_INFORMASI_DENDA
+	WHERE OTORISASI = 0
 	$query_search
 	ORDER BY TANGGAL desc
 	";

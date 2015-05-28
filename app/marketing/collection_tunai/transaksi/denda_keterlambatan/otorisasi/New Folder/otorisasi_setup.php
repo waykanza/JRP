@@ -1,4 +1,4 @@
-<div class="title-page">ENTRY DENDA PEMBAYARAN</div>
+<div class="title-page">OTORISASI PERSETUJUAN DENDA</div>
 
 <form name="form" id="form" method="post">
 <table class="t-control wauto">
@@ -6,11 +6,17 @@
 	<td width="100">Pencarian</td><td width="10">:</td>
 	<td>
 		<select name="field1" id="field1" class="wauto">
-			<option value="a.KODE_BLOK"> BLOK / NOMOR </option>
-			<option value="b.NAMA_PEMBELI"> NAMA PEMBELI </option>
-			<option value="b.NOMOR_CUSTOMER"> NO VIRTUAL ACCOUNT </option>
+			<option value="KODE_BLOK"> BLOK / NOMOR </option>
+			<option value="NAMA_PEMBELI"> NAMA PEMBELI </option>>
 		</select>
 		<input type="text" name="search1" id="search1" class="apply" value="">
+	</td>
+</tr>
+<tr>
+	<td>Otorisasi Denda</td><td>:</td>
+	<td>
+		<input type="radio" name="status_otorisasi" id="sbb" class="status" value="0" checked="true"> <label for="sbb">Belum</label>
+		<input type="radio" name="status_otorisasi" id="sbs" class="status" value="1"> <label for="sbs">Sudah</label>
 	</td>
 </tr>
 <tr>
@@ -85,6 +91,48 @@ jQuery(function($) {
 		}
 		return false;
 	});
+	
+	$('input:radio[name="status_otorisasi"]').change(function(e){
+		e.preventDefault();
+		if($(this).val() == '0'){
+			$('#otorisasi').show();
+			$('#batal_otorisasi').hide();
+			jQuery('#nama_tombol').val('Otorisasi');
+			jQuery('#tombol').val('otorisasi');
+		} else if($(this).val() == '1'){
+			$('#otorisasi').hide();
+			$('#batal_otorisasi').show();
+			jQuery('#nama_tombol').val('Batal Otorisasi');
+			jQuery('#tombol').val('batal_otorisasi');
+		}
+		loadData();
+		return false;
+	});
+	
+		$(document).on('click', '#otorisasi', function(e) {
+		e.preventDefault();
+		var checked = $(".cb_data:checked").length;
+		if (checked < 1) {
+			alert('Pilih data yang akan diotorisasi.');
+		} else if (confirm('Apakah anda yakin akan mengotorisasi data ini ?')) 
+		{
+			otorisasiData();
+		}
+		return false;
+	});
+	
+	$(document).on('click', '#batal_otorisasi', function(e) {
+		e.preventDefault();
+		var checked = $(".cb_data:checked").length;
+		if (checked < 1) {
+			alert('Pilih data yang akan dibatalkan otorisasi.');
+		} else if (confirm('Apakah anda yakin akan membatalkan otorisasi data ini ?')) 
+		{
+			unotorisasiData();
+		}
+		return false;
+	});
+
 		
 	loadData();
 });
@@ -93,17 +141,29 @@ function loadData()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#t-detail').load(base_marketing + 'collection_tunai/transaksi/denda_keterlambatan/entry/entry_load.php', data);	
+	jQuery('#t-detail').load(base_marketing + 'collection_tunai/transaksi/denda_keterlambatan/otorisasi/otorisasi_load.php', data);	
 	return false;
 }
 
 function showPopup(act, id)
 {
-	var url =	base_marketing + 'collection_tunai/transaksi/denda_keterlambatan/entry/entry_popup.php' + '?act=' + act + '&id=' + id;
-	setPopup(act + ' Entry Denda Pembayaran', url, 500, 400);	
+	var url =	base_collection_tunai_transaksi + 'pemulihan_wanprestasi/pemulihan_wanprestasi_popup.php' + '?act=' + act + '&id=' + id;
+	setPopup(act + ' SPP', url, 850, 550);	
 	return false;
 }
 
+function hapusData()
+{	
+	var url		= base_collection_tunai_transaksi + 'pemulihan_wanprestasi/pemulihan_wanprestasi_proses.php?act=Hapus',
+		data	= jQuery('#form').serializeArray();
+	
+	jQuery.post(url, data, function(result) {
+		var list_id = result.act.join(', #');
+		alert(result.msg);
+		loadData();
+	}, 'json');
+	return false;
+}
 </script>
 
 <div id="t-detail"></div>

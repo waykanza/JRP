@@ -28,19 +28,24 @@ require_once('pembayaran_proses.php');
 jQuery(function($) {
 	
 	/* -- BUTTON -- */
+	
 	$(document).on('click', '#tambah', function(e) {
 		var jenis_kwt = $('input[name=status_otorisasi]:checked').val();
 		var nilai = <?php echo $nilai; ?>;
+		var sisa = <?php echo $sisa; ?>;
 		e.preventDefault();
-		showPopup('Tambah', '<?php echo $id; ?>',jenis_kwt,nilai);
+		showPopup('Tambah', '<?php echo $id; ?>',jenis_kwt,nilai,sisa);
 		return false;
 	});
+	
 	
 	$(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
 		var jenis_kwt = $('input[name=status_otorisasi]:checked').val();
 		e.preventDefault();
 		var id = $(this).parent().attr('id');
-		showPopup('Ubah', id,jenis_kwt);
+		var nilai = <?php echo $nilai; ?>;
+		var sisa = <?php echo $sisa; ?>;
+		showPopup('Ubah', id,jenis_kwt,nilai,sisa);
 		return false;
 	});
 	
@@ -74,10 +79,10 @@ function loadData()
 	return false;
 }
 
-function showPopup(act, id,jenis_kwt,nilai)
+function showPopup(act,id,jenis_kwt,nilai,sisa)
 {
 	
-	var url =	base_marketing + 'collection_tunai/transaksi/pembayaran/pembayaran_popup_detail.php' +	'?act=' + act +	'&id=' + id + '&status_otorisasi=' + jenis_kwt + '&nilai=' + nilai,
+	var url =	base_marketing + 'collection_tunai/transaksi/pembayaran/pembayaran_popup_detail.php' +	'?act=' + act +	'&id=' + id + '&status_otorisasi=' + jenis_kwt + '&nilai=' + nilai + '&sisa=' + sisa
 		title	= (act == 'Simpan') ? 'Tambah' : act;	
 	setPopup(title + ' Kuitansi Penjualan Unit Kaveling / Bangunan', url, 800, 400);	
 	return false;
@@ -92,9 +97,11 @@ function deleteData()
 		return false;
 	}
 	
+	var nomor_c	= <?php echo $nomor_customer; ?>;
+	
 	var url		= base_marketing + 'collection_tunai/transaksi/pembayaran/pembayaran_proses.php',
 		data	= jQuery('#form').serializeArray();
-	data.push({ name: 'act', value: 'Hapus' });
+	data.push({ name: 'act', value: 'Hapus' },{ name: 'nomor_customer', value: nomor_c });
 	
 	jQuery.post(url, data, function(result) {
 		var list_id = result.act.join(', #');
@@ -146,8 +153,11 @@ function deleteData()
 	<td><?php echo $nomor_va; ?></td>
 </tr>
 <tr>
-	<td>NILAI</td></td><td>:</td>
-	<td><?php echo $nilai; ?></td>
+	<td>SISA</td></td><td>:</td>
+	<td><b><?php echo $sisa; ?></b></td>
+</tr>
+<tr>
+	<td><input type="hidden" name="max_tgl" id="max_tgl" size="70" value="<?php echo $max_tgl; ?>"></td>
 </tr>
 </table>
 

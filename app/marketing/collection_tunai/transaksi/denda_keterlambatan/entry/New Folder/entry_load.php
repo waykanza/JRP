@@ -1,36 +1,32 @@
 <?php
 require_once('../../../../../../config/config.php');
+die_login();
+//die_app('C03');
+//die_mod('JBL01');
 $conn = conn($sess_db);
 die_conn($conn);
 
 $per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
 $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
 
-$field1		= (isset($_REQUEST['field1'])) ? clean($_REQUEST['field1']) : '';
+$field1				= (isset($_REQUEST['field1'])) ? clean($_REQUEST['field1']) : '';
 $search1	= (isset($_REQUEST['search1'])) ? clean($_REQUEST['search1']) : '';
 
 $query_search = '';
 if ($search1 != '')
 {
-	$query_search .= " and $field1 LIKE '%$search1%' ";
+	$query_search .= "WHERE AND $field1 LIKE '%$search1%' ";
 }
 
 /* Pagination */
 $query = "
-select count(a.KODE_BLOK) 
-from CS_INFORMASI_DENDA a join SPP b
-on a.KODE_BLOK = b.KODE_BLOK
-where a.KODE_OTORISASI is null $query_search
-group by a.KODE_BLOK
+SELECT 
+	COUNT(*) AS TOTAL
+FROM 
+	SPP
+$query_search
 ";
-$n = 0;
-$obj = $conn->execute($query);
-while( ! $obj->EOF)
-{
-	$n++;
-	$obj->movenext();
-}
-$total_data = $n;
+$total_data = $conn->execute($query)->fields['TOTAL'];
 $total_page = ceil($total_data/$per_page);
 
 $page_num = ($page_num > $total_page) ? $total_page : $page_num;
@@ -50,40 +46,48 @@ $page_start = (($page_num-1) * $per_page);
 </tr>
 </table>
 
+
 <table class="t-data w60">
 <tr>
-	<th class="w10">BLOK / NOMOR</th>
-	<th class="w40">NAMA PEMBELI</th>
-	<th class="w20">NO VIRTUAL ACCOUNT</th>
+	<th>NO.</th>
+	<th>BLOK / NOMOR</th>
+	<th>NAMA</th>
+	<th>ALAMAT</th>
 </tr>
 
 <?php
+
 if ($total_data > 0)
 {
 	$query = "
-	select a.KODE_BLOK, b.NAMA_PEMBELI, b.NOMOR_CUSTOMER
-	from CS_INFORMASI_DENDA a join SPP b
-	on a.KODE_BLOK = b.KODE_BLOK
-	where a.KODE_OTORISASI is null $query_search
-	group by a.KODE_BLOK, b.NAMA_PEMBELI, b.NOMOR_CUSTOMER
-	order by a.KODE_BLOK
+	SELECT *
+	FROM 
+		SPP
+		$query_search
+	ORDER BY KODE_BLOK
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
-
+	$i = 1;
 	while( ! $obj->EOF)
 	{
-		$id = $obj->fields['KODE_BLOK'];		
+
+		$id 			= $obj->fields['KODE_BLOK'];
+		$alamat_rumah	= $obj->fields['ALAMAT_RUMAH'];
+		$nama 			= $obj->fields['NAMA_PEMBELI'];
+		
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>"> 
-			
-			<td><?php echo $id; ?></td>
-			<td><?php echo $obj->fields['NAMA_PEMBELI'];  ?></td>
-			<td class="text-right"><?php echo $obj->fields['NOMOR_CUSTOMER'];  ?></td>
+			<td class="text-center"><?php echo $i; ?></td>
+			<td class="text-center"><?php echo $id; ?></td>
+			<td class="text-center"><?php echo $nama; ?></td>
+			<td class="text-center"><?php echo $alamat_rumah; ?></td>	
 		</tr>
 		<?php
+		$i++;
 		$obj->movenext();
 	}
 }
+
 ?>
 </table>
 

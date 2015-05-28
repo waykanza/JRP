@@ -13,18 +13,24 @@ $search		= (isset($_REQUEST['no_va'])) ? clean($_REQUEST['no_va']) : '';
 $query_search = '';
 if ($search != '')
 {
-	$query_search .= " WHERE NOMOR_VA LIKE '%$search%'";
+	$query_search .= " and b.NOMOR_VA LIKE '%$search%'";
 }
 
 # Pagination
 $query = "
-SELECT 
-	COUNT(a.NOMOR_VA) AS TOTAL
+SELECT NOMOR_VA
 FROM 
-	CS_VIRTUAL_ACCOUNT a JOIN SPP b ON a.NOMOR_VA = b.NOMOR_CUSTOMER
-$query_search
+	CS_VIRTUAL_ACCOUNT where SISA not in (0.00) $query_search
+group by NOMOR_VA
 ";
-$total_data = $conn->execute($query)->fields['TOTAL'];
+$n = 0;
+$obj = $conn->execute($query);
+while( ! $obj->EOF)
+{
+	$n++;
+	$obj->movenext();
+}
+$total_data = $n;
 $total_page = ceil($total_data/$per_page);
 
 $page_num = ($page_num > $total_page) ? $total_page : $page_num;
@@ -50,20 +56,22 @@ $page_start = (($page_num-1) * $per_page);
 	<th class="w10">KODE BLOK</th>
 	<th class="w20">NAMA PEMESAN</th>
 	<th class="w20">VIRTUAL ACCOUNT</th>
-	<th class="w10">TANGGAL TRANSAKSI</th>
-	<th class="w20">NILAI</th>
+	<th class="w10">TANGGAL TRANSAKSI TERAKHIR</th>
+	<th class="w20">NILAI TRANSAKSI TERAKHIR</th>
+	<th class="w20">NILAI BELUM DIIDENTIFIKASI</th>
 </tr>
 
 <?php
 if ($total_data > 0)
 {
 	$query = "
-	SELECT 
-		b.KODE_BLOK,b.NAMA_PEMBELI,a.NOMOR_VA,a.TANGGAL,a.NILAI
-	FROM 
-		CS_VIRTUAL_ACCOUNT a JOIN SPP b ON a.NOMOR_VA = b.NOMOR_CUSTOMER
+	SELECT a.KODE_BLOK, a.NAMA_PEMBELI, b.NOMOR_VA, MAX(b.TANGGAL) AS TGL ,MAX(b.NILAI) as MAX_NILAI, SUM(b.SISA) as JML_SISA 
+	FROM SPP a RIGHT JOIN CS_VIRTUAL_ACCOUNT b 
+	ON a.NOMOR_CUSTOMER = b.NOMOR_VA
+	WHERE b.SISA not in (0.00)
 	$query_search
-	ORDER BY b.KODE_BLOK
+	GROUP BY b.NOMOR_VA, a.KODE_BLOK, a.NAMA_PEMBELI
+	ORDER BY a.KODE_BLOK
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
 	$i = 1;
@@ -76,8 +84,9 @@ if ($total_data > 0)
 			<td class="text-left"><?php echo $obj->fields['KODE_BLOK']; ?></td>
 			<td class="text-left"><?php echo $obj->fields['NAMA_PEMBELI']; ?></td>
 			<td class="text-left"><?php echo $obj->fields['NOMOR_VA']; ?></td>
-			<td class="text-left"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?></td>
-			<td class="text-right"><?php echo $obj->fields['NILAI']; ?></td>
+			<td class="text-left"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TGL']))); ?></td>
+			<td class="text-right"><?php echo $obj->fields['MAX_NILAI']; ?></td>
+			<td class="text-right"><?php echo $obj->fields['JML_SISA']; ?></td>
 		</tr>
 		<?php
 		$i++;

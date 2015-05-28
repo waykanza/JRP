@@ -23,9 +23,10 @@ $status_gambar_lapangan	= (isset($_REQUEST['status_gambar_lapangan'])) ? to_numb
 $status_gambar_gs		= (isset($_REQUEST['status_gambar_gs'])) ? to_number($_REQUEST['status_gambar_gs']) : '0';
 $program				= (isset($_REQUEST['program'])) ? to_number($_REQUEST['program']) : '0';
 
-$luas_tanah		= (isset($_REQUEST['luas_tanah'])) ? to_decimal($_REQUEST['luas_tanah']) : '0';
-$disc_tanah		= (isset($_REQUEST['disc_tanah'])) ? to_decimal($_REQUEST['disc_tanah'], 16) : '0';
-$ppn_tanah		= (isset($_REQUEST['ppn_tanah'])) ? to_decimal($_REQUEST['ppn_tanah']) : '0';
+$luas_tanah			= (isset($_REQUEST['luas_tanah'])) ? to_decimal($_REQUEST['luas_tanah']) : '0';
+$disc_tanah			= (isset($_REQUEST['disc_tanah'])) ? to_decimal($_REQUEST['disc_tanah'], 16) : '0';
+$harga_disc_tanah	= (isset($_REQUEST['harga_disc_tanah'])) ? to_number($_REQUEST['harga_disc_tanah']) : '0';
+$ppn_tanah			= (isset($_REQUEST['ppn_tanah'])) ? to_decimal($_REQUEST['ppn_tanah']) : '0';
 
 $luas_bangunan	= (isset($_REQUEST['luas_bangunan'])) ? to_decimal($_REQUEST['luas_bangunan']) : '0';
 $disc_bangunan	= (isset($_REQUEST['disc_bangunan'])) ? to_decimal($_REQUEST['disc_bangunan'], 16) : '0';

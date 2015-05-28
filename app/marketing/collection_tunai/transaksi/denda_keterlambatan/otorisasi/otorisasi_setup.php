@@ -1,4 +1,4 @@
-<div class="title-page">OTORISASI PERSETUJUAN DENDA</div>
+<div class="title-page">OTORISASI DENDA KETERLAMBATAN</div>
 
 <form name="form" id="form" method="post">
 <table class="t-control wauto">
@@ -9,6 +9,13 @@
 			<option value="KODE_BLOK"> BLOK / NOMOR </option>
 		</select>
 		<input type="text" name="search1" id="search1" class="apply" value="">
+	</td>
+</tr>
+<tr>
+	<td>Otorisasi SPP</td><td>:</td>
+	<td>
+		<input type="radio" name="status_otorisasi" id="sbb" class="status" value="0" checked="true"> <label for="sbb">Belum</label>
+		<input type="radio" name="status_otorisasi" id="sbs" class="status" value="1"> <label for="sbs">Sudah</label>
 	</td>
 </tr>
 <tr>
@@ -23,6 +30,9 @@
 	<td id="total-data"></td>
 </tr>
 </table>
+
+<input type="hidden" name="tombol" id="tombol" value="otorisasi">
+<input type="hidden" name="nama_tombol" id="nama_tombol" value="Otorisasi">
 
 <script type="text/javascript">
 jQuery(function($) {
@@ -60,30 +70,58 @@ jQuery(function($) {
 		return false;
 	});
 	
-	$(document).on('click', '#tambah', function(e) {
-		e.preventDefault();
-		showPopup('Tambah', '');
-		return false;
-	});
-	
-	$(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
-		e.preventDefault();
-		var id = $(this).parent().attr('id');
-		showPopup('Ubah', id);
-		return false;
-	});
-	
 	$(document).on('click', '#hapus', function(e) {
 		e.preventDefault();
 		var checked = $(".cb_data:checked").length;
 		if (checked < 1) {
-			alert('Pilih data SPP yang akan dihapus.');
-		} else if (confirm('Apa data SPP ini akan dihapus?')) {
+			alert('Pilih data yang akan dihapus.');
+		} else if (confirm('Apa data ini akan dihapus?')) {
 			hapusData();
 		}
 		return false;
 	});
 		
+	$('input:radio[name="status_otorisasi"]').change(function(e){
+		e.preventDefault();
+		if($(this).val() == '0'){
+			$('#otorisasi').show();
+			$('#batal_otorisasi').hide();
+			jQuery('#nama_tombol').val('Otorisasi');
+			jQuery('#tombol').val('otorisasi');
+		} else if($(this).val() == '1'){
+			$('#otorisasi').hide();
+			$('#batal_otorisasi').show();
+			jQuery('#nama_tombol').val('Batal Otorisasi');
+			jQuery('#tombol').val('batal_otorisasi');
+		}
+		loadData();
+		return false;
+	});
+	
+		$(document).on('click', '#otorisasi', function(e) {
+		e.preventDefault();
+		var checked = $(".cb_data:checked").length;
+		if (checked < 1) {
+			alert('Pilih data yang akan diotorisasi.');
+		} else if (confirm('Apakah anda yakin akan mengotorisasi data ini ?')) 
+		{
+			otorisasiData();
+		}
+		return false;
+	});
+	
+	$(document).on('click', '#batal_otorisasi', function(e) {
+		e.preventDefault();
+		var checked = $(".cb_data:checked").length;
+		if (checked < 1) {
+			alert('Pilih data yang akan dibatalkan otorisasi.');
+		} else if (confirm('Apakah anda yakin akan membatalkan otorisasi data ini ?')) 
+		{
+			unotorisasiData();
+		}
+		return false;
+	});
+
 	loadData();
 });
 
@@ -95,16 +133,10 @@ function loadData()
 	return false;
 }
 
-function showPopup(act, id)
-{
-	var url =	base_collection_tunai_transaksi + 'pemulihan_wanprestasi/pemulihan_wanprestasi_popup.php' + '?act=' + act + '&id=' + id;
-	setPopup(act + ' SPP', url, 850, 550);	
-	return false;
-}
-
 function hapusData()
 {	
-	var url		= base_collection_tunai_transaksi + 'pemulihan_wanprestasi/pemulihan_wanprestasi_proses.php?act=Hapus',
+
+	var url		= base_marketing + 'collection_tunai/transaksi/denda_keterlambatan/otorisasi/otorisasi_proses.php?act=Hapus',
 		data	= jQuery('#form').serializeArray();
 	
 	jQuery.post(url, data, function(result) {
@@ -114,6 +146,35 @@ function hapusData()
 	}, 'json');
 	return false;
 }
+
+function otorisasiData()
+{	
+	var url		= base_marketing + 'collection_tunai/transaksi/denda_keterlambatan/otorisasi/otorisasi_proses.php',
+		data	= jQuery('#form').serializeArray();
+	data.push({ name: 'act', value: 'Otorisasi' });
+	
+	jQuery.post(url, data, function(result) {
+		var list_id = result.act.join(', #');
+		alert(result.msg);		
+	}, 'json');	
+	loadData();
+	return false;
+}
+
+function unotorisasiData()
+{
+	var url		= base_marketing + 'collection_tunai/transaksi/denda_keterlambatan/otorisasi/otorisasi_proses.php',
+		data	= jQuery('#form').serializeArray();
+	data.push({ name: 'act', value: 'Batal_Otorisasi' });
+	
+	jQuery.post(url, data, function(result) {
+		var list_id = result.act.join(', #');
+		alert(result.msg);		
+	}, 'json');	
+	loadData();
+	return false;
+}
+
 </script>
 
 <div id="t-detail"></div>

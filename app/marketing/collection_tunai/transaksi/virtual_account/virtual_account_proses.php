@@ -6,6 +6,7 @@ $error	= FALSE;
 
 $act	= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 $id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
+$sisa	= (isset($_REQUEST['sisa'])) ? clean($_REQUEST['sisa']) : '';
 
 $no_va	= (isset($_REQUEST['no_va'])) ? clean($_REQUEST['no_va']) : '';
 $tanggal	= (isset($_REQUEST['tanggal'])) ? clean($_REQUEST['tanggal']) : '';
@@ -35,15 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_found($conn->Execute($query)->recordcount(), "Nomor_VA \"$no_va\" telah terdaftar.");
 			
 			
-			$query = "INSERT INTO CS_VIRTUAL_ACCOUNT (NOMOR_VA, TANGGAL, NILAI)
+			$query = "INSERT INTO CS_VIRTUAL_ACCOUNT (NOMOR_VA, TANGGAL, NILAI, SISA)
 			VALUES(
 				'$no_va',
 				CONVERT(DATETIME,'$tanggal',105),
-				'$nilai'
+				'$nilai','$nilai'
 			)";
 			ex_false($conn->execute($query), $query);
 						
-			$msg = "Data hari libur berhasil disimpan.";
+			$msg = "Data virtual account berhasil disimpan.";
 			
 		}
 		elseif ($act == 'Ubah') # Proses Ubah
@@ -122,5 +123,11 @@ if ($act == 'Ubah')
 	$no_va = $obj->fields['NOMOR_VA'];
 	$tanggal = tgltgl(date("d-m-Y", strtotime ($obj->fields['TANGGAL'])));
 	$nilai = $obj->fields['NILAI'];
+	
 }
+else if ($act == 'Tambah')
+{
+	$nilai = '0';
+}
+
 ?>

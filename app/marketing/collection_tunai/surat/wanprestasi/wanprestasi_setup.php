@@ -1,7 +1,7 @@
 <form name="form" id="form" method="post">
 <table class="t-control2">
     <tr>
-      <td style="font-size:20px;text-align:center;font-weight:bold" >Daftar Tagihan Akan Jatuh Tempo </td>
+      <td style="font-size:20px;text-align:center;font-weight:bold" >Daftar Peringatan Wanprestasi</td>
     </tr>
 </table>	
 <table class="t-control">
@@ -62,20 +62,14 @@ jQuery(function($) {
 		return false;
 	});
 	
-	$(document).on('click', '#print', function(e) {
-		e.preventDefault();
-		return false;
-	});
-	
 	loadData();
 });
-
 
 function loadData()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#t-detail').load(base_marketing + 'collection_tunai/surat/pemberian_jatuh_tempo/pemberian_jatuh_tempo_load.php', data);
+	jQuery('#t-detail').load(base_marketing + 'collection_tunai/surat/wanprestasi/wanprestasi_load.php', data);
 	return false;
 }
 
@@ -92,8 +86,6 @@ function cetakSurat()
 	
 	return false;
 }
-
-
 </script>
 
 <div id="t-detail"></div>

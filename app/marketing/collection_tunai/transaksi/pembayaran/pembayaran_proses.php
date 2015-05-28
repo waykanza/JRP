@@ -22,6 +22,10 @@ $subtotal			= (isset($_REQUEST['subtotal'])) ? to_number($_REQUEST['subtotal']) 
 $ppn				= (isset($_REQUEST['ppn'])) ? to_number($_REQUEST['ppn']) : '';
 
 $blok_baru			= (isset($_REQUEST['blok_baru'])) ? clean($_REQUEST['blok_baru']) : '';
+$nomor_va			= (isset($_REQUEST['nomor_va'])) ? clean($_REQUEST['nomor_va']) : '';
+$nomor_customer		= (isset($_REQUEST['nomor_customer'])) ? clean($_REQUEST['nomor_customer']) : '';
+$max_tgl			= (isset($_REQUEST['max_tgl'])) ? clean($_REQUEST['max_tgl']) : '';
+$jumlah_awal		= (isset($_REQUEST['jumlah_awal'])) ? clean($_REQUEST['jumlah_awal']) : '';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -84,8 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				NO_KWITANSI = '$id'
 			";			
 			ex_false($conn->execute($query), $query);
+						
+			$query = "update CS_VIRTUAL_ACCOUNT set SISA = SISA + '$jumlah_awal' - '$jumlah'  where NOMOR_VA = '$nomor_customer' AND TANGGAL = '$max_tgl'";
+			ex_false($conn->execute($query), $query);
 			
 			$msg = 'Data Kuitansi berhasil diubah.';
+			
+			
 		}
 		elseif ($act == 'Tambah') # Proses Tambah
 		{
@@ -119,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				
 				$query = "
 				INSERT INTO FAKTUR_PAJAK (
-					KODE_BLOK, NO_KWITANSI, NAMA, ALAMAT_1, NPWP, JENIS, TGL_FAKTUR, KETERANGAN, NILAI, NILAI_DASAR_PENGENAAN, NILAI_PPN 
+					KODE_BLOK, NO_KWITANSI, NAMA, ALAMAT_1, NPWP, JENIS, TGL_FAKTUR, KETERANGAN, NILAI, NILAI_DASAR_PENGENAAN, NILAI_PPN
 				)
 				VALUES(
 					'$id', 'XXX', '$nama_pembayar', '$alamat_1', '$npwp', '$jenis', CONVERT(DATETIME,'$tanggal',105), '$keterangan', $jumlah, $subtotal, $ppn
@@ -140,6 +149,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 			ex_false($conn->execute($query), $query);
 			
+			$query = "update CS_VIRTUAL_ACCOUNT set SISA = SISA - '$jumlah' where NOMOR_VA = '$nomor_customer' AND TANGGAL = '$max_tgl'";
+			ex_false($conn->execute($query), $query);
+				
 			$msg = 'Data Kuitansi telah ditambah.';
 		}
 		else if($act == 'Hapus') #Proses Hapus
@@ -154,6 +166,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				if ($status_otorisasi == 1)
 				{
+					$query = "	SELECT * FROM KWITANSI WHERE NOMOR_KWITANSI = '$id_del'";
+					$obj = $conn->execute($query);
+					$banyak	= $obj->fields['NILAI'];
+					
 					$query = "DELETE FROM KWITANSI WHERE NOMOR_KWITANSI = '$id_del'";
 					if ($conn->Execute($query)) {
 						$act[] = $id_del;
@@ -167,18 +183,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 					} else {
 						$error = TRUE;
 					}
+					
+					
 				}
 				else if ($status_otorisasi == 2)
 				{
+					$query = "SELECT * FROM KWITANSI_LAIN_LAIN WHERE NOMOR_KWITANSI = '$id_del'";
+					$obj = $conn->execute($query);
+					$banyak	= $obj->fields['NILAI'];
+					
 					$query = "DELETE FROM KWITANSI_LAIN_LAIN WHERE NOMOR_KWITANSI = '$id_del'";
 					if ($conn->Execute($query)) {
 						$act[] = $id_del;
 					} else {
 						$error = TRUE;
 					}
+					
+					
 				}
-				
+							
+				$query = "update CS_VIRTUAL_ACCOUNT set SISA = SISA + '$banyak' where NOMOR_VA = '$nomor_customer' AND TANGGAL = '$max_tgl'";
+				ex_false($conn->execute($query), $query);
+			
 			}
+			
+			
 			
 			$msg = ($error) ? 'Sebagian data gagal dihapus.' : 'Data Kuitansi berhasil dihapus.';
 		}
@@ -247,6 +276,7 @@ if ($act == 'Detail')
 		a.KODE_BLOK = '$id'";
 	$obj = $conn->execute($query);
 	
+	$nomor_va			= $obj->fields['NOMOR_VA'];
 	$kode_blok 			= $obj->fields['KODE_BLOK'];
 	$nama_pembeli 		= $obj->fields['NAMA_PEMBELI'];
 	$alamat 			= $obj->fields['ALAMAT_RUMAH'];
@@ -256,7 +286,8 @@ if ($act == 'Detail')
 	$npwp 				= $obj->fields['NPWP'];
 	$luas_tanah 		= $obj->fields['LUAS_TANAH'];
 	$luas_bangunan 		= $obj->fields['LUAS_BANGUNAN'];
-	$nomor_va			= $obj->fields['NOMOR_VA'];
+	$nomor_customer		= $obj->fields['NOMOR_CUSTOMER'];
+	
 	$nilai				= $obj->fields['NILAI'];
 	
 	$tanah 				= $luas_tanah * ($obj->fields['HARGA_TANAH']) ;
@@ -279,6 +310,15 @@ if ($act == 'Detail')
 	$tanda_jadi 		= $obj->fields['TANDA_JADI'];	
 	$tgl_jadi	 		= $obj->fields['TANGGAL_TANDA_JADI'];
 	$jml_kpr	 		= $obj->fields['JUMLAH_KPR'];
+	
+	$query2 = "
+		SELECT SUM(SISA) AS JML_SISA, MAX(TANGGAL) AS MAX_TGL FROM CS_VIRTUAL_ACCOUNT WHERE NOMOR_VA = '$nomor_customer'
+	";
+	$obj2 = $conn->execute($query2);
+	
+	$sisa				= $obj2->fields['JML_SISA'];
+	$max_tgl			= $obj2->fields['MAX_TGL'];
+		
 }
 
 if ($act == 'Ubah')
@@ -293,6 +333,7 @@ if ($act == 'Ubah')
 		LEFT JOIN JENIS_PEMBAYARAN e ON a.KODE_BAYAR = e.KODE_BAYAR
 		WHERE NOMOR_KWITANSI = '$id'
 		";
+		
 	}
 	else if ($status_otorisasi == 2)
 	{
@@ -311,7 +352,9 @@ if ($act == 'Ubah')
 	$nomor			= $obj->fields['NOMOR_KWITANSI'];
 	$nama_pembayar 	= $obj->fields['NAMA_PEMBAYAR'];
 	$keterangan 	= $obj->fields['KETERANGAN'];
-	$jumlah 		= round($obj->fields['NILAI']);
+	//$jumlah 		= round($obj->fields['NILAI']);
+	$jumlah 		= ($obj->fields['NILAI']);
+	
 	$diposting 		= $obj->fields['NILAI_DIPOSTING'];
 	$tanggal		= tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL'])));
 	$tgl_terima		= tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL_BAYAR'])));
@@ -319,8 +362,8 @@ if ($act == 'Ubah')
 	$catatan		= $obj->fields['CATATAN'];
 	$biro 				= $obj->fields['VER_COLLECTION'];
 	$keuangan			= $obj->fields['VER_KEUANGAN'];
-	$pindah 			= $obj->fields['STATUS_PINDAH_BLOK'];
-	$posting 			= $obj->fields['STATUS_POSTING'];
+	//$pindah 			= $obj->fields['STATUS_PINDAH_BLOK'];
+	//$posting 			= $obj->fields['STATUS_POSTING'];
 	
 	$jenis_bayar		= $obj->fields['JENIS_BAYAR'];	
 	if ($jenis_bayar == NULL) {
@@ -340,6 +383,14 @@ if ($act == 'Ubah')
 	$query = " SELECT * FROM SPP WHERE KODE_BLOK = '$kode_blok' ";
 	$obj 	= $conn->execute($query);
 	$kpr	= $obj->fields['JUMLAH_KPR'];
+	
+	$query = "
+		SELECT  a.NOMOR_VA, MAX(a.TANGGAL) AS MAX_TGL FROM CS_VIRTUAL_ACCOUNT a join SPP b 
+		on a.NOMOR_VA = b.NOMOR_CUSTOMER where b.KODE_BLOK ='$kode_blok' group by a.NOMOR_VA
+	";
+	$obj = $conn->execute($query);
+	$nomor_customer		= $obj->fields['NOMOR_VA'];
+	$max_tgl			= $obj->fields['MAX_TGL'];
 }
 
 if ($act == 'Tambah')
@@ -349,6 +400,7 @@ if ($act == 'Tambah')
 		LEFT JOIN STOK b ON a.KODE_BLOK = b.KODE_BLOK
 		LEFT JOIN LOKASI c ON b.KODE_LOKASI = c.KODE_LOKASI		
 		LEFT JOIN TIPE d ON b.KODE_TIPE = d.KODE_TIPE
+		LEFT JOIN CS_VIRTUAL_ACCOUNT e ON a.NOMOR_CUSTOMER = e.NOMOR_VA
 		WHERE a.KODE_BLOK = '$id'
 	";
 	$obj = $conn->execute($query);
@@ -358,7 +410,7 @@ if ($act == 'Tambah')
 
 	$nomor			= '';	
 	$keterangan 	= '';
-	$jumlah 		= '';
+	$jumlah 		= 0;
 	$diposting 		= '';
 	$tanggal		= f_tgl(date("Y-m-d"));
 	$tgl_terima		= f_tgl(date("Y-m-d"));
@@ -368,6 +420,7 @@ if ($act == 'Tambah')
 	$keuangan			= 0;
 	$pindah 			= 0;
 	$posting 			= 0;
+	$jumlah_awal		= 0;
 	
 	$jenis_pembayaran	= 0;	
 	$kode_bayar			= 0;	
@@ -376,5 +429,14 @@ if ($act == 'Tambah')
 	$lokasi 			= $obj->fields['LOKASI'];
 	$kode_blok 			= $obj->fields['KODE_BLOK'];	
 	$tipe	 			= $obj->fields['TIPE_BANGUNAN'];
+	$nomor_customer		= $obj->fields['NOMOR_CUSTOMER'];	
+	
+	$query = "
+		SELECT MAX(TANGGAL) AS MAX_TGL FROM CS_VIRTUAL_ACCOUNT WHERE NOMOR_VA = '$nomor_customer'
+	";
+	$obj = $conn->execute($query);
+	
+	$max_tgl	= $obj->fields['MAX_TGL'];
+	
 }
 ?>

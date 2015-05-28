@@ -60,8 +60,7 @@ $page_start = (($page_num-1) * $per_page);
 if ($total_data > 0)
 {
 	$query = "
-	SELECT 
-		NOMOR_VA,TANGGAL,NILAI
+	SELECT NOMOR_VA,TANGGAL,NILAI
 	FROM 
 		CS_VIRTUAL_ACCOUNT
 	$query_search
@@ -72,6 +71,8 @@ if ($total_data > 0)
 	while( ! $obj->EOF)
 	{
 		$id = $obj->fields['NOMOR_VA'];
+		$tgl = $obj->fields['TANGGAL'];
+
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>"> 
 			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td>

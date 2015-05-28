@@ -265,7 +265,7 @@ function get_kode_bayar() {
 <tr>
 	<td colspan="2" class="text-right">Rp. <input readonly="readonly" type="text" size="15" class="text-right" value="<?php echo to_money($base_harga_tanah); ?>"></td>
 	<td colspan="2" class="text-center">Rp. <input readonly="readonly" type="text" size="15" class="text-right" value="<?php echo to_money($fs_harga_tanah); ?>"></td>
-	<td>Rp. <input readonly="readonly" type="text" size="12" class="text-right" value="<?php echo to_money($disc_harga_tanah); ?>"></td>
+	<td>Rp. <input readonly="readonly" type="text" name="harga_disc_tanah" id="harga_disc_tanah" size="12" class="text-right" value="<?php echo to_money($disc_harga_tanah); ?>"></td>
 	<td>Rp. <input readonly="readonly" type="text" size="12" class="text-right" value="<?php echo to_money($ppn_harga_tanah); ?>"></td>
 </tr>
 <tr>

@@ -1,4 +1,4 @@
-<div class="title-page">ENTRY DENDA PEMBAYARAN</div>
+<div class="title-page">PERJANJIAN PENGIKATAN JUAL BELI (PPJB)</div>
 
 <form name="form" id="form" method="post">
 <table class="t-control wauto">
@@ -6,9 +6,8 @@
 	<td width="100">Pencarian</td><td width="10">:</td>
 	<td>
 		<select name="field1" id="field1" class="wauto">
-			<option value="a.KODE_BLOK"> BLOK / NOMOR </option>
-			<option value="b.NAMA_PEMBELI"> NAMA PEMBELI </option>
-			<option value="b.NOMOR_CUSTOMER"> NO VIRTUAL ACCOUNT </option>
+			<option value="KODE_BLOK"> BLOK / NOMOR </option>
+			<option value="NAMA_PEMBELI"> NAMA PEMBELI </option>
 		</select>
 		<input type="text" name="search1" id="search1" class="apply" value="">
 	</td>
@@ -62,30 +61,13 @@ jQuery(function($) {
 		return false;
 	});
 	
-	$(document).on('click', '#tambah', function(e) {
-		e.preventDefault();
-		showPopup('Tambah', '');
-		return false;
-	});
-	
 	$(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
 		e.preventDefault();
 		var id = $(this).parent().attr('id');
 		showPopup('Ubah', id);
 		return false;
 	});
-	
-	$(document).on('click', '#hapus', function(e) {
-		e.preventDefault();
-		var checked = $(".cb_data:checked").length;
-		if (checked < 1) {
-			alert('Pilih data SPP yang akan dihapus.');
-		} else if (confirm('Apa data SPP ini akan dihapus?')) {
-			hapusData();
-		}
-		return false;
-	});
-		
+
 	loadData();
 });
 
@@ -93,17 +75,16 @@ function loadData()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#t-detail').load(base_marketing + 'collection_tunai/transaksi/denda_keterlambatan/entry/entry_load.php', data);	
+	jQuery('#t-detail').load(base_marketing + 'ppjb/transaksi/ppjb/ppjb_load.php', data);
 	return false;
 }
 
 function showPopup(act, id)
 {
-	var url =	base_marketing + 'collection_tunai/transaksi/denda_keterlambatan/entry/entry_popup.php' + '?act=' + act + '&id=' + id;
-	setPopup(act + ' Entry Denda Pembayaran', url, 500, 400);	
+	var url =	base_marketing + 'ppjb/transaksi/ppjb/ppjb_popup.php' + '?act=' + act + '&id=' + id;	
+	setPopup('Perjanjian Pengikatan Jual Beli (PPJB)', url, 1000, 580);	
 	return false;
 }
-
 </script>
 
 <div id="t-detail"></div>

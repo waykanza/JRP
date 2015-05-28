@@ -91,7 +91,7 @@
 					<td><input readonly="readonly" type="text" name="kode_blok" id="kode_blok" size="10" value="<?php echo $id; ?>"></td>
 				</tr>
 				<tr>
-					<td><b>TOTAL HARGA</b></td><td>:</td>
+					<td><b>Harga</b></td><td>:</td>
 					<td><b>Rp. <input type="text" name="total_harga" id="tanda_jadi" size="20" value="<?php echo ($r_harga_tanah + $r_harga_bangunan); ?>"></b></td>
 				<tr>
 				<tr>
@@ -101,15 +101,15 @@
 				
 				<tr>	
 					<td>Tanggal Rencana</td><td>:</td>
-					<td><input type="text" name="tanggal" id="tanggal" class="apply dd-mm-yyyy" size="15" value="" required></td>
+					<td><input type="text" name="tanggal" id="tanggal" class="apply dd-mm-yyyy" size="15" value=""></td>
 				</tr>
 				<tr>
 					<td>Jenis Pembayaran</td><td>:</td>
 					<td>
-						<input type="hidden" name="kode_bayar" id="kode_bayar" size="1" value="" required>
-						<input type="text" name="jumlah" id="jumlah" size="15" value="" placeholder="jumlah angsuran" required>
+						<input type="hidden" name="kode_bayar" id="kode_bayar" size="1" value="">
+						<input type="text" name="jumlah" id="jumlah" size="15" value="" placeholder="jumlah angsuran">
 						<button onclick="return get_kode_bayar()"> > </button>
-						<input type="text" id="jenis_bayar" size="25" value="" readonly>
+						<input type="text" id="jenis_bayar" size="25" value="">
 					</td>
 				</tr>
 				

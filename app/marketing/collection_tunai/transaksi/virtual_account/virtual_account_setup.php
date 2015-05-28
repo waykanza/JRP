@@ -94,7 +94,7 @@ function loadData()
 function showPopup(act, id)
 {
 	var url =	base_marketing + 'collection_tunai/transaksi/virtual_account/virtual_account_popup.php' + '?act=' + act + '&id=' + id;
-	setPopup(act + ' Hari Libur', url, 400, 300);
+	setPopup(act + ' Data Virtual Account', url, 400, 300);
 	return false;
 }
 

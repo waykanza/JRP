@@ -8,7 +8,7 @@ die_conn($conn);
 
 $per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
 $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
-$tgl = f_tgl (date("Y-m-d"));
+$tgl = '25-05-2015';
 $query_blok_lunas = '';
 $query_pemb_jt = '';
 $query_tglmerah = '';
@@ -59,13 +59,14 @@ $page_start = (($page_num-1) * $per_page);
 
 <table class="t-data">
 <tr>
+	<th class="w5"><input type="checkbox" id="cb_all"></th>
 	<th class="w5">BLOK/NO.</th>
 	<th class="w20">NAMA</th>
 	<th class="w40">ALAMAT SURAT</th>
 	<th class="w10">TELEPON</th>
 	<th class="w10">TANGGAL JATUH TEMPO</th>
 	<th class="w10">NILAI JATUH TEMPO</th>
-	<th class="w5"><input type="checkbox" id="cb_all"></th>
+	
 
 </tr>
 
@@ -93,14 +94,13 @@ if ($total_data > 0)
 		$TELP=$TELP_KANTOR.$TELP_LAIN.$TELP_RUMAH;
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>"> 
+			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td>
 			<td class="text-center"><?php echo $id; ?></td>
 			<td><?php echo $obj->fields['NAMA_PEMBELI']; ?></td>
 			<td><?php echo $obj->fields['ALAMAT_SURAT']; ?></td>
 			<td><?php echo $TELP; ?></td>
 			<td class="text-center"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?></td>
 			<td><?php echo $obj->fields['NILAI']; ?></td>
-			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td>
-			
 		</tr>
 		<?php
 		$obj->movenext();

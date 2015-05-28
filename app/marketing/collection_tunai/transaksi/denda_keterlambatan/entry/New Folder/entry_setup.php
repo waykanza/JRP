@@ -1,4 +1,4 @@
-<div class="title-page">ENTRY DENDA PEMBAYARAN</div>
+<div class="title-page">ENTRY PERSETUJUAN DENDA</div>
 
 <form name="form" id="form" method="post">
 <table class="t-control wauto">
@@ -6,9 +6,7 @@
 	<td width="100">Pencarian</td><td width="10">:</td>
 	<td>
 		<select name="field1" id="field1" class="wauto">
-			<option value="a.KODE_BLOK"> BLOK / NOMOR </option>
-			<option value="b.NAMA_PEMBELI"> NAMA PEMBELI </option>
-			<option value="b.NOMOR_CUSTOMER"> NO VIRTUAL ACCOUNT </option>
+			<option value="KODE_BLOK"> BLOK / NOMOR </option>
 		</select>
 		<input type="text" name="search1" id="search1" class="apply" value="">
 	</td>
@@ -99,11 +97,23 @@ function loadData()
 
 function showPopup(act, id)
 {
-	var url =	base_marketing + 'collection_tunai/transaksi/denda_keterlambatan/entry/entry_popup.php' + '?act=' + act + '&id=' + id;
-	setPopup(act + ' Entry Denda Pembayaran', url, 500, 400);	
+	var url =	base_collection_tunai_transaksi + 'pemulihan_wanprestasi/pemulihan_wanprestasi_popup.php' + '?act=' + act + '&id=' + id;
+	setPopup(act + ' SPP', url, 850, 550);	
 	return false;
 }
 
+function hapusData()
+{	
+	var url		= base_collection_tunai_transaksi + 'pemulihan_wanprestasi/pemulihan_wanprestasi_proses.php?act=Hapus',
+		data	= jQuery('#form').serializeArray();
+	
+	jQuery.post(url, data, function(result) {
+		var list_id = result.act.join(', #');
+		alert(result.msg);
+		loadData();
+	}, 'json');
+	return false;
+}
 </script>
 
 <div id="t-detail"></div>

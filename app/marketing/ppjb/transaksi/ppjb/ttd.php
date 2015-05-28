@@ -1,5 +1,13 @@
 <?php
-require_once('virtual_account_proses.php');
+require_once('../../../../../config/config.php');
+die_login();
+die_app('A01');
+die_mod('JB06');
+$conn = conn($sess_db);
+die_conn($conn);
+
+$act	= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
+$id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 ?>
 
 <!DOCTYPE html>
@@ -18,65 +26,73 @@ require_once('virtual_account_proses.php');
 <script type="text/javascript" src="../../../../../plugin/js/zebra_datepicker.js"></script>
 <script type="text/javascript" src="../../../../../config/js/main.js"></script>
 <script type="text/javascript">
-$(function() {
-
-	$('#no_va').inputmask('varchar', { repeat: '20' });
-	$('#tanggal').inputmask('date');
+jQuery(function($) {	
+	$('#nama').inputmask('varchar', { repeat: '30' });
+	$('#jabatan').inputmask('varchar', { repeat: '30' });
 	
 	$('#close').on('click', function(e) {
-		e.preventDefault();
-		return parent.loadData();
+	e.preventDefault();
+		parent.window.focus();
+		parent.window.popup.close();
 	});
 	
 	$('#save').on('click', function(e) {
 		e.preventDefault();
-		var url		= base_marketing + 'collection_tunai/transaksi/virtual_account/virtual_account_proses.php',
+		var url		= base_marketing + 'ppjb/transaksi/ppjb/ppjb_proses.php',
 			data	= $('#form').serialize();
 		
-		$.post(url, data, function(data) {
+		if (confirm("Apakah anda yakin menyimpan data ini ?") == false)
+		{
+			return false;
+		}	
+		
+		$.post(url, data, function(data) {			
 			if (data.error == true)
 			{
 				alert(data.msg);
 			}
-			else
-			{
-				if (data.act == 'Tambah')
+				else if (data.act == 'Ttd')
 				{
 					alert(data.msg);
-					parent.loadData();
-					$('#reset').click();
+					parent.window.focus();
+					parent.window.popup.close();
 				}
-				else if (data.act == 'Ubah')
-				{
-					alert(data.msg);
-					parent.loadData();
-				}
-			}
-		}, 'json');
+		}, 'json');		
 		return false;
 	});
+
 });
 </script>
 </head>
-<body class="popup2">
+<body class="popup">
+
+<?php
+$query = "
+	SELECT *
+	FROM
+		CS_PPJB
+	WHERE 
+		KODE_BLOK = '$id'";
+		
+$obj = $conn->execute($query);
+$nama 			= $obj->fields['NAMA_PENANDATANGAN'];
+$jabatan		= $obj->fields['JABATAN'];
+?>
 
 <form name="form" id="form" method="post">
+
 <table class="t-popup">
 <tr>
-	<td>Nomor Virtual Account</td><td>:</td>
-	<td><input type="text" name="no_va" id="no_va" size="20" value="<?php echo $no_va; ?>"></td>
+	<td width="100">Nama Penandatangan</td><td>:</td>
+	<td><input type="text" name="nama" id="nama" size="30" value="<?php echo $nama; ?>"></td>
 </tr>
 <tr>
-	<td>Tanggal</td><td>:</td>
-	<td><input type="text" name="tanggal" id="tanggal" size="15" class="apply dd-mm-yyyy" value="<?php echo $tanggal; ?>"></td>
+	<td>Jabatan</td><td>:</td>
+	<td><input type="text" name="jabatan" id="jabatan" size="30" value="<?php echo $jabatan; ?>"></td>
 </tr>
 <tr>
-	<td>Nilai</td><td>:</td>
-	<td><input type="text" name="nilai" id="nilai" size="20" value="<?php echo to_money($nilai); ?>"></td>
-</tr>
-<tr>
-	<td colspan="3" class="td-action"> <br>
-		<input type="submit" id="save" value=" <?php echo $act; ?> ">
+	<td colspan="3" class="td-action text-center">
+		<input type="submit" id="save" value=" Simpan ">
 		<input type="reset" id="reset" value=" Reset ">
 		<input type="button" id="close" value=" Tutup "></td>
 	</td>
