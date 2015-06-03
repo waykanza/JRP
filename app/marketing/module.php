@@ -44,6 +44,10 @@ switch (trim(base64_decode($cmd)))
 	# Laporan
 	
 	case 'A01_penjualan_p_unit'				: die_mod('PL01'); include('marketing/laporan/penjualan_p_unit/penjualan_p_unit_setup.php');break;
+	case 'A01_penjualan_p_class'				: die_mod('PL03'); include('marketing/laporan/penjualan_p_class/penjualan_p_class_setup.php');break;
+	case 'A01_penjualan_p_lokasi'				: die_mod('PL02'); include('marketing/laporan/penjualan_p_lokasi/penjualan_p_lokasi_setup.php');break;
+	case 'A01_laporan_reserve'				: include('marketing/laporan/laporan_reserve/laporan_reserve_setup.php');break;
+	case 'A01_laporan_persediaan_stok'				: include('marketing/laporan/laporan_persediaan_stok/laporan_persediaan_stok_setup.php');break;
 	/*
 	case 'A01_penjualan_p_lokasi'			: die_mod('zzzz'); include('marketing/laporan/penjualan_p_lokasi/penjualan_p_lokasi_setup.php');break;
 	case 'A01_penjualan_p_class'			: die_mod('zzzz'); include('marketing/laporan/penjualan_p_class/penjualan_p_class_setup.php');break;
