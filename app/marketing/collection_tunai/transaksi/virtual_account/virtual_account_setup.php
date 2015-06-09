@@ -65,6 +65,7 @@ jQuery(function($) {
 	$(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
 		e.preventDefault();
 		var id = $(this).parent().attr('id');
+		var coba = jQuery('#coba').val();
 		showPopup('Ubah', id);
 		return false;
 	});

@@ -57,12 +57,12 @@
 							if (data.act == 'Apply')
 							{
 								alert(data.msg);
-								//parent.loadData();
-								 window.onunload = refreshParent;
-									function refreshParent() {
-										window.opener.location.reload();
-									}
-								$('#reset').click();
+								parent.loadData();
+								 // window.onunload = refreshParent;
+									// function refreshParent() {
+										// window.opener.location.reload();
+									// }
+								// $('#reset').click();
 							}
 							else if (data.act == 'Hapus')
 							{
@@ -107,7 +107,7 @@
 					<td>Jenis Pembayaran</td><td>:</td>
 					<td>
 						<input type="hidden" name="kode_bayar" id="kode_bayar" size="1" value="">
-						<input type="text" name="jumlah" id="jumlah" size="15" value="" placeholder="jumlah angsuran">
+						<input type="text" name="jumlah" id="jumlah" size="15" value="" placeholder="jumlah angsuran" required>
 						<button onclick="return get_kode_bayar()"> > </button>
 						<input type="text" id="jenis_bayar" size="25" value="">
 					</td>

@@ -6,9 +6,10 @@ $error	= FALSE;
 
 $act	= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 $id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
+$coba	= (isset($_REQUEST['coba'])) ? clean($_REQUEST['coba']) : '';
 $sisa	= (isset($_REQUEST['sisa'])) ? clean($_REQUEST['sisa']) : '';
 
-$no_va	= (isset($_REQUEST['no_va'])) ? clean($_REQUEST['no_va']) : '';
+$no_va		= (isset($_REQUEST['no_va'])) ? clean($_REQUEST['no_va']) : '';
 $tanggal	= (isset($_REQUEST['tanggal'])) ? clean($_REQUEST['tanggal']) : '';
 $nilai		= (isset($_REQUEST['nilai'])) ? to_number($_REQUEST['nilai']) : '';
 
@@ -34,8 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 			$query = "SELECT NOMOR_VA FROM CS_VIRTUAL_ACCOUNT WHERE NOMOR_VA = '$no_va'";
 			ex_found($conn->Execute($query)->recordcount(), "Nomor_VA \"$no_va\" telah terdaftar.");
-			
-			
+
 			$query = "INSERT INTO CS_VIRTUAL_ACCOUNT (NOMOR_VA, TANGGAL, NILAI, SISA)
 			VALUES(
 				'$no_va',
@@ -131,3 +131,4 @@ else if ($act == 'Tambah')
 }
 
 ?>
+

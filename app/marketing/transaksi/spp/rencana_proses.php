@@ -6,6 +6,7 @@
 	
 	$act	= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 	$id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
+	$kode_blok	= (isset($_REQUEST['kode_blok'])) ? clean($_REQUEST['kode_blok']) : '';
 	
 	$jumlah					= '';
 	$tanggal				= '';
@@ -15,7 +16,7 @@
 	$total_harga			= (isset($_REQUEST['total_harga'])) ? clean($_REQUEST['total_harga']) : '';
 	$tanda_jadi				= (isset($_REQUEST['tanda_jadi'])) ? clean($_REQUEST['tanda_jadi']) : '';
 	$jumlah					= (isset($_REQUEST['jumlah'])) ? clean($_REQUEST['jumlah']) : '';	
-	$tanggal				= (isset($_REQUEST['tanggal'])) ? clean($_REQUEST['tanggal']) : '';
+	$tanggal_input			= (isset($_REQUEST['tanggal'])) ? clean($_REQUEST['tanggal']) : '';
 	$kode_bayar				= (isset($_REQUEST['kode_bayar'])) ? clean($_REQUEST['kode_bayar']) : '';
 	$keterangan				= (isset($_REQUEST['keterangan'])) ? clean($_REQUEST['keterangan']) : '';
 	
@@ -40,11 +41,15 @@
 				$nilai					= ($total_harga-$tanda_jadi)/$jumlah;
 				for($i=0;$i<$jumlah;$i++){				
 					
-					$query 		= "SELECT TOP 1 DATEADD(month,$i,CURRENT_TIMESTAMP) AS TANGGAL
-									FROM RENCANA
-									WHERE KODE_BLOK = '$id'";
-						$obj 		= $conn->execute($query);						
-						$tanggal	= $obj->fields['TANGGAL'];
+					if($i==0){
+							$tanggal = date("Y-m-d",strtotime($tanggal_input));
+					}else{
+						$query 		= "SELECT TOP 1 DATEADD(month,$i,CURRENT_TIMESTAMP) AS TANGGAL
+										FROM RENCANA
+										WHERE KODE_BLOK = '$id'";
+							$obj 		= $conn->execute($query);						
+							$tanggal	= $obj->fields['TANGGAL'];
+					}	
 					
 					$query = "INSERT INTO RENCANA (KODE_BLOK,TANGGAL,KODE_BAYAR, NILAI, KETERANGAN)
 									VALUES('$id',
@@ -66,19 +71,13 @@
 			{
 				//ex_ha('', 'D');
 				
-				$act = array();
-				$cb_data = $_REQUEST['cb_data'];
-				ex_empty($cb_data, 'Pilih data yang akan dihapus.');
-				
-				foreach ($cb_data as $id_del)
-				{
-					$query = "DELETE FROM RENCANA WHERE KODE_BLOK = '$id_del'";
+				$query = "DELETE FROM RENCANA WHERE KODE_BLOK = '$kode_blok'";
 					if ($conn->Execute($query)) {
 						$act[] = $id_del;
 						} else {
 						$error = TRUE;
 					}
-				}		
+					
 				
 				$msg = ($error) ? 'Sebagian data RENCANA gagal dihapus.' : 'Data RENCANA berhasil dihapus.'; 	
 			}

@@ -144,6 +144,7 @@ function hapusData()
 		alert(result.msg);
 		loadData();
 	}, 'json');
+	
 	return false;
 }
 

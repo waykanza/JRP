@@ -77,7 +77,7 @@ if ($total_data > 0)
 		<tr class="onclick" id="<?php echo $id; ?>"> 
 			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td>
 			<td class="text-left"><?php echo $obj->fields['NOMOR_VA']; ?></td>
-			<td class="text-left"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?></td>
+			<td class="text-left"><input type="hidden" name="coba" id="coba" value="<?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?>"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?></td>
 			<td class="text-right"><?php echo $obj->fields['NILAI']; ?></td>
 		</tr>
 		<?php

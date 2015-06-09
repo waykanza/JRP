@@ -14,6 +14,7 @@
 		<td>
 			<input type="text" name="per_page" size="3" id="per_page" class=" apply text-center" value="20">
 			<input type="button" name="apply" id="apply" value=" Apply ">
+			<input type="hidden" name="act" id="act" value="Surat">
 		</td>
 	</tr>
 	<tr>
@@ -57,8 +58,16 @@ jQuery(function($) {
 		if (checked < 1) {
 			alert('Pilih data yang akan dicetak surat.');
 		} else if (confirm('Apa anda yakin akan mencetak surat untuk data ini?')) {
-			cetakSurat();
+			e.preventDefault();
+			location.href = base_marketing + 'collection_tunai/surat/somasi_dua/surat_somasi_dua.php?' + $('#form').serialize();	
+			//cetakSurat();
 		}
+		return false;
+	});
+	
+	$(document).on('click', '#print', function(e) {
+		e.preventDefault();
+		location.href = base_marketing + 'collection_tunai/surat/somasi_dua/print_somasi_dua.php?' + $('#form').serializeArray();
 		return false;
 	});
 	

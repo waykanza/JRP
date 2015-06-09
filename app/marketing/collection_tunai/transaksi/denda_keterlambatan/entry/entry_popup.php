@@ -37,6 +37,15 @@ jQuery(function($) {
 		parent.loadData();
 	});
 	
+	$('#disetujui').on('keyup', function(e) {
+		e.preventDefault();
+		disetujui 	= jQuery('#disetujui').val();		
+		disetujui	= disetujui.replace(/[^0-9.]/g, '');
+		alert (disetujui);
+		return false;
+	});
+
+	
 	$('#simpan').on('click', function(e) {
 		e.preventDefault();
 		var url		= this_base + 'entry_proses.php',
@@ -90,7 +99,7 @@ jQuery(function($) {
 </tr>
 <tr>
 	<td width="100" height="30">Disetujui</td><td>:</td>
-	<td><input type="text" name="disetujui" id="disetujui" size="25" onkeyUp="javascript:autoCek();" value="<?php echo to_money($disetujui); ?>"></td>
+	<td><input type="text" name="disetujui" id="disetujui" size="25" value="<?php echo to_money($disetujui); ?>"></td>
 </tr>
 <tr>
 	<td colspan="3"><br>
@@ -102,6 +111,8 @@ jQuery(function($) {
 
 <input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
 <input type="hidden" name="act" id="act" value="<?php echo $act; ?>">
+<input type="hidden" name="id_" id="id_" value="<?php echo $id_; ?>">
+<input type="hidden" name="tgl_" id="tgl_" value="<?php echo $tgl_; ?>">
 </form>
 
 </body>

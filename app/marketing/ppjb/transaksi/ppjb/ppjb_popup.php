@@ -110,7 +110,7 @@ jQuery(function($) {
 	
 	$('#ppjb').on('click', function(e) {
 		e.preventDefault();		
-		window.open(base_marketing + 'ppjb/transaksi/ppjb/ppjb.php');		
+		window.open(base_marketing + 'ppjb/transaksi/ppjb/ppjb.php?id=<?php echo $id; ?>&act=Ubah');		
 		return false;
 	});
 	

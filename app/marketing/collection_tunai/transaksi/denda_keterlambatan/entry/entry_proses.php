@@ -6,7 +6,11 @@ $error = FALSE;
 
 $act = (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 $id = (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
+$disetujui = (isset($_REQUEST['disetujui'])) ? clean($_REQUEST['disetujui']) : '';
 
+$isi	= explode(" ", $id);
+$id_	= $isi[0];
+$tgl_	= $isi[1];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -21,9 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		if ($act == 'Ubah') # Proses Ubah
 		{
-			
+			$query = "update CS_INFORMASI_DENDA set DENDA_DISETUJUI = '$disetujui' 
+			WHERE KODE_BLOK = '$id_' AND convert(varchar,TANGGAL,23) = '$tgl_'";
+			ex_false($conn->execute($query), $query);
 					
-			$msg = 'Data Lokasi berhasil diubah.';
+			$msg = 'Data denda pembayaran telah diubah.';
 		}
 		
 		$conn->committrans(); 
@@ -49,15 +55,17 @@ die_conn($conn);
 	
 if ($act == 'Ubah')
 {
-	$obj = $conn->Execute("SELECT *, DATEADD(dd,HARI_TUNGGAKAN,TANGGAL) as TGL_TEMPO 
+	
+	$obj = $conn->Execute("SELECT *, DATEADD(dd,HARI_TUNGGAKAN,TANGGAL) as TGL_TEMPO, DENDA_DISETUJUI,
+	CASE WHEN DENDA_DISETUJUI IS NULL THEN 0.00 ELSE DENDA_DISETUJUI END AS DISETUJUI
 	FROM CS_INFORMASI_DENDA 
-	WHERE KODE_BLOK = '$id' order by TANGGAL desc");
+	WHERE KODE_BLOK = '$id_' AND convert(varchar,TANGGAL,23) = '$tgl_'");
 	$kode_blok	= $obj->fields['KODE_BLOK'];
 	$tgl_trans	= $obj->fields['TANGGAL'];
 	$tgl_tempo	= $obj->fields['TGL_TEMPO'];
 	$nilai	= $obj->fields['NILAI'];
 	$denda	= $obj->fields['DENDA'];
-	$disetujui	= $obj->fields['DENDA_DISETUJUI'];
+	$disetujui	= $obj->fields['DISETUJUI'];
 	$hari_tunggakan	= $obj->fields['HARI_TUNGGAKAN'];
 	
 }

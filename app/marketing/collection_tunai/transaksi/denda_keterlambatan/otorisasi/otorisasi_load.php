@@ -11,6 +11,7 @@ $status_otorisasi	= (isset($_REQUEST['status_otorisasi'])) ? clean($_REQUEST['st
 $field1				= (isset($_REQUEST['field1'])) ? clean($_REQUEST['field1']) : '';
 $search1			= (isset($_REQUEST['search1'])) ? clean($_REQUEST['search1']) : '';
 $nama_tombol		= (isset($_REQUEST['nama_tombol'])) ? clean($_REQUEST['nama_tombol']) : '';
+$tombol				= (isset($_REQUEST['tombol'])) ? clean($_REQUEST['tombol']) : '';
 
 $query_search = '';
 if ($status_otorisasi == 0)
@@ -94,9 +95,11 @@ if ($total_data > 0)
 	{
 
 		$id = $obj->fields['KODE_BLOK'];
+		$tgl = $obj->fields['TANGGAL'];
+		
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>"> 
-			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td>
+			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id.','.$tgl; ?>"></td>
 			<td class="text-center"><?php echo $i; ?></td>
 			<td class="text-center"><?php echo $id; ?></td>
 			<td><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?></td>
@@ -118,6 +121,7 @@ if ($total_data > 0)
 
 <script type="text/javascript">
 jQuery(function($) {
+	
 	$('#pagging-2').html($('#pagging-1').html());	
 	$('#total-data').html('<?php echo $total_data; ?>');
 	$('#per_page').val('<?php echo $per_page; ?>');

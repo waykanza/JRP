@@ -29,7 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 			foreach ($cb_data as $id_del)
 			{
-				$query = "DELETE FROM SPP WHERE KODE_BLOK = '$id_del'";
+				$isi	= split('[,]', $id_del);
+				$id		= $isi[0];
+				$tgl	= $isi[1];
+				
+				$query = "DELETE FROM CS_INFORMASI_DENDA WHERE KODE_BLOK = '$id' AND TANGGAL = '$tgl'";
 				if ($conn->Execute($query)) {
 					$act[] = $id_del;
 				} else {
@@ -45,12 +49,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			//ex_ha('PT05', 'U');
 			
 			$act = array();
-			$cb_data = $_REQUEST['cb_data'];
+			$cb_data = $_REQUEST['cb_data'];	
 			ex_empty($cb_data, 'Pilih data yang akan diotorisasi.');
 			
 			foreach ($cb_data as $id_del)
 			{	
-				if ($conn->Execute("UPDATE SPP SET OTORISASI = '1' WHERE KODE_BLOK = '$id_del'")) {
+				$isi	= split('[,]', $id_del);
+				$id		= $isi[0];
+				$tgl	= $isi[1];
+				
+				if ($conn->Execute("UPDATE CS_INFORMASI_DENDA SET OTORISASI = '1', TANGGAL_OTORISASI = GETDATE() WHERE KODE_BLOK = '$id' AND TANGGAL = '$tgl' ")) {
 					$act[] = $id_del;
 				} else {
 					$error = TRUE;
@@ -70,7 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 			foreach ($cb_data as $id_del)
 			{	
-				if ($conn->Execute("UPDATE SPP SET OTORISASI = '0' WHERE KODE_BLOK = '$id_del'")) {
+				$isi	= split('[,]', $id_del);
+				$id		= $isi[0];
+				$tgl	= $isi[1];
+				
+				if ($conn->Execute("UPDATE CS_INFORMASI_DENDA SET OTORISASI = '0', TANGGAL_OTORISASI = NULL WHERE KODE_BLOK = '$id' AND TANGGAL = '$tgl'")) {
 					$act[] = $id_del;
 				} else {
 					$error = TRUE;

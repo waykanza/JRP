@@ -18,6 +18,17 @@ jQuery(function($) {
 		inside: true
 	});
 	
+	$(document).on('click', '#hapus', function(e) {
+		e.preventDefault();
+		var checked = $(".cb_data:checked").length;
+		if (checked < 1) {
+			alert('Pilih data SPP yang akan dihapus.');
+		} else if (confirm('Apa data SPP ini akan dihapus?')) {
+			hapusData("Hapus");
+		}
+		return false;
+	});
+	
 });
 
 function loadData()
@@ -34,10 +45,18 @@ function rencana_pembayaran(act) {
 	setPopup( 'RENCANA PEMBAYARAN', url, 700, 300);
 	return false; 
 }
+
+function hapusData(act)
+{	
+	var id = document.getElementById("kode_blok").value;
+	alert(id);
+	var url		= base_marketing_transaksi + 'spp/rencana_proses.php' + '?act=' + act + '&id=' + id;
+	return false;
+}
 </script>
 
 <button onclick="return rencana_pembayaran('Ubah')"> Rencana </button>
-
+<input type="button" id="hapus" value=" Hapus ">
 <div class="clear"><br></div>
 
 <table class="t-data w100">
@@ -65,13 +84,13 @@ function rencana_pembayaran(act) {
 
 	while( ! $obj->EOF)
 	{
-		$id = tgltgl(f_tgl($obj->fields['TANGGAL']));
+		$id = $obj->fields['KODE_BLOK'];
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>">
 			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td> 			
 			<td class="text-center"><?php echo $i; ?></td>
 			<td><?php echo $obj->fields['KODE_BLOK'];  ?></td>
-			<td><?php echo $id; ?></td>
+			<td><?php echo tgltgl(f_tgl($obj->fields['TANGGAL'])); ?></td>
 			<td><?php echo $obj->fields['JENIS_BAYAR'];  ?></td>
 			<td class="text-right"><?php echo to_money($obj->fields['NILAI']);  ?></td>
 			<td><?php echo $obj->fields['KETERANGAN'];  ?></td>
@@ -80,7 +99,9 @@ function rencana_pembayaran(act) {
 		$i++;
 		$obj->movenext();
 	}
+	
 ?>
+<input type="hidden" name="kode_blok" id="kode_blok" value="<?php echo $id ?>">
 </table>
 <div id="t-detail"></div>
 <?php

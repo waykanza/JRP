@@ -26,6 +26,9 @@
 </tr>
 </table>
 
+<input type="hidden" name="tombol" id="tombol" value="otorisasi">
+<input type="hidden" name="nama_tombol" id="nama_tombol" value="Otorisasi">
+
 <script type="text/javascript">
 jQuery(function($) {
 	
@@ -62,30 +65,29 @@ jQuery(function($) {
 		return false;
 	});
 	
-	$(document).on('click', '#tambah', function(e) {
-		e.preventDefault();
-		showPopup('Tambah', '');
-		return false;
-	});
-	
-	$(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
-		e.preventDefault();
-		var id = $(this).parent().attr('id');
-		showPopup('Ubah', id);
-		return false;
-	});
-	
 	$(document).on('click', '#hapus', function(e) {
 		e.preventDefault();
 		var checked = $(".cb_data:checked").length;
 		if (checked < 1) {
-			alert('Pilih data SPP yang akan dihapus.');
-		} else if (confirm('Apa data SPP ini akan dihapus?')) {
+			alert('Pilih data yang akan dihapus.');
+		} else if (confirm('Apa data ini akan dihapus?')) {
 			hapusData();
 		}
 		return false;
 	});
-		
+	
+	$(document).on('click', '#pemulihan', function(e) {
+		e.preventDefault();
+		var checked = $(".cb_data:checked").length;
+		if (checked < 1) {
+			alert('Pilih data yang akan dipulihkan.');
+		} else if (confirm('Apakah anda yakin akan memulihkan data ini ?')) 
+		{
+			pemulihanData();
+		}
+		return false;
+	});
+	
 	loadData();
 });
 
@@ -93,20 +95,14 @@ function loadData()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#t-detail').load(base_collection_tunai_transaksi + 'pemulihan_wanprestasi/pemulihan_wanprestasi_load.php', data);	
-	return false;
-}
-
-function showPopup(act, id)
-{
-	var url =	base_collection_tunai_transaksi + 'pemulihan_wanprestasi/pemulihan_wanprestasi_popup.php' + '?act=' + act + '&id=' + id;
-	setPopup(act + ' SPP', url, 850, 550);	
+	jQuery('#t-detail').load(base_marketing + 'collection_tunai/transaksi/pemulihan_wanprestasi/pemulihan_wanprestasi_load.php', data);	
 	return false;
 }
 
 function hapusData()
 {	
-	var url		= base_collection_tunai_transaksi + 'pemulihan_wanprestasi/pemulihan_wanprestasi_proses.php?act=Hapus',
+
+	var url		= base_marketing + 'collection_tunai/transaksi/pemulihan_wanprestasi/pemulihan_wanprestasi_proses.php?act=Hapus',
 		data	= jQuery('#form').serializeArray();
 	
 	jQuery.post(url, data, function(result) {
@@ -116,6 +112,21 @@ function hapusData()
 	}, 'json');
 	return false;
 }
+
+function pemulihanData()
+{	
+	var url		= base_marketing + 'collection_tunai/transaksi/pemulihan_wanprestasi/pemulihan_wanprestasi_proses.php',
+		data	= jQuery('#form').serializeArray();
+	data.push({ name: 'act', value: 'Pemulihan' });
+	
+	jQuery.post(url, data, function(result) {
+		var list_id = result.act.join(', #');
+		alert(result.msg);		
+	}, 'json');	
+	loadData();
+	return false;
+}
+
 </script>
 
 <div id="t-detail"></div>

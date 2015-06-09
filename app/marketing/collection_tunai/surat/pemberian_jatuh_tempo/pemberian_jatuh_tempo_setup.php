@@ -14,6 +14,7 @@
 		<td>
 			<input type="text" name="per_page" size="3" id="per_page" class=" apply text-center" value="20">
 			<input type="button" name="apply" id="apply" value=" Apply ">
+			<input type="hidden" name="act" id="act" value="Surat">
 		</td>
 	</tr>
 	<tr>
@@ -57,19 +58,21 @@ jQuery(function($) {
 		if (checked < 1) {
 			alert('Pilih data yang akan dicetak surat.');
 		} else if (confirm('Apa anda yakin akan mencetak surat untuk data ini?')) {
-			cetakSurat();
+			e.preventDefault();
+			location.href = base_marketing + 'collection_tunai/surat/pemberian_jatuh_tempo/surat_pemberian_jatuh_tempo.php?' + $('#form').serialize();	
+			//cetakSurat();
 		}
 		return false;
 	});
 	
 	$(document).on('click', '#print', function(e) {
 		e.preventDefault();
+		location.href = base_marketing + 'collection_tunai/surat/pemberian_jatuh_tempo/print_pemberian_jatuh_tempo.php?' + $('#form').serializeArray();
 		return false;
 	});
 	
 	loadData();
 });
-
 
 function loadData()
 {
@@ -81,7 +84,7 @@ function loadData()
 
 function cetakSurat()
 {	
-	var url		='pdf/rptprint-surat-jatuh-tempo.php';
+	var url		= base_marketing + 'collection_tunai/surat/pemberian_jatuh_tempo/surat_pemberian_jatuh_tempo.php?act=Surat',
 		data	= jQuery('#form').serializeArray();
 	
 	jQuery.post(url, data, function(result) {
@@ -92,8 +95,6 @@ function cetakSurat()
 	
 	return false;
 }
-
-
 </script>
 
 <div id="t-detail"></div>

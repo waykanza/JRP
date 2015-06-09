@@ -54,6 +54,7 @@ $page_start = (($page_num-1) * $per_page);
 <tr>
 	<th class="w10">BLOK / NOMOR</th>
 	<th class="w40">NAMA PEMBELI</th>
+	<th class="w40">TANGGAL</th>
 	<th class="w20">NO VIRTUAL ACCOUNT</th>
 </tr>
 
@@ -61,25 +62,27 @@ $page_start = (($page_num-1) * $per_page);
 if ($total_data > 0)
 {
 	$query = "
-	select a.KODE_BLOK, b.NAMA_PEMBELI, b.NOMOR_CUSTOMER
+	select a.KODE_BLOK, a.TANGGAL ,b.NAMA_PEMBELI, NOMOR_CUSTOMER = CASE WHEN b.NOMOR_CUSTOMER IS null 
+	THEN '-' ELSE b.NOMOR_CUSTOMER END
 	from CS_INFORMASI_DENDA a join SPP b
 	on a.KODE_BLOK = b.KODE_BLOK
 	where a.KODE_OTORISASI is null $query_search
-	group by a.KODE_BLOK, b.NAMA_PEMBELI, b.NOMOR_CUSTOMER
-	order by a.KODE_BLOK
+	order by a.TANGGAL desc
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
 
 	while( ! $obj->EOF)
 	{
 		$id = $obj->fields['KODE_BLOK'];		
+		$tanggal = $obj->fields['TANGGAL'];		
+
 		?>
-		<tr class="onclick" id="<?php echo $id; ?>"> 
-			
+		<tr class="onclick" id="<?php echo $id.' '.$tanggal; ?>"> 
 			<td><?php echo $id; ?></td>
 			<td><?php echo $obj->fields['NAMA_PEMBELI'];  ?></td>
-			<td class="text-right"><?php echo $obj->fields['NOMOR_CUSTOMER'];  ?></td>
-		</tr>
+			<td class="text-center"><?php echo fm_date(date("Y-m-d", strtotime($obj->fields['TANGGAL'])));  ?></td>
+			<td class="text-center"><?php echo $obj->fields['NOMOR_CUSTOMER'];  ?></td>
+			</tr>
 		<?php
 		$obj->movenext();
 	}
