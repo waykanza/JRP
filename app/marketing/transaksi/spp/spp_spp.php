@@ -27,8 +27,7 @@ jQuery(function($) {
 
 <table class="t-popup pad2 w100">
 <tr>
-	<td width="200"></td>
-	<td class="text-right">No. Customer : <input readonly="readonly" type="text" name="no_customer" id="no_customer" size="10" value=""></td>
+	<td class="text-left"><b>No Virtual Account :<input type="text" name="no_customer" id="no_customer" size="20" value="<?php echo $no_customer; ?>"></td>
 	<td class="text-right">Tgl / No. SPP : <input type="text" name="tgl_spp" id="tgl_spp" size="10" class="apply dd-mm-yyyy" value="<?php echo $tgl_spp; ?>"> / <input readonly="readonly" type="text" name="no_spp" id="no_spp" size="5" value="<?php echo to_money($no_spp); ?>"></td>
 </tr>
 </table>
@@ -118,7 +117,7 @@ jQuery(function($) {
 <tr>
 	<td>Agen : <td>
 	<td>Koordinator : <td>
-	<td class="text-right">Jumlah KPR : <input type="text" name="jumlah_kpr" id="jumlah_kpr" size="20" value="<?php echo $jumlah_kpr; ?>"></td>
+	<td class="text-right">Jumlah KPR : <input type="text" name="jumlah_kpr" id="jumlah_kpr" size="20" value="<?php echo to_money($jumlah_kpr); ?>"></td>
 </tr>
 <tr>
 	<td>
@@ -175,7 +174,7 @@ jQuery(function($) {
 		<option value="5" <?php echo is_selected('5', $status_kompensasi); ?>>KPR JAYA</option>
 	</select>
 	</td>
-	<td colspan="2" class="text-right">Tanda Jadi : <input type="text" name="tanda_jadi" id="tanda_jadi" size="20" value="<?php echo $tanda_jadi; ?>"></td>
+	<td colspan="2" class="text-right">Tanda Jadi : <input type="text" name="tanda_jadi" id="tanda_jadi" size="20" value="<?php echo to_money($tanda_jadi); ?>"></td>
 </tr>
 <tr>
 	<td width="230">Distribusi SPP : 
@@ -207,6 +206,7 @@ jQuery(function($) {
 <tr>
 	<td class="td-action" colspan="10"><br>
 	<input type="submit" id="save" value=" <?php echo $act; ?> ">
+	<input type="submit" id="print" value="Print">
 	<input type="reset" id="reset" value=" Reset ">
 	<input type="button" id="close" value=" Tutup ">
 	</td>

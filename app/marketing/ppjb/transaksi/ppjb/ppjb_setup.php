@@ -6,8 +6,8 @@
 	<td width="100">Pencarian</td><td width="10">:</td>
 	<td>
 		<select name="field1" id="field1" class="wauto">
-			<option value="KODE_BLOK"> BLOK / NOMOR </option>
-			<option value="NAMA_PEMBELI"> NAMA PEMBELI </option>
+			<option value="a.KODE_BLOK"> BLOK / NOMOR </option>
+			<option value="a.NAMA_PEMBELI"> NAMA PEMBELI </option>
 		</select>
 		<input type="text" name="search1" id="search1" class="apply" value="">
 	</td>

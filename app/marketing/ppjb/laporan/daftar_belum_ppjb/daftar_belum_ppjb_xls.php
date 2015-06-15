@@ -6,7 +6,8 @@ die_mod('JB11');
 $conn = conn($sess_db);
 die_conn($conn);
 
-$per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
+// $per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
+$per_page	= 5500;
 $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
 
 $query = "
@@ -79,10 +80,10 @@ function th_print() {
 	$p++;
 }
 
-$filename = "DAFTAR SPP BELUM PPJB";
+$filename = "DAFTAR SPP BELUM PPJB.xls";
 
 header("Content-type: application/msexcel");
-header("Content-Disposition: attachment; filename=$filename.xls");
+header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
 header("Pragma: no-cache");
 header("Expires: 0");
 
@@ -96,7 +97,7 @@ header("Expires: 0");
 <style type="text/css">
 @media print {
 	@page {
-		size: 8.5in 4in portrait;
+		size: 8.5in 4in landscape;
 	}
 	.newpage {page-break-before:always;}
 }

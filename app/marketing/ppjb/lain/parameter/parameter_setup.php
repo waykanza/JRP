@@ -36,7 +36,7 @@ function loadData()
 
 	<div class="t-control" id="main_parameter"></div>
 	
-	<div>
+	<!--<div>
 		<table class="t-form">
 		<tr><td><br></td></tr>
 		<tr>
@@ -47,6 +47,8 @@ function loadData()
 		</tr>
 		</table>
 	</div>
+	
+	-->
 </form>
 
 <?php close($conn); ?>

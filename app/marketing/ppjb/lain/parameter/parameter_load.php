@@ -6,7 +6,22 @@ die_mod('JB12');
 $conn = conn($sess_db);
 die_conn($conn);
 
-$query = "SELECT * FROM CS_PARAMETER_PPJB";
+$query = "SELECT TOP 1000 [NAMA_PT]
+      ,[NAMA_DEP]
+      ,[NAMA_PEJABAT]
+      ,[NAMA_JABATAN]
+      ,[PEJABAT_PPJB]
+      ,[JABATAN_PPJB]
+      ,[NOMOR_SK]
+      ,[TANGGAL_SK]
+      ,[NOMOR_PPJB]
+      ,[REG_PPJB]
+      ,[JUMLAH_HARI]
+      ,[UNIT]
+      ,[KOTA]
+      ,[NOMOR_PPJB_PH]
+      ,[REG_PPJB_PH]
+  FROM [JAYA].[dbo].[CS_PARAMETER_PPJB]";
 $obj = $conn->Execute($query);
 ?>
 
@@ -31,6 +46,8 @@ jQuery(function($) {
 	$('#jumlah_hari').inputmask('numeric', { repeat: '2' }); 
 	$('#nomor_ppjb').inputmask('numeric', { repeat: '4' });
 	$('#reg_ppjb').inputmask('varchar', { repeat: '20' });
+	$('#nomor_ppjb_ph').inputmask('numeric', { repeat: '4' });
+	$('#reg_ppjb_ph').inputmask('varchar', { repeat: '20' });
 });
 </script>
 
@@ -86,6 +103,16 @@ jQuery(function($) {
 			<td>
 			<input type="text" name="nomor_ppjb" id="nomor_ppjb" size="4" value="<?php echo $obj->fields['NOMOR_PPJB']; ?>">
 			<input type="text" name="reg_ppjb" id="reg_ppjb" size="20" value="<?php echo $obj->fields['REG_PPJB']; ?>">
+			</td>			
+		</tr>
+		
+		<tr>
+			<td></td><td></td>
+			<td></td>
+			<td width="100">No. PPJB Pengalihan Hak Akhir</td><td>:</td>
+			<td>
+			<input type="text" name="nomor_ppjb_ph" id="nomor_ppjb_ph" size="4" value="<?php echo $obj->fields['NOMOR_PPJB_PH']; ?>">
+			<input type="text" name="reg_ppjb_ph" id="reg_ppjb_ph" size="20" value="<?php echo $obj->fields['REG_PPJB_PH']; ?>">
 			</td>
 		</tr>
 	</table>

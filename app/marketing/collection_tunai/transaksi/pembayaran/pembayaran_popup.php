@@ -26,7 +26,7 @@ require_once('pembayaran_proses.php');
 
 <script type="text/javascript">
 jQuery(function($) {
-
+	
 	/* -- BUTTON -- */
 	
 	$(document).on('click', '#tambah', function(e) {

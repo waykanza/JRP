@@ -280,6 +280,7 @@ jQuery(function($) {
 		<input type="button" id="post" value=" Post ">
 		<input type="button" id="bon" value=" Bon ">
 		<input type="button" id="rr" value=" R-R "> -->
+		<input type="button" id="simpan" value=" Simpan ">	
 		<input type="button" id="print" value=" Print ">	
 		<input type="button" id="close" value=" Tutup ">
 	</td>

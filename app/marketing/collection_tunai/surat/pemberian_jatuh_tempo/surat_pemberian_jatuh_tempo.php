@@ -1,12 +1,11 @@
 <?php
 
 	require_once('../../../../../config/config.php');
-	ex_login();
-
+	include '../../../../../plugin/PHPWord.php';
+	
+	die_login();
 	$conn = conn($sess_db);
-	ex_conn($conn);
-
-	$conn->begintrans(); 
+	die_conn($conn);
 
 	$act	= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 	$id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';	
@@ -18,7 +17,8 @@
 		$cb_data = $_REQUEST['cb_data'];
 		
 		foreach ($cb_data as $id_del)
-		{		
+		{	
+			
 			$query = "SELECT *, B.TANGGAL AS TGL_TEMPO FROM SPP A JOIN RENCANA B ON A.KODE_BLOK = B.KODE_BLOK
 				WHERE A.KODE_BLOK = '$id_del'";
 			$obj = $conn->execute($query);
@@ -32,20 +32,46 @@
 			
 			$telepon		= $TELP_KANTOR.$TELP_LAIN.$TELP_RUMAH;
 			$tanggal_spp	= fm_date(date("Y-m-d", strtotime($obj->fields['TANGGAL_SPP'])));
-			$nilai			= $obj->fields['NILAI'];
+			$nilai			= to_money($obj->fields['NILAI']);
 			
-			$query = "select NOMOR_SURAT_PEMBERITAHUAN,REG_SURAT_PEMBERITAHUAN from CS_REGISTER_CUSTOMER_SERVICE";
+			$query = "select NOMOR_SURAT_TUNAI,REG_SURAT_TUNAI from CS_REGISTER_CUSTOMER_SERVICE";
 			$obj = $conn->execute($query);
 			
-			$no				= 1 + $obj->fields['NOMOR_SURAT_PEMBERITAHUAN'];
-			$reg			= $obj->fields['REG_SURAT_PEMBERITAHUAN'];
-			$tahun 			= date('Y');
-			$nomor_surat	= $no.$reg.$tahun;
+			$no				= 1 + $obj->fields['NOMOR_SURAT_TUNAI'];
+			$reg			= $obj->fields['REG_SURAT_TUNAI'];
+			$nomor_surat	= $no.$reg;
 			$tanggal_cetak 	= kontgl(tgltgl(date("d M Y")));
 			$kode_blok		= $id_del;
 			
+			$tanggal_surat	= substr($tanggal_tempo,0,10);
+			$pecah_tanggal	= explode("-",$tanggal_surat);
+			$thn 			= $pecah_tanggal[0];
+			$bln 			= $pecah_tanggal[1];
+			$tgl			= $pecah_tanggal[2];
+			
+			if(($bln + 1) > 12)
+			{
+				$next_bln 	= $bln % 12;
+				$next_thn 	= $thn + 1; 
+			}
+			else
+			{
+				$next_bln 	= $bln + 1;
+				$next_thn 	= $thn;
+			}
+			
+			$query = "update CS_REGISTER_CUSTOMER_SERVICE set NOMOR_SURAT_TUNAI = NOMOR_SURAT_TUNAI + 1";
+			ex_false($conn->execute($query), $query);
+			
+			$query = "update RENCANA set NO_SURAT1 = '$nomor_surat', TANGGAL_SURAT1 = CONVERT(DATETIME,GETDATE(),105) 
+			WHERE KODE_BLOK = '$id_del'
+			AND TANGGAL >= CONVERT(DATETIME,'01-$bln-$thn',105) 
+			AND TANGGAL < CONVERT(DATETIME,'01-$next_bln-$next_thn',105)";
+			ex_false($conn->execute($query), $query);
+			
+	
 			// Include the PHPWord.php, all other classes were loaded by an autoloader
-			include '../../../../../plugin/PHPWord.php';
+			
 
 			// Create a new PHPWord Object
 			$PHPWord = new PHPWord();	
@@ -79,11 +105,12 @@
 			flush();
 			readfile($temp_file); // or echo file_get_contents($temp_file);
 			unlink($temp_file);  // remove temp file
+			
+			
 		}
 		
 	}		
 	
 	exit;
-
-
+	
 ?>

@@ -41,7 +41,6 @@ jQuery(function($) {
 		e.preventDefault();
 		disetujui 	= jQuery('#disetujui').val();		
 		disetujui	= disetujui.replace(/[^0-9.]/g, '');
-		alert (disetujui);
 		return false;
 	});
 

@@ -56,8 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		{
 			ex_ha('JB09', 'I');
 			
-			ex_empty($kode_blok, 'Blok / Nomor harus diisi.');
-			ex_empty($no_ppjb_hak, 'No. PPJB Pengalihan Hak harus diisi.');
 			ex_empty($tanggal, 'Tanggal harus diisi.');
 			ex_empty($harga_hak, 'Harga harus diisi.');
 			ex_empty($biaya, 'Biaya harus diisi.');
@@ -80,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				PIHAK_PERTAMA, ALAMAT_PIHAK_PERTAMA, NO_ID_PIHAK_PERTAMA, NO_TELP_PIHAK_PERTAMA, NO_HP_PIHAK_PERTAMA, NO_FAX_PIHAK_PERTAMA, EMAIL_PIHAK_PERTAMA, SUAMI_ISTRI,
 				PIHAK_KEDUA, ALAMAT_PIHAK_KEDUA, NO_ID_PIHAK_KEDUA, NO_TELP_PIHAK_KEDUA, NO_HP_PIHAK_KEDUA, NO_FAX_PIHAK_KEDUA, EMAIL_PIHAK_KEDUA, NAMA_SUAMI_ISTRI, 
 				HARGA_AWAL, NO_PPJB_AWAL, TANGGAL_PPJB_AWAL, TANGGAL_PERMOHONAN, TANGGAL_PERSETUJUAN, BIAYA_PENGALIHAN_HAK, MASA_BANGUN, HARGA_PENGALIHAN_HAK, KETERANGAN)
-			VALUES ('$id', '$no_ppjb_hak', CONVERT(DATETIME,'$tanggal',105), 
+			VALUES ('$kode', '$no_ppjb_hak', CONVERT(DATETIME,'$tanggal',105), 
 				'$pihak_pertama', '$alamat', '$no_id', '$tlp1', '$tlp3', '$no_fax', '$email', '$suami_istri',
 				'$pihak_kedua', '$alamat_hak', '$no_id_hak', '$tlp1_hak', '$tlp3_hak', '$no_fax_hak', '$email_hak', '$suami_istri_hak', 
 				$harga_awal, '$no_ppjb_awal', CONVERT(DATETIME,'$tanggal_awal',105), CONVERT(DATETIME,'$tanggal_permohonan',105), CONVERT(DATETIME,'$tanggal_persetujuan',105), $biaya, '$masa_bangun', $harga_hak, '$keterangan')
@@ -100,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				ALAMAT_EMAIL = '$email_hak',
 				NAMA_SUAMI_ISTRI = '$suami_istri_hak',
 				NO_FAX = '$no_fax_hak'
-			WHERE KODE_BLOK = '$id'
+			WHERE KODE_BLOK = '$kode'
 			";
 			ex_false($conn->execute($query), $query);
 			
@@ -133,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				HARGA_PENGALIHAN_HAK = $harga_hak,
 				BIAYA_PENGALIHAN_HAK = $biaya,
 				MASA_BANGUN = '$masa_bangun',
-				KETERANGAN = '$keterangan',
+				KETERANGAN = '$keterangan',	
 				PIHAK_KEDUA = '$pihak_kedua',
 				ALAMAT_PIHAK_KEDUA = '$alamat_hak',
 				NO_ID_PIHAK_KEDUA = '$no_id_hak',
@@ -142,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				NO_FAX_PIHAK_KEDUA = '$no_fax_hak',
 				EMAIL_PIHAK_KEDUA = '$email_hak',
 				NAMA_SUAMI_ISTRI = '$suami_istri_hak'
-			WHERE NO_PPJB_PH = '$id'
+			WHERE NO_PPJB_PH = '$no_ppjb_hak'
 			";
 			ex_false($conn->execute($query), $query);
 

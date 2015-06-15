@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		if ($act == 'Ubah') # Proses Ubah
 		{
-			$query = "update CS_INFORMASI_DENDA set DENDA_DISETUJUI = '$disetujui' 
+			$query = "update CS_INFORMASI_DENDA set DENDA = '$disetujui' 
 			WHERE KODE_BLOK = '$id_' AND convert(varchar,TANGGAL,23) = '$tgl_'";
 			ex_false($conn->execute($query), $query);
 					

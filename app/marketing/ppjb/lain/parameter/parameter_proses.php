@@ -35,11 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		$nomor_ppjb		= (isset($_REQUEST['nomor_ppjb'])) ? to_number($_REQUEST['nomor_ppjb']) : '';
 		$reg_ppjb		= (isset($_REQUEST['reg_ppjb'])) ? clean($_REQUEST['reg_ppjb']) : '';
 		$tanggal_sk		= (isset($_REQUEST['tanggal_sk'])) ? clean($_REQUEST['tanggal_sk']) : '';
+		$nomor_ppjb_ph		= (isset($_REQUEST['nomor_ppjb_ph'])) ? clean($_REQUEST['nomor_ppjb_ph']) : '';
+		$reg_ppjb_ph			= (isset($_REQUEST['reg_ppjb_ph'])) ? clean($_REQUEST['reg_ppjb_ph']) : '';
 		
 		$query = "SELECT * FROM CS_PARAMETER_PPJB WHERE NAMA_PT = '$nama_pt' AND NAMA_DEP = '$nama_dep' AND NAMA_PEJABAT = '$nama_pejabat' AND
 				NAMA_JABATAN = '$nama_jabatan' AND PEJABAT_PPJB = '$pejabat_ppjb' AND JABATAN_PPJB = '$jabatan_ppjb' AND NOMOR_SK = '$nomor_sk' AND 
-				TANGGAL_SK = CONVERT(DATETIME,'$tanggal_sk',105) AND NOMOR_PPJB = '$nomor_ppjb' AND REG_PPJB = '$reg_ppjb' AND 
-				JUMLAH_HARI = '$jumlah_hari' AND UNIT = '$unit' AND KOTA = '$kota'
+				TANGGAL_SK = CONVERT(DATETIME,'$tanggal_sk',105) AND NOMOR_PPJB = '$nomor_ppjb' AND REG_PPJB = '$reg_ppjb'  AND JUMLAH_HARI = '$jumlah_hari' AND UNIT = '$unit' AND KOTA = '$kota' 
+				AND NOMOR_PPJB_PH = '$nomor_ppjb_ph' AND REG_PPJB_PH = '$reg_ppjb_ph'
 				";
 		ex_found($conn->Execute($query)->recordcount(), "Tidak ada data yang berubah.");
 		
@@ -47,13 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		
 		$query = "
 		INSERT INTO CS_PARAMETER_PPJB (
-		NAMA_PT, NAMA_DEP, NAMA_PEJABAT, NAMA_JABATAN, PEJABAT_PPJB, JABATAN_PPJB, NOMOR_SK, TANGGAL_SK, NOMOR_PPJB, REG_PPJB, JUMLAH_HARI, UNIT, KOTA
+		NAMA_PT, NAMA_DEP, NAMA_PEJABAT, NAMA_JABATAN, PEJABAT_PPJB, JABATAN_PPJB, NOMOR_SK, TANGGAL_SK, NOMOR_PPJB, REG_PPJB, JUMLAH_HARI, UNIT, KOTA,NOMOR_PPJB_PH,REG_PPJB_PH
 		)
 		VALUES (
-		'$nama_pt', '$nama_dep', '$nama_pejabat', '$nama_jabatan', '$pejabat_ppjb', '$jabatan_ppjb', '$nomor_sk', CONVERT(DATETIME,'$tanggal_sk',105), '$nomor_ppjb', '$reg_ppjb', '$jumlah_hari', '$unit', '$kota'
-		)
+		'$nama_pt', '$nama_dep', '$nama_pejabat', '$nama_jabatan', '$pejabat_ppjb', '$jabatan_ppjb', '$nomor_sk', CONVERT(DATETIME,'$tanggal_sk',105), '$nomor_ppjb', '$reg_ppjb', '$jumlah_hari', '$unit', '$kota', '$nomor_ppjb_ph' ,'$reg_ppjb_ph')
 		";
-		
+		print_r($query);
 		ex_false($conn->Execute($query), $query);
 		
 		$conn->committrans();

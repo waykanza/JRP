@@ -23,7 +23,7 @@ $query = "
 SELECT 
 	COUNT(*) AS TOTAL
 FROM 
-	SPP
+	SPP a
 $query_search
 ";
 $total_data = $conn->execute($query)->fields['TOTAL'];
@@ -49,28 +49,46 @@ $page_start = (($page_num-1) * $per_page);
 <table class="t-data w60">
 <tr>
 	<th class="w15">BLOK / NOMOR</th>
-	<th class="w60">NAMA PEMBELI</th>
+	<th class="w30">NAMA PEMBELI</th>
+	<th class="w15">TGL. PPJB</th>
+	<th>JENIS PPJB</th>
+	<th >NOMOR</th>
 </tr>
 
 <?php
 if ($total_data > 0)
 {
+	// $query = "
+	// SELECT *
+	// FROM 
+		// SPP
+	// $query_search
+	// ORDER BY KODE_BLOK
+	// ";
+	
 	$query = "
-	SELECT *
-	FROM 
-		SPP
-	$query_search
-	ORDER BY KODE_BLOK
-	";
+			SELECT a.KODE_BLOK, a.NAMA_PEMBELI,b.NOMOR, b.TANGGAL, c.NAMA_JENIS
+			FROM 
+				  SPP a
+			LEFT OUTER  JOIN CS_PPJB b ON a.KODE_BLOK = b.KODE_BLOK
+			LEFT OUTER  JOIN CS_JENIS_PPJB c ON b.JENIS = c.KODE_JENIS 
+			$query_search
+			ORDER BY a.KODE_BLOK
+		";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
-
 	while( ! $obj->EOF)
 	{
 		$id = $obj->fields['KODE_BLOK'];		
+		$NAMA_PEMBELI = (isset($obj->fields['NAMA_PEMBELI'])) ? ($obj->fields['NAMA_PEMBELI']) : '';
+		$NAMA_JENIS = (!isset($obj->fields['NAMA_JENIS']) || is_null($obj->fields['NAMA_JENIS'])) ? '' : $obj->fields['NAMA_JENIS']; 
+		$NOMOR = (!isset($obj->fields['NOMOR']) || is_null($obj->fields['NOMOR'])) ? '' : $obj->fields['NOMOR']; 
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>"> 
 			<td class="text-center"><?php echo $id; ?></td>
 			<td><?php echo $obj->fields['NAMA_PEMBELI'];  ?></td>
+			<td class="text-center"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?></td>
+			<td><?php echo $NAMA_JENIS ?></td>
+			<td class="text-center"><?php echo $NOMOR; ?></td>
 		</tr>
 		<?php
 		$obj->movenext();

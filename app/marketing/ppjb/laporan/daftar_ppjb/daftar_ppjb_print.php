@@ -6,7 +6,8 @@ die_mod('JB10');
 $conn = conn($sess_db);
 die_conn($conn);
 
-$per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
+// $per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
+$per_page	= 500;
 $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
 
 $field1				= (isset($_REQUEST['field1'])) ? clean($_REQUEST['field1']) : '';

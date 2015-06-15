@@ -27,6 +27,7 @@ require_once('pengalihan_hak_proses.php');
 jQuery(function($) {
 	if ('<?php echo $act; ?>' == 'Ubah') {
 		$('#print').show();	
+		$('#cari').hide();	
 	}
 	else {
 		$('#print').hide();
@@ -37,8 +38,8 @@ jQuery(function($) {
 	$('#masa_bangun').inputmask('numeric', { repeat: '2' });
 	$('#keterangan, #pihak_kedua, #suami_istri_hak').inputmask('varchar', { repeat: '60' });
 	$('#alamat_hak, #email').inputmask('varchar', { repeat: '100' });
-	$('#tlp1_hak, #tlp3_hak, #no_fax_hak').inputmask('varchar', { repeat: '20' });
-
+	$('#tlp1_hak, #tlp3_hak, #no_fax_hak').inputmask('varchar', { repeat: '15' });
+	
 	$('#close').on('click', function(e) {
 		e.preventDefault();
 		return parent.loadData();
@@ -74,8 +75,8 @@ jQuery(function($) {
 	});
 });
 function daftar_ppjb() {
-	var url = base_marketing + 'ppjb/transaksi/pengalihan_hak/daftar_ppjb.php'; 
-	setPopup('Daftar PPJB', url, 600, 300); 
+	var url = base_marketing + 'ppjb/transaksi/pengalihan_hak/pengalihan_daftar_setup.php'; 
+	setPopup('Daftar PPJB', url, 700, 500); 
 	return false; 
 }
 </script>
@@ -93,7 +94,7 @@ function daftar_ppjb() {
 <tr>
 <tr id="tr-blok1">
 	<td width="100">Blok / Nomor</td><td>:</td>
-	<td><input readonly="readonly" type="text" name="kode" id="kode" size="15" value="<?php echo $kode; ?>"> <button onclick="return daftar_ppjb()"> Cari </button></td>
+	<td><input readonly="readonly" type="text" name="kode" id="kode" size="15" value="<?php echo $kode; ?>"> <button id="cari" onclick="return daftar_ppjb()"> Cari </button></td>
 </tr>
 <tr>
 	<td>No. PPJB</td><td>:</td>
@@ -119,7 +120,7 @@ function daftar_ppjb() {
 <tr>
 </tr>
 	<td width="130">No. PPJB</td><td>:</td>
-	<td><input type="text" name="no_ppjb_hak" id="no_ppjb_hak" size="20" value="<?php echo $no_ppjb_hak; ?>"></td>
+	<td><input type="text" name="no_ppjb_hak" id="no_ppjb_hak" size="20" value="<?php echo $no_ppjb_hak; ?>" readonly></td>
 </tr>
 <tr>
 	<td>Tanggal</td><td>:</td>
@@ -178,11 +179,11 @@ function daftar_ppjb() {
 </tr>
 <tr>
 	<td>No. HP</td></td><td>:</td>
-	<td><input readonly="readonly" type="input" name="tlp3" id="tlp3" size="15" value="<?php echo $tlp3; ?>"></td>
+	<td><input readonly="readonly" type="tel" name="tlp3" id="tlp3" size="15" value="<?php echo $tlp3; ?>"></td>
 </tr>
 <tr>
 	<td>Email</td></td><td>:</td>
-	<td><input readonly="readonly" type="input" name="email" id="email" size="30" value="<?php echo $email; ?>"></td>
+	<td><input readonly="readonly" type="email" name="email" id="email" size="30" value="<?php echo $email; ?>"></td>
 </tr>
 <tr>
 	<td>Nama Suami / Istri</td></td><td>:</td>

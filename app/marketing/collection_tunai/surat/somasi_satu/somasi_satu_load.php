@@ -8,7 +8,7 @@ die_conn($conn);
 
 $per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
 $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
-$tgl = '05-06-2015';
+$tgl = '02-06-2015';
 $query_blok_lunas = '';
 $query_pemb_jt = '';
 $query_tglmerah = '';

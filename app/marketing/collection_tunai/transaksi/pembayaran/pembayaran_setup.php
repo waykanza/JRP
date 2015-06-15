@@ -78,7 +78,7 @@ function loadData()
 function showPopup(act, id)
 {
 	var url =	base_marketing + 'collection_tunai/transaksi/pembayaran/pembayaran_popup.php' + '?act=' + act + '&id=' + id;
-	setPopup(act + ' Identifikasi', url, 1100, 550);
+	setPopup(act + 'Identifikasi', url, 1100, 550);
 	return false;
 }
 

@@ -25,6 +25,41 @@ require_once('ppjb_proses.php');
 <script type="text/javascript" src="../../../../../plugin/window/javascripts/window.js"></script>
 <script type="text/javascript">
 jQuery(function($) {
+	var tanggal_ver;
+	tanggal_ver = $('#tanggal_ver').val();
+	
+	//disable jika sudah diverifikasi
+	if(tanggal_ver!=''){
+		// readonly select
+		$("select :selected").each(function(){
+			$(this).parent().data("default", this);
+		});
+
+		$("select").change(function(e) {
+			$($(this).data("default")).prop("selected", true);
+		});
+		
+		
+		$('#harga_tanah').attr('readonly', 'readonly');
+		$('#tanggal').attr('readonly', 'readonly');
+		$('#pembangunan').attr('readonly', 'readonly');
+		$('#prosentase').attr('readonly', 'readonly');
+		$('#daya_listrik').attr('readonly', 'readonly');
+		$('#jenis_ppjb').attr('readonly', 'readonly');
+		$('#addendum').attr('readonly', 'readonly');
+		$('#kelurahan').attr('readonly', 'readonly');
+		$('#kecamatan').attr('readonly', 'readonly');
+		$('#catatan').attr('readonly', 'readonly');
+		$('#tgl1').attr('readonly', 'readonly');
+		$('#tgl2').attr('readonly', 'readonly');
+		$('#tgl3').attr('readonly', 'readonly');
+		$('#tgl4').attr('readonly', 'readonly');
+		$('#tercetak_belum').attr('readonly', 'readonly');
+		$('#tercetak_sudah').attr('readonly', 'readonly');
+		$('#no_arsip').attr('readonly', 'readonly');
+	}
+	
+	
 	if (<?php echo $jml; ?> == 0) {
 		if (confirm("Data PPJB tidak ditemukan ! Proses dilanjutkan ?") == false)
 		{
@@ -110,7 +145,13 @@ jQuery(function($) {
 	
 	$('#ppjb').on('click', function(e) {
 		e.preventDefault();		
-		window.open(base_marketing + 'ppjb/transaksi/ppjb/ppjb.php?id=<?php echo $id; ?>&act=Ubah');		
+		window.open(base_marketing + 'ppjb/transaksi/ppjb/ppjb_cetak.php?id=<?php echo $id; ?>&act=Ubah');		
+		return false;
+	});
+	
+	$('#alamat').on('click', function(e) {
+		e.preventDefault();		
+		window.open(base_marketing + 'ppjb/transaksi/ppjb/alamat_cetak.php?id=<?php echo $id; ?>&act=Ubah');		
 		return false;
 	});
 	

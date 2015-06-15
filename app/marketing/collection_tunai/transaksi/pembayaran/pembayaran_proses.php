@@ -112,10 +112,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			// if($status_otorisasi == 1){
 				$query = "
 				INSERT INTO KWITANSI (
-					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, KODE_BAYAR, NILAI, KETERANGAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, PPN, NILAI_NETT, VER_COLLECTION, VER_KEUANGAN
+					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, KODE_BAYAR, NILAI, KETERANGAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, PPN, NILAI_NETT, VER_COLLECTION, VER_KEUANGAN, STATUS_KWT
 				)
 				VALUES(
-					'$id', 'XXX', '$nama_pembayar', CONVERT(DATETIME,'$tanggal',105), $jenis_pembayaran, $jumlah, '$keterangan', $diposting, CONVERT(DATETIME,'$tgl_terima',105), '$via', '$catatan', $ppn, $subtotal, '0', '0'
+					'$id', 'XXX', '$nama_pembayar', CONVERT(DATETIME,'$tanggal',105), $jenis_pembayaran, $jumlah, '$keterangan', $diposting, CONVERT(DATETIME,'$tgl_terima',105), '$via', '$catatan', $ppn, $subtotal, '0', '0', '0'
 				)
 				";
 				ex_false($conn->execute($query), $query);
@@ -139,10 +139,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				
 				$query = "
 				INSERT INTO KWITANSI_LAIN_LAIN (
-					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, NILAI, KETERANGAN, KODE_PEMBAYARAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, VER_COLLECTION, VER_KEUANGAN
+					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, NILAI, KETERANGAN, KODE_PEMBAYARAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, VER_COLLECTION, VER_KEUANGAN, STATUS_KWT
 				)
 				VALUES(
-					'$id', 'XXX', '$nama_pembayar', CONVERT(DATETIME,'$tanggal',105), $jumlah, '$keterangan', '$jenis_pembayaran', $diposting, CONVERT(DATETIME,'$tgl_terima',105), '$via', '$catatan', '0', '0'
+					'$id', 'XXX', '$nama_pembayar', CONVERT(DATETIME,'$tanggal',105), $jumlah, '$keterangan', '$jenis_pembayaran', $diposting, CONVERT(DATETIME,'$tgl_terima',105), '$via', '$catatan', '0', '0', '0'
 				)
 				";
 			}

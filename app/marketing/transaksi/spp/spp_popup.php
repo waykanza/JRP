@@ -98,6 +98,16 @@ jQuery(function($) {
 		});
     });
 	
+	$(document).on('click', '#print', function(e) {
+		e.preventDefault();
+		if (confirm('Apa anda yakin akan mencetak surat untuk data ini?')) {
+			e.preventDefault();
+			location.href = base_marketing_transaksi + 'spp/print_spp.php?' + $('#form').serialize();	
+			//cetakSurat();
+		}
+		return false;
+	});
+	
 	loadData1();
 	loadData2();
 	loadData3();

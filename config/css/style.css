@@ -237,13 +237,18 @@ input[type=chcekbox] {
 	
 }
 
+textarea[readonly],
+select[readonly],
+input[readonly],
 input[readonly="readonly"],
 input[readonly=readonly],
 button[readonly="readonly"],
 button[readonly=readonly] {
-	background:#CCCCCC;
-	border:1px solid #AAAAAA;
+    background:#CCCCCC;
+    border:1px solid #AAAAAA;
+     cursor: not-allowed;
 }
+
 
 input[disabled="disabled"],
 input[disabled],

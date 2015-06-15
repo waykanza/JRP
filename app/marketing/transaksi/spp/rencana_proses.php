@@ -6,7 +6,6 @@
 	
 	$act	= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 	$id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
-	$kode_blok	= (isset($_REQUEST['kode_blok'])) ? clean($_REQUEST['kode_blok']) : '';
 	
 	$jumlah					= '';
 	$tanggal				= '';
@@ -71,15 +70,11 @@
 			{
 				//ex_ha('', 'D');
 				
-				$query = "DELETE FROM RENCANA WHERE KODE_BLOK = '$kode_blok'";
-					if ($conn->Execute($query)) {
-						$act[] = $id_del;
-						} else {
-						$error = TRUE;
-					}
-					
+				$query = "DELETE FROM RENCANA WHERE KODE_BLOK = '$id'";
 				
-				$msg = ($error) ? 'Sebagian data RENCANA gagal dihapus.' : 'Data RENCANA berhasil dihapus.'; 	
+				ex_false($conn->execute($query), $query);
+				
+				$msg ='Data RENCANA berhasil dihapus.'; 	
 			}
 			
 			$conn->committrans(); 

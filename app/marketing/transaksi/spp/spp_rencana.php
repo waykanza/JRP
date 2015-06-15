@@ -1,5 +1,5 @@
 <?php
-require_once('spp_proses.php');
+require_once('rencana_proses.php');
 require_once('../../../../config/config.php');
 die_login();
 //die_app('');
@@ -18,12 +18,9 @@ jQuery(function($) {
 		inside: true
 	});
 	
-	$(document).on('click', '#hapus', function(e) {
+	$(document).on('click', '#Hapus', function(e) {
 		e.preventDefault();
-		var checked = $(".cb_data:checked").length;
-		if (checked < 1) {
-			alert('Pilih data SPP yang akan dihapus.');
-		} else if (confirm('Apa data SPP ini akan dihapus?')) {
+		if (confirm('Apa data SPP ini akan dihapus?')) {
 			hapusData("Hapus");
 		}
 		return false;
@@ -48,20 +45,20 @@ function rencana_pembayaran(act) {
 
 function hapusData(act)
 {	
-	var id = document.getElementById("kode_blok").value;
+	// var id = document.getElementById("kode_blok").value;
 	alert(id);
-	var url		= base_marketing_transaksi + 'spp/rencana_proses.php' + '?act=' + act + '&id=' + id;
+	var url		= base_marketing_transaksi + 'spp/rencana_proses.php?act=Hapus',
+	data	= jQuery('#form').serializeArray();
 	return false;
 }
 </script>
 
 <button onclick="return rencana_pembayaran('Ubah')"> Rencana </button>
-<input type="button" id="hapus" value=" Hapus ">
+<input type="button" id="Hapus" value=" Hapus ">
 <div class="clear"><br></div>
 
 <table class="t-data w100">
 <tr>
-	<th class="w5"><input type="checkbox" id="cb_all"></th>
 	<th class="w5">NO.</th>
 	<th class="w15">KODE BLOK</th>
 	<th class="w15">TANGGAL</th>
@@ -86,8 +83,7 @@ function hapusData(act)
 	{
 		$id = $obj->fields['KODE_BLOK'];
 		?>
-		<tr class="onclick" id="<?php echo $id; ?>">
-			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td> 			
+		<tr>
 			<td class="text-center"><?php echo $i; ?></td>
 			<td><?php echo $obj->fields['KODE_BLOK'];  ?></td>
 			<td><?php echo tgltgl(f_tgl($obj->fields['TANGGAL'])); ?></td>

@@ -134,7 +134,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 					$error = TRUE;
 				}
 			}		
-			
+			$query = "
+			UPDATE STOK SET
+				STATUS_STOK = '1', TERJUAL = '0' 
+			WHERE 
+				KODE_BLOK = '$id_del'
+			";
+			ex_false($conn->Execute($query), $query);
 			$msg = ($error) ? 'Sebagian data SPP gagal dihapus.' : 'Data SPP berhasil dihapus.'; 	
 		}
 		
@@ -207,6 +213,7 @@ if ($act == 'Ubah')
 	$obj 		= $conn->execute($query);
 	
 	$tgl_spp			= tgltgl(f_tgl($obj->fields['TANGGAL_SPP']));	
+	$no_customer		= $obj->fields['NOMOR_CUSTOMER'];
 	$no_spp				= $obj->fields['NOMOR_SPP'];
 	$nama				= $obj->fields['NAMA_PEMBELI'];
 	$alamat_rumah		= $obj->fields['ALAMAT_RUMAH'];

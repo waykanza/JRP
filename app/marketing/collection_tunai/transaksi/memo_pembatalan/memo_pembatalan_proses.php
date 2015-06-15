@@ -30,89 +30,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		{
 			ex_empty($kode_blok, 'Kode blok harus diisi.');
 			
-			$obj = $conn->Execute("
-			SELECT  
-				s.*,
-				f.NILAI_TAMBAH, 
-				f.NILAI_KURANG, 
-				
-				(s.LUAS_TANAH * ht.HARGA_TANAH) AS BASE_HARGA_TANAH, 
-				(
-					((s.LUAS_TANAH * ht.HARGA_TANAH) * f.NILAI_TAMBAH / 100) - 
-					((s.LUAS_TANAH * ht.HARGA_TANAH) * f.NILAI_KURANG / 100)
-				) AS FS_HARGA_TANAH, 
-				
-				(
-					(
-						(s.LUAS_TANAH * ht.HARGA_TANAH) + 
-						((s.LUAS_TANAH * ht.HARGA_TANAH) * f.NILAI_TAMBAH / 100) - 
-						((s.LUAS_TANAH * ht.HARGA_TANAH) * f.NILAI_KURANG / 100)
-					)
-					* s.DISC_TANAH / 100
-				) AS DISC_HARGA_TANAH, 
-				
-				(
-					(
-						((s.LUAS_TANAH * ht.HARGA_TANAH) + 
-						((s.LUAS_TANAH * ht.HARGA_TANAH) * f.NILAI_TAMBAH / 100) - 
-						((s.LUAS_TANAH * ht.HARGA_TANAH) * f.NILAI_KURANG / 100))
-						-
-						(
-							((s.LUAS_TANAH * ht.HARGA_TANAH) + 
-							((s.LUAS_TANAH * ht.HARGA_TANAH) * f.NILAI_TAMBAH / 100) - 
-							((s.LUAS_TANAH * ht.HARGA_TANAH) * f.NILAI_KURANG / 100))
-							* s.DISC_TANAH / 100
-						)
-					) * s.PPN_TANAH / 100
-				) AS PPN_HARGA_TANAH, 
-				
-				
-				(s.LUAS_BANGUNAN * hb.HARGA_BANGUNAN) AS BASE_HARGA_BANGUNAN, 
-				((s.LUAS_BANGUNAN * hb.HARGA_BANGUNAN) * s.DISC_BANGUNAN / 100) AS DISC_HARGA_BANGUNAN, 
-				(
-					(
-						(s.LUAS_BANGUNAN * hb.HARGA_BANGUNAN) -
-						((s.LUAS_BANGUNAN * hb.HARGA_BANGUNAN) * s.DISC_BANGUNAN / 100)
-					) * s.PPN_BANGUNAN / 100
-				) AS PPN_HARGA_BANGUNAN, 
-				
-				d.NAMA_DESA,
-				l.LOKASI,
-				ju.JENIS_UNIT,
-				ht.HARGA_TANAH AS HARGA_TANAH_SK,
-				f.FAKTOR_STRATEGIS,
-				t.TIPE_BANGUNAN,
-				hb.HARGA_BANGUNAN AS HARGA_BANGUNAN_SK,
-				p.JENIS_PENJUALAN
-			FROM 
-				STOK s
-				
-				LEFT JOIN HARGA_BANGUNAN hb ON s.KODE_SK_BANGUNAN = hb.KODE_SK
-				LEFT JOIN HARGA_TANAH ht ON s.KODE_SK_TANAH = ht.KODE_SK
-				
-				LEFT JOIN DESA d ON s.KODE_DESA = d.KODE_DESA
-				LEFT JOIN LOKASI l ON s.KODE_LOKASI = l.KODE_LOKASI
-				LEFT JOIN JENIS_UNIT ju ON s.KODE_UNIT = ju.KODE_UNIT
-				LEFT JOIN FAKTOR f ON s.KODE_FAKTOR = f.KODE_FAKTOR
-				LEFT JOIN TIPE t ON s.KODE_TIPE = t.KODE_TIPE
-				LEFT JOIN JENIS_PENJUALAN p ON s.KODE_PENJUALAN = p.KODE_JENIS
-			WHERE
-				KODE_BLOK = '$kode_blok'");
-						
-			$r_base_harga_tanah		= $obj->fields['BASE_HARGA_TANAH'];
-			$r_fs_harga_tanah		= $obj->fields['FS_HARGA_TANAH'];
-			$r_disc_harga_tanah		= $obj->fields['DISC_HARGA_TANAH'];
-			$r_ppn_harga_tanah		= $obj->fields['PPN_HARGA_TANAH'];
-			$r_harga_tanah			= $r_base_harga_tanah + $r_fs_harga_tanah - $r_disc_harga_tanah + $r_ppn_harga_tanah;
+			$query = "
+			SELECT *
+			FROM
+				SPP a 
+				LEFT JOIN STOK b ON a.KODE_BLOK = b.KODE_BLOK
+				LEFT JOIN TIPE c ON b.KODE_TIPE = c.KODE_TIPE
+				LEFT JOIN HARGA_TANAH d ON b.KODE_SK_TANAH = d.KODE_SK
+				LEFT JOIN HARGA_BANGUNAN e ON b.KODE_SK_BANGUNAN = e.KODE_SK
+				LEFT JOIN FAKTOR f ON b.KODE_FAKTOR = f.KODE_FAKTOR
+				LEFT JOIN CS_VIRTUAL_ACCOUNT g ON a.NOMOR_CUSTOMER = g.NOMOR_VA		
+			WHERE 
+				a.KODE_BLOK = '$kode_blok'";
+			$obj = $conn->execute($query);
 			
-			$r_base_harga_bangunan	= $obj->fields['BASE_HARGA_BANGUNAN'];
-			$r_fs_harga_bangunan	= 0;
-			$r_disc_harga_bangunan	= $obj->fields['DISC_HARGA_BANGUNAN'];
-			$r_ppn_harga_bangunan	= $obj->fields['PPN_HARGA_BANGUNAN'];
-			$r_harga_bangunan		= $r_base_harga_bangunan + $r_fs_harga_bangunan - $r_disc_harga_bangunan + $r_ppn_harga_bangunan;
 			
-			$jumlah_harga			= $r_harga_tanah + $r_harga_bangunan;
+			$luas_tanah 		= $obj->fields['LUAS_TANAH'];
+			$luas_bangunan 		= $obj->fields['LUAS_BANGUNAN'];
+			$tanah 				= $luas_tanah * ($obj->fields['HARGA_TANAH']) ;
+			$disc_tanah 		= round($tanah * ($obj->fields['DISC_TANAH'])/100,0) ;
+			$nilai_tambah		= round(($tanah - $disc_tanah) * ($obj->fields['NILAI_TAMBAH'])/100,0) ;
+			$nilai_kurang		= round(($tanah - $disc_tanah) * ($obj->fields['NILAI_KURANG'])/100,0) ;
+			$faktor				= $nilai_tambah - $nilai_kurang;
+			$total_tanah		= $tanah - $disc_tanah + $faktor;
+			$ppn_tanah 			= round($total_tanah * ($obj->fields['PPN_TANAH'])/100,0) ;
 			
+			$bangunan 			= $luas_bangunan * ($obj->fields['HARGA_BANGUNAN']) ;
+			$disc_bangunan 		= round($bangunan * ($obj->fields['DISC_BANGUNAN'])/100,0) ;
+			$total_bangunan		= $bangunan - $disc_bangunan;
+			$ppn_bangunan 		= round($total_bangunan * ($obj->fields['PPN_BANGUNAN'])/100,0) ;
+			
+			$total_harga 		= to_money($total_tanah + $total_bangunan);
+			$total_ppn			= to_money($ppn_tanah + $ppn_bangunan);
+			
+			$jumlah_harga		= ($total_tanah + $total_bangunan) + ($ppn_tanah + $ppn_bangunan);
+			
+			$query = "
+			SELECT SUM(NILAI) AS TOTAL FROM KWITANSI WHERE KODE_BLOK = '$kode_blok'
+			";
+			$obj = $conn->execute($query);
+			$total_pembayaran	= $obj->fields['TOTAL'];
+			$total_pengembalian	= $jumlah_harga - $total_pembayaran;
 			
 			$query = "
 				SELECT * FROM SPP WHERE KODE_BLOK = '$kode_blok'
@@ -126,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				KODE_BLOK, TANGGAL_SPP, NAMA_PEMBELI, TANGGAL_MEMO, NILAI_TRANSAKSI, TOTAL_PEMBAYARAN, TOTAL_PENGEMBALIAN, NOMOR_MEMO
 			)
 			VALUES(
-				'$kode_blok', '$tanggal_spp', '$nama_pembeli', CONVERT(DATETIME,'$tanggal',105), $jumlah_harga, '0.00', '0.00', $nomor_memo
+				'$kode_blok', '$tanggal_spp', '$nama_pembeli', CONVERT(DATETIME,'$tanggal',105), $jumlah_harga, $total_pembayaran, $total_pengembalian, $nomor_memo
 			)
 			";
 		

@@ -98,7 +98,7 @@ jQuery(function($) {
 		return false;
 	});
 	
-		$(document).on('click', '#otorisasi', function(e) {
+	$(document).on('click', '#otorisasi', function(e) {
 		e.preventDefault();
 		var checked = $(".cb_data:checked").length;
 		if (checked < 1) {

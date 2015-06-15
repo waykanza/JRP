@@ -45,7 +45,6 @@ $page_start = (($page_num-1) * $per_page);
 <tr>
 	<td>
 		<input type="button" id="print" value=" Cetak Data ">
-		<input type="button" id="surat" value=" Cetak Surat ">
 	</td>
 	<td class="text-right">
 		<input type="button" id="prev_page" value=" < ">

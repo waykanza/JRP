@@ -3,7 +3,18 @@
 <form name="form" id="form" method="post">
 <table class="t-control wauto">
 <tr>
-	<td width="100">Jumlah Baris</td><td>:</td>
+	<td width="100">PPJB</td><td width="10">:</td>
+	<td>
+		BELUM PPJB
+	</td>
+</tr>
+<tr>	
+	<td>Periode</td><td>:</td>
+	<td><input type="text" name="periode_awal" id="periode_awal" class="apply dd-mm-yyyy" size="15" value="<?php echo date('d-m-Y') ;?>"> s/d
+	<input type="text" name="periode_akhir" id="periode_akhir" class="apply dd-mm-yyyy" size="15" value="<?php echo date('d-m-Y') ;?>"></td>
+</tr>
+<tr>
+	<td>Jumlah Baris</td><td>:</td>
 	<td>
 		<input type="text" name="per_page" size="3" id="per_page" class=" apply text-center" value="20">
 		<input type="button" name="apply" id="apply" value=" Apply ">

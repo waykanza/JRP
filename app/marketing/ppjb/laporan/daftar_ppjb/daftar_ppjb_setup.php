@@ -16,8 +16,8 @@
 </tr>
 <tr>	
 	<td>Periode</td><td>:</td>
-	<td><input type="text" name="periode_awal" id="periode_awal" class="apply dd-mm-yyyy" size="15" value=""> s/d
-	<input type="text" name="periode_akhir" id="periode_akhir" class="apply dd-mm-yyyy" size="15" value=""></td>
+	<td><input type="text" name="periode_awal" id="periode_awal" class="apply dd-mm-yyyy" size="15" value="<?php echo date('d-m-Y') ;?>"> s/d
+	<input type="text" name="periode_akhir" id="periode_akhir" class="apply dd-mm-yyyy" size="15" value="<?php echo date('d-m-Y') ;?>"></td>
 </tr>
 <tr>
 	<td>Jumlah Baris</td><td>:</td>
@@ -34,6 +34,7 @@
 
 <script type="text/javascript">
 jQuery(function($) {
+	loadData();
 	/* -- FILTER -- */
 	$(document).on('keypress', '.apply', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);

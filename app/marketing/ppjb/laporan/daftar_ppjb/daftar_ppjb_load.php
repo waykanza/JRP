@@ -10,12 +10,12 @@ $per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
 $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
 
 $field1				= (isset($_REQUEST['field1'])) ? clean($_REQUEST['field1']) : '';
-$periode_awal		= (isset($_REQUEST['periode_awal'])) ? clean($_REQUEST['periode_awal']) : '';
-$periode_akhir		= (isset($_REQUEST['periode_akhir'])) ? clean($_REQUEST['periode_akhir']) : '';
+$periode_awal		= (isset($_REQUEST['periode_awal'])) ? clean($_REQUEST['periode_awal']) : date('d-m-Y');
+$periode_akhir		= (isset($_REQUEST['periode_akhir'])) ? clean($_REQUEST['periode_akhir']) : date('d-m-Y');
 
 $query_search = '';
-if ($periode_awal <> '' || $periode_akhir <> '')
-{
+// if ($periode_awal <> '' || $periode_akhir <> '')
+// {
 	$query_search .= "WHERE TANGGAL >= CONVERT(DATETIME,'$periode_awal',105) AND TANGGAL <= CONVERT(DATETIME,'$periode_akhir',105)";
 	
 	if ($field1 == 1)
@@ -53,7 +53,7 @@ if ($periode_awal <> '' || $periode_akhir <> '')
 	{
 		$query_search .= "";
 	}
-}
+// }
 
 /* Pagination */
 if ($field1 < 5)
