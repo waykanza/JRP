@@ -184,6 +184,7 @@ jQuery(function($) {
 </tr>
 <tr>
 	<td>Pembayaran Diterima Tanggal : <input type="text" name="tgl_terima" id="tgl_terima" size="15" class="apply dd-mm-yyyy" value="<?php echo $tgl_terima; ?>"></td>
+	<!--
 	<td> Via :
 	<select name="via" id="via">
 		<option value=""> -- Via -- </option>
@@ -196,11 +197,11 @@ jQuery(function($) {
 		<option value="7" <?php echo is_selected('7', $via); ?>> Kartu Kredit </option>
 	</select>
 	</td>
-	<td>Catatan : <input type="text" name="catatan" id="catatan" size="20" value="<?php echo $catatan; ?>"></td>
+	-->
+	<td>Catatan : <input type="text" name="catatan" id="catatan" size="50" value="<?php echo $catatan; ?>"></td>
 </tr>
 <tr>
 	<td class="td-action" colspan="3">
-		<input type="button" id="bon" value=" Bon ">
 		<input type="button" id="print" value=" Print ">
 		<input type="button" id="close" value=" Tutup "></td>
 	</td>
@@ -208,6 +209,7 @@ jQuery(function($) {
 <tr>
 	<td class="" colspan="3">
 		<!--
+		<input type="button" id="bon" value=" Bon ">
 		<input type="submit" id="save" value=" <?php echo $act; ?> ">
 		<input type="reset" id="reset" value=" Reset ">
 		-->

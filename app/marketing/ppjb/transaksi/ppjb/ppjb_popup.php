@@ -145,9 +145,22 @@ jQuery(function($) {
 	
 	$('#ppjb').on('click', function(e) {
 		e.preventDefault();		
-		window.open(base_marketing + 'ppjb/transaksi/ppjb/ppjb_cetak.php?id=<?php echo $id; ?>&act=Ubah');		
+		var kode_jenis_ppjb = $('#kode_jenis_ppjb').val();
+		var jenis_ppjb = $('#jenis_ppjb').val();
+		window.open(base_marketing + 'ppjb/transaksi/ppjb/ppjb_cetak.php?id=<?php echo $id; ?>&act=Ubah&kode_jenis_ppjb='+kode_jenis_ppjb+'&jenis_ppjb='+jenis_ppjb);		
 		return false;
 	});
+	var addendum = $('#addendum').val();
+	// if(addendum!=''){
+		// $('#addendum2').hide();
+		$('#addendum2').on('click', function(e) {
+			e.preventDefault();		
+			var kode_jenis_ppjb = $('#kode_jenis_ppjb').val();
+			var jenis_ppjb = $('#jenis_ppjb').val();
+			window.open(base_marketing + 'ppjb/transaksi/ppjb/addendum_cetak.php?id=<?php echo $id; ?>&act=Ubah&kode_jenis_ppjb='+kode_jenis_ppjb+'&jenis_ppjb='+jenis_ppjb);		
+			return false;
+		});
+	// }
 	
 	$('#alamat').on('click', function(e) {
 		e.preventDefault();		
@@ -314,7 +327,7 @@ jQuery(function($) {
 	<td><input type="text" name="daya_listrik" id="daya_listrik" size="4" value="<?php echo $daya_listrik; ?>"> Watt</td>
 </tr>
 <tr>
-	<td>Jenis PPJB</td><td>:</td>
+	<td>Jenis PPJB</td><td>: <input type="hidden" id="kode_jenis_ppjb" value="<?php echo $jenis_ppjb; ?>"></td>
 	<td>
 	<select name="jenis_ppjb" id="jenis_ppjb">
 		<option value=""> -- Jenis PPJB -- </option>

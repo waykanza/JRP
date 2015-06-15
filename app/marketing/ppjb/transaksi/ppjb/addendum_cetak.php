@@ -31,7 +31,7 @@
 	$hari = $array_hari[date('N')];
 
 	//Format Tanggal 
-	$tanggal = date ('j');
+	$tanggal_hari_ini = date ('j');
 
 	//Array Bulan 
 	$array_bulan = array(1=>'Januari','Februari','Maret', 'April', 'Mei', 'Juni','Juli','Agustus','September','Oktober', 'November','Desember'); 
@@ -50,20 +50,20 @@
 	
 	switch ($kode_jenis_ppjb) {
     case 102:
-        $template = '../../../../../config/Template/Bang_BTR_Buy_Back.docx';
-		$nama_template = "Bang_BTR_Buy_Back";
+        $template = '../../../../../config/Template/ADD_BANG_EMR_RESIDENCE.docx';
+		$nama_template = "ADDENDUM ";
         break;
     case "blue":
-       $template = '../../../../../config/Template/Bang_BTR_Buy_Back.docx';
-	   $nama_template = "Bang_BTR_Buy_Back";
+       $template = '../../../../../config/Template/ADD_BANG_EMR_RESIDENCE.docx';
+	   $nama_template = "ADDENDUM ";
         break;
     case "green":
-        $template = '../../../../../config/Template/Bang_BTR_Buy_Back.docx';
-		$nama_template = "Bang_BTR_Buy_Back";
+        $template = '../../../../../config/Template/ADD_BANG_EMR_RESIDENCE.docx';
+		$nama_template = "ADDENDUM ";
         break;
     default:
-        $template = '../../../../../config/Template/PPJB.docx';
-		$nama_template = "Bang_BTR_Buy_Back";
+        $template = '../../../../../config/Template/ADD_BANG_EMR_RESIDENCE.docx';
+		$nama_template = "ADDENDUM ";
 	}
 
 	
@@ -71,7 +71,7 @@
 	
 	$document->setValue('nomor_ppjb',$nomor);
 	$document->setValue('hari',$hari);
-	$document->setValue('tanggal',$tanggal);
+	$document->setValue('tanggal',$tanggal_hari_ini);
 	$document->setValue('bulan',$bulan);
 	$document->setValue('tahun',$tahun);
 	$document->setValue('tahun_terbilang',$bilangan -> eja($tahun));
@@ -87,6 +87,7 @@
 	$document->setValue('luas_tanah_terbilang',$bilangan -> eja($luas_tanah));
 	$document->setValue('kelurahan',$nama_kelurahan);
 	$document->setValue('kecamatan',$nama_kecamatan);
+	$document->setValue('tanggal_ppjb',$tanggal);
 	$document->setValue('luas_bangunan',$luas_bangunan);
 	$document->setValue('luas_bangunan_terbilang',$bilangan -> eja($luas_bangunan));
 	$document->setValue('kode_blok',$kode_blok);
@@ -106,7 +107,7 @@
 	
 	$path='E:\\';
 	
-	$nama_file= "PPJB ".$nama_template." ".$nama_pembeli." ". $tanggal . " " . $bulan . " " . $tahun .".doc";
+	$nama_file= " ".$nama_template." ".$nama_pembeli." ". $tanggal . " " . $bulan . " " . $tahun .".doc";
 	// $document->save('E:\\andonnikahTemplate.docx');
 	//$document->save('E:\\'.$nama_file);
 	

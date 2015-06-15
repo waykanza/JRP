@@ -21,6 +21,13 @@ $nama_pembayar 	= $obj->fields['NAMA_PEMBAYAR'];
 $keterangan 	= $obj->fields['KETERANGAN'];
 $nilai 			= $obj->fields['NILAI'];
 $tanggal		= kontgl(tgltgl(date("d M Y", strtotime($obj->fields['TANGGAL']))));
+
+$query = "
+		UPDATE KWITANSI SET 
+			STATUS_KWT = '1'
+		WHERE NOMOR_KWITANSI = '$id'
+		";
+ex_false($conn->Execute($query), $query);
 ?>
 
 <!DOCTYPE html>

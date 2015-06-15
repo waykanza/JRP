@@ -199,7 +199,8 @@ jQuery(function($) {
 	
 	$('#print').on('click', function(e) {
 		e.preventDefault();		
-		window.open(base_marketing + 'kredit/transaksi/kuitansi/kuitansi_print.php?id=<?php echo base64_encode($id); ?>');		
+		window.open(base_marketing + 'kredit/transaksi/kuitansi/kuitansi_print.php?id=<?php echo base64_encode($id); ?>');
+		
 		return false;
 	});	
 });
@@ -220,7 +221,7 @@ jQuery(function($) {
 		FROM 
 			JENIS_PEMBAYARAN
 		WHERE
-			KELOMPOK IS NULL
+			KELOMPOK = '1'
 		");
 		while( ! $obj->EOF)
 		{
@@ -258,9 +259,9 @@ jQuery(function($) {
 </table>
 <table class="t-popup">
 <tr>
-	<td>Jumlah Rp. : <input type="text" name="jumlah" id="jumlah" size="15" value="<?php echo to_money($jumlah); ?>"></td>	
-	<td>Diposting Rp. : <input type="text" name="diposting" id="diposting" size="15" value="<?php echo to_money($diposting); ?>"></td>
-	<td>Jakarta, <input type="text" name="tanggal" id="tanggal" size="15" class="apply dd-mm-yyyy" value="<?php echo $tanggal; ?>"></td>
+	<td>Jumlah Rp. : <input readonly="readonly" type="text" name="jumlah" id="jumlah" size="15" value="<?php echo to_money($jumlah); ?>"></td>	
+	<td>Diposting Rp. : <input readonly="readonly" type="text" name="diposting" id="diposting" size="15" value="<?php echo to_money($diposting); ?>"></td>
+	<td>Jakarta, <input readonly="readonly" type="text" name="tanggal" id="tanggal" size="15" class="apply dd-mm-yyyy" value="<?php echo $tanggal; ?>"></td>
 </tr>
 </table>
 
@@ -280,7 +281,6 @@ jQuery(function($) {
 		<input type="button" id="post" value=" Post ">
 		<input type="button" id="bon" value=" Bon ">
 		<input type="button" id="rr" value=" R-R "> -->
-		<input type="button" id="simpan" value=" Simpan ">	
 		<input type="button" id="print" value=" Print ">	
 		<input type="button" id="close" value=" Tutup ">
 	</td>

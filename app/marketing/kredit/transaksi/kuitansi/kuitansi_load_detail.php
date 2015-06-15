@@ -29,13 +29,36 @@ $id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 	while( ! $obj->EOF)
 	{
 		$id = $obj->fields['NOMOR_KWITANSI'];
+		$status	= $obj->fields['STATUS_KWT'];
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>">			
 			<td class="text-center"><?php echo $i; ?></td>
-			<td><?php echo $id; ?></td>
+			<?php 
+			if($status == '0')
+			{?>
+				<td>-</td>
+			<?php
+			}
+			else 
+			{?>
+				<td><?php echo $id; ?></td>
+			<?php
+			}
+			?>
 			<td><?php echo date("d M Y", strtotime($obj->fields['TANGGAL']));  ?></td>
 			<td class="text-right"><?php echo to_money($obj->fields['NILAI']);  ?></td>
-			<td><?php echo $obj->fields['KETERANGAN'];  ?></td>
+			<?php
+			if($status == '0')
+			{?>
+				<td>-</td>
+			<?php
+			}
+			else
+			{?>
+				<td><?php echo $obj->fields['KETERANGAN'];  ?></td>
+			<?php
+			}
+			?>
 		</tr>
 		<?php
 		$i++;

@@ -21,6 +21,8 @@ $nama_pembayar 	= $obj->fields['NAMA_PEMBAYAR'];
 $keterangan 	= $obj->fields['KETERANGAN'];
 $nilai 			= $obj->fields['NILAI'];
 $tanggal		= kontgl(tgltgl(date("d M Y", strtotime($obj->fields['TANGGAL']))));
+
+
 ?>
 
 <!DOCTYPE html>
