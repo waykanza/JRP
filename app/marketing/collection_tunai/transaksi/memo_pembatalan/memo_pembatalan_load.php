@@ -19,12 +19,12 @@ if ($search != '')
 # Pagination
 $query = "
 SELECT 
-	COUNT(NOMOR_MEMO) AS TOTAL
-FROM 
-	CS_MEMO_PEMBATALAN
-$query_search
+	COUNT(NOMOR_MEMO) AS TOTAL_DATA
+	FROM CS_MEMO_PEMBATALAN
+	WHERE NOMOR_MEMO != ' ' $query_search
+	GROUP BY NOMOR_MEMO	
 ";
-$total_data = $conn->execute($query)->fields['TOTAL'];
+$total_data = $conn->execute($query)->fields['TOTAL_DATA'];
 $total_page = ceil($total_data/$per_page);
 
 $page_num = ($page_num > $total_page) ? $total_page : $page_num;

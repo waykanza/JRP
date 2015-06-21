@@ -87,6 +87,13 @@ die_mod('PM05');
 $conn = conn($sess_db);
 die_conn($conn);
 	
+if ($act == 'Tambah')
+{
+	$obj = $conn->Execute("SELECT MAX(KODE_JENIS) AS MAX_KODE FROM JENIS_PENJUALAN");
+	$kode_jenis		= 1 + $obj->fields['MAX_KODE'];
+}
+
+
 if ($act == 'Ubah')
 {	
 	$obj = $conn->Execute("SELECT * FROM JENIS_PENJUALAN WHERE KODE_JENIS = '$id'");

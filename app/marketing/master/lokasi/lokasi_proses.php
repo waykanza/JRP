@@ -87,6 +87,13 @@ die_mod('PM01');
 $conn = conn($sess_db);
 die_conn($conn);
 	
+if ($act == 'Tambah')
+{
+	$obj = $conn->Execute("SELECT MAX(KODE_LOKASI) AS MAX_KODE FROM LOKASI");
+	$kode_lokasi	= 1 + $obj->fields['MAX_KODE'];
+
+}
+
 if ($act == 'Ubah')
 {
 	$obj = $conn->Execute("SELECT * FROM LOKASI WHERE KODE_LOKASI = '$id'");

@@ -45,7 +45,7 @@ jQuery(function($) {
 		var id = $(this).parent().attr('id');
 		var nilai = <?php echo $nilai; ?>;
 		var sisa = <?php echo $sisa; ?>;
-		showPopup('Ubah', id,jenis_kwt,nilai,sisa);
+		showPopup('Ubah',id,jenis_kwt,nilai,sisa);
 		return false;
 	});
 	
@@ -79,6 +79,13 @@ function loadData()
 	return false;
 }
 
+function load(id)
+{
+	if (popup) { popup.close(); }
+	parent.load(id);
+	return false;
+}
+
 function showPopup(act,id,jenis_kwt,nilai,sisa)
 {
 	
@@ -108,7 +115,7 @@ function deleteData()
 		alert(result.msg);		
 	}, 'json');
 	
-	loadData();
+	parent.load('<?php echo $id; ?>');
 	return false;
 }
 </script>
@@ -154,7 +161,7 @@ function deleteData()
 </tr>
 <tr>
 	<td>SISA</td></td><td>:</td>
-	<td><b><?php echo $sisa; ?></b></td>
+	<td><b><?php echo to_money($sisa); ?></b></td>
 </tr>
 <tr>
 	<td><input type="hidden" name="max_tgl" id="max_tgl" size="70" value="<?php echo $max_tgl; ?>"></td>

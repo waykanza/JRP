@@ -77,13 +77,13 @@ jQuery(function($) {
 		<input type="radio" name="identitas" id="pasport" value="3" <?php echo is_checked('3', $identitas); ?>>Pasport
 		<input type="radio" name="identitas" id="kims" value="4" <?php echo is_checked('4', $identitas); ?>> KIMS
 	</td>
-	<td>No. : <input type="text" name="no_identitas" id="no_identitas" size="20" value="<?php echo $no_identitas; ?>"><td>
+	<td>No. : <input type="text" name="no_identitas" id="no_identitas" size="20" value="<?php echo $no_identitas; ?>"></td>
 </tr>
 </table>
 
 <table class="t-popup pad2 w100">
 <tr>
-	<td width="280">NPWP : <input type="text" name="npwp" id="npwp" size="20" value="<?php echo $npwp; ?>"><td>
+	<td width="280">NPWP : <input type="text" name="npwp" id="npwp" size="20" value="<?php echo $npwp; ?>"></td>
 	<td>Jenis : 
 	<select name="jenis_npwp" id="jenis_npwp">
 		<option value="">   -- Jenis --   </option>

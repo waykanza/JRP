@@ -52,7 +52,9 @@ jQuery(function($) {
 			alert(result.msg);
 			if (result.error == false) {
 				if (result.act == 'Tambah') {
-					$('#reset').click();
+					// $('#reset').click();
+					
+					location.reload();
 				} else if (result.act == 'Ubah') {
 					location.reload();
 				}

@@ -108,6 +108,13 @@ die_app('A01');
 die_mod('PM08');
 $conn = conn($sess_db);
 die_conn($conn);
+
+if ($act == 'Tambah')
+{
+	$obj = $conn->Execute("SELECT MAX(KODE_SK) AS MAX_KODE FROM HARGA_BANGUNAN");
+	$kode_sk	= 1 + $obj->fields['MAX_KODE'];
+}
+
 	
 if ($act == 'Ubah')
 {

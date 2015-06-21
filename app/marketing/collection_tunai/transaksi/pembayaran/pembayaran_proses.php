@@ -51,6 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_empty($diposting, 'Diposting harus diisi.');
 			ex_empty($tanggal, 'Tanggal harus diisi.');
 			
+			$user = $_SESSION['USER_ID']; 
+			
 			$query = "SELECT * FROM KWITANSI WHERE NAMA_PEMBAYAR = '$nama_pembayar' AND TANGGAL = CONVERT(DATETIME,'$tanggal',105) AND 
 			NILAI = $jumlah AND KETERANGAN = '$keterangan' AND NILAI_DIPOSTING = $diposting AND TANGGAL_BAYAR = CONVERT(DATETIME,'$tgl_terima',105) AND
 			BAYAR_VIA = '$via' AND CATATAN = '$catatan'";
@@ -69,7 +71,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				BAYAR_VIA = '$via', 
 				CATATAN = '$catatan',
 				PPN = $ppn, 
-				NILAI_NETT = $subtotal
+				NILAI_NETT = $subtotal,
+				VER_COLLECTION_OFFICER = $user, 
+				VER_COLLECTION_TANGGAL = CONVERT(DATETIME,GETDATE(),105) 
 			WHERE
 				NOMOR_KWITANSI = '$id'
 			";			
@@ -106,16 +110,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_empty($diposting, 'Diposting harus diisi.');
 			ex_empty($tanggal, 'Tanggal harus diisi.');
 			
+			$user = $_SESSION['USER_ID']; 
+			
 			if (($kode_bayar == 1) || ($kode_bayar == 2) || ($kode_bayar == 3) || ($kode_bayar == 4) || ($kode_bayar == 5) || ($kode_bayar == 6) ||
 				($kode_bayar == 10) || ($kode_bayar == 14) || ($kode_bayar == 15) || ($kode_bayar == 21) || ($kode_bayar == 22) || ($kode_bayar == 23)||
 				($kode_bayar == 24)||($kode_bayar == 25) || ($kode_bayar == 26) || ($kode_bayar == 27) || ($kode_bayar == 28)){
 			// if($status_otorisasi == 1){
 				$query = "
 				INSERT INTO KWITANSI (
-					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, KODE_BAYAR, NILAI, KETERANGAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, PPN, NILAI_NETT, VER_COLLECTION, VER_KEUANGAN, STATUS_KWT
+					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, KODE_BAYAR, NILAI, KETERANGAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, PPN, NILAI_NETT, VER_COLLECTION, VER_KEUANGAN, STATUS_KWT, VER_COLLECTION_OFFICER, VER_COLLECTION_TANGGAL 
 				)
 				VALUES(
-					'$id', 'XXX', '$nama_pembayar', CONVERT(DATETIME,'$tanggal',105), $jenis_pembayaran, $jumlah, '$keterangan', $diposting, CONVERT(DATETIME,'$tgl_terima',105), '$via', '$catatan', $ppn, $subtotal, '0', '0', '0'
+					'$id', 'XXX', '$nama_pembayar', CONVERT(DATETIME,'$tanggal',105), $jenis_pembayaran, $jumlah, '$keterangan', $diposting, CONVERT(DATETIME,'$tgl_terima',105), '$via', '$catatan', $ppn, $subtotal, '1', '0', '0','$user', CONVERT(DATETIME,GETDATE(),105)
 				)
 				";
 				ex_false($conn->execute($query), $query);
@@ -139,10 +145,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				
 				$query = "
 				INSERT INTO KWITANSI_LAIN_LAIN (
-					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, NILAI, KETERANGAN, KODE_PEMBAYARAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, VER_COLLECTION, VER_KEUANGAN, STATUS_KWT
+					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, NILAI, KETERANGAN, KODE_PEMBAYARAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, VER_COLLECTION, VER_KEUANGAN, STATUS_KWT, VER_COLLECTION_OFFICER, VER_COLLECTION_TANGGAL
 				)
 				VALUES(
-					'$id', 'XXX', '$nama_pembayar', CONVERT(DATETIME,'$tanggal',105), $jumlah, '$keterangan', '$jenis_pembayaran', $diposting, CONVERT(DATETIME,'$tgl_terima',105), '$via', '$catatan', '0', '0', '0'
+					'$id', 'XXX', '$nama_pembayar', CONVERT(DATETIME,'$tanggal',105), $jumlah, '$keterangan', '$jenis_pembayaran', $diposting, CONVERT(DATETIME,'$tgl_terima',105), '$via', '$catatan', '1', '0', '0','$user', CONVERT(DATETIME,GETDATE(),105)
 				)
 				";
 			}

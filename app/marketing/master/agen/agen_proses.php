@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		// ex_app('A01');
-		// ex_mod('PM12');
+		ex_app('A01');
+		ex_mod('PM12');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -88,10 +88,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-// die_app('A01');
-// die_mod('PM12');
+die_app('A01');
+die_mod('PM12');
 $conn = conn($sess_db);
 die_conn($conn);
+
 	
 if ($act == 'Ubah')
 {

@@ -43,6 +43,7 @@ $(function() {
 				{
 					alert(data.msg);
 					$('#reset').click();
+					parent.loadData();
 				}
 				else if (data.act == 'Ubah')
 				{
@@ -60,10 +61,7 @@ $(function() {
 
 <form name="form" id="form" method="post">
 <table class="t-popup">
-<tr>
-	<td width="50">Kode</td><td>:</td>
-	<td><input type="text" name="kode_kelurahan" id="kode_kelurahan" size="3" value="<?php echo $kode_kelurahan; ?>"></td>
-</tr>
+<input type="hidden" name="kode_kelurahan" id="kode_kelurahan" size="3" value="<?php echo $kode_kelurahan; ?>">
 <tr>
 	<td>Nama</td><td>:</td>
 	<td><input type="text" name="nama_kelurahan" id="nama_kelurahan" size="40" value="<?php echo $nama_kelurahan; ?>"></td>

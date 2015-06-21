@@ -108,6 +108,12 @@ die_mod('JB02');
 $conn = conn($sess_db);
 die_conn($conn);
 	
+if ($act == 'Tambah')
+{
+	$obj = $conn->Execute("SELECT MAX(KODE_KECAMATAN) AS MAX_KODE FROM KECAMATAN");
+	$kode_kecamatan	= 1 + $obj->fields['MAX_KODE'];
+}
+
 if ($act == 'Ubah')
 {
 	$query = "SELECT * FROM KECAMATAN WHERE KODE_KECAMATAN = '$id'";

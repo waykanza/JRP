@@ -82,6 +82,13 @@ function showPopup(act, id)
 	return false;
 }
 
+function load(id)
+{
+	loadData();
+	showPopup('Detail', id);
+	
+}
+
 </script>
 
 <div id="t-detail"></div>

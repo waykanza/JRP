@@ -102,7 +102,9 @@ jQuery(function($) {
 		e.preventDefault();
 		if (confirm('Apa anda yakin akan mencetak surat untuk data ini?')) {
 			e.preventDefault();
+			// location.href = base_marketing_transaksi + 'spp/AdvancedTable.php?' + $('#form').serialize();	
 			location.href = base_marketing_transaksi + 'spp/print_spp.php?' + $('#form').serialize();	
+			// location.href = base_marketing_transaksi + 'spp/print_rencana.php?' + $('#form').serialize();	
 			//cetakSurat();
 		}
 		return false;

@@ -45,6 +45,7 @@ jQuery(function($) {
 			if (result.error == false) {
 				if (result.act == 'Tambah') {
 					$('#reset').click();
+					parent.loadData();
 				} else if (result.act == 'Ubah') {
 					parent.loadData();
 				}
@@ -59,10 +60,7 @@ jQuery(function($) {
 <body class="popup">
 <form name="form" id="form" method="post">
 <table>
-<tr>
-	<td width="">Kode</td><td width="">:</td>
-	<td><input type="text" name="kode_lokasi" id="kode_lokasi" size="3" value="<?php echo $kode_lokasi; ?>"></td>
-</tr>
+<input type="hidden" name="kode_lokasi" id="kode_lokasi" size="3" value="<?php echo $kode_lokasi; ?>">
 <tr>
 	<td>Lokasi</td><td>:</td>
 	<td><input type="text" name="lokasi" id="lokasi" size="30" value="<?php echo $lokasi; ?>"></td>

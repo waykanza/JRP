@@ -47,6 +47,7 @@ jQuery(function($) {
 			if (result.error == false) {
 				if (result.act == 'Tambah') {
 					$('#reset').click();
+					parent.loadData();
 				} else if (result.act == 'Ubah') {
 					parent.loadData();
 				}
@@ -61,10 +62,7 @@ jQuery(function($) {
 <body class="popup">
 <form name="form" id="form" method="post">
 <table>
-<tr>
-	<td width="">Kode</td><td width="">:</td>
-	<td><input type="text" name="kode_faktor" id="kode_faktor" size="3" value="<?php echo $kode_faktor; ?>"></td>
-</tr>
+<input type="hidden" name="kode_faktor" id="kode_faktor" size="3" value="<?php echo $kode_faktor; ?>">
 <tr>
 	<td>Faktor Strategis</td><td>:</td>
 	<td><input type="text" name="faktor_strategis" id="faktor_strategis" size="50" value="<?php echo $faktor_strategis; ?>"></td>

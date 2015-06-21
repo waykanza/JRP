@@ -108,6 +108,12 @@ die_mod('JB01');
 $conn = conn($sess_db);
 die_conn($conn);
 	
+if ($act == 'Tambah')
+{
+	$obj = $conn->Execute("SELECT MAX(KODE_KELURAHAN) AS MAX_KODE FROM KELURAHAN");
+	$kode_kelurahan	= 1 + $obj->fields['MAX_KODE'];
+}
+
 if ($act == 'Ubah')
 {
 	$query = "SELECT * FROM KELURAHAN WHERE KODE_KELURAHAN = '$id'";

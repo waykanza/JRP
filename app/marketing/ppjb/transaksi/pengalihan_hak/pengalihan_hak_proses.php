@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				PIHAK_PERTAMA, ALAMAT_PIHAK_PERTAMA, NO_ID_PIHAK_PERTAMA, NO_TELP_PIHAK_PERTAMA, NO_HP_PIHAK_PERTAMA, NO_FAX_PIHAK_PERTAMA, EMAIL_PIHAK_PERTAMA, SUAMI_ISTRI,
 				PIHAK_KEDUA, ALAMAT_PIHAK_KEDUA, NO_ID_PIHAK_KEDUA, NO_TELP_PIHAK_KEDUA, NO_HP_PIHAK_KEDUA, NO_FAX_PIHAK_KEDUA, EMAIL_PIHAK_KEDUA, NAMA_SUAMI_ISTRI, 
 				HARGA_AWAL, NO_PPJB_AWAL, TANGGAL_PPJB_AWAL, TANGGAL_PERMOHONAN, TANGGAL_PERSETUJUAN, BIAYA_PENGALIHAN_HAK, MASA_BANGUN, HARGA_PENGALIHAN_HAK, KETERANGAN)
-			VALUES ('$kode', '$no_ppjb_hak', CONVERT(DATETIME,'$tanggal',105), 
+			VALUES ('$kode', 'XXX', CONVERT(DATETIME,'$tanggal',105), 
 				'$pihak_pertama', '$alamat', '$no_id', '$tlp1', '$tlp3', '$no_fax', '$email', '$suami_istri',
 				'$pihak_kedua', '$alamat_hak', '$no_id_hak', '$tlp1_hak', '$tlp3_hak', '$no_fax_hak', '$email_hak', '$suami_istri_hak', 
 				$harga_awal, '$no_ppjb_awal', CONVERT(DATETIME,'$tanggal_awal',105), CONVERT(DATETIME,'$tanggal_permohonan',105), CONVERT(DATETIME,'$tanggal_persetujuan',105), $biaya, '$masa_bangun', $harga_hak, '$keterangan')

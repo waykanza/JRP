@@ -13,14 +13,14 @@ $search		= (isset($_REQUEST['no_va'])) ? clean($_REQUEST['no_va']) : '';
 $query_search = '';
 if ($search != '')
 {
-	$query_search .= " and b.NOMOR_VA LIKE '%$search%'";
+	$query_search .= " WHERE b.NOMOR_VA LIKE '%$search%'";
 }
 
 # Pagination
 $query = "
 SELECT NOMOR_VA
 FROM 
-	CS_VIRTUAL_ACCOUNT where SISA not in (0.00) $query_search
+	CS_VIRTUAL_ACCOUNT $query_search
 group by NOMOR_VA
 ";
 $n = 0;
@@ -68,7 +68,6 @@ if ($total_data > 0)
 	SELECT a.KODE_BLOK, a.NAMA_PEMBELI, b.NOMOR_VA, MAX(b.TANGGAL) AS TGL ,MAX(b.NILAI) as MAX_NILAI, SUM(b.SISA) as JML_SISA 
 	FROM SPP a RIGHT JOIN CS_VIRTUAL_ACCOUNT b 
 	ON a.NOMOR_CUSTOMER = b.NOMOR_VA
-	WHERE b.SISA not in (0.00)
 	$query_search
 	GROUP BY b.NOMOR_VA, a.KODE_BLOK, a.NAMA_PEMBELI
 	ORDER BY a.KODE_BLOK
@@ -85,8 +84,8 @@ if ($total_data > 0)
 			<td class="text-left"><?php echo $obj->fields['NAMA_PEMBELI']; ?></td>
 			<td class="text-left"><?php echo $obj->fields['NOMOR_VA']; ?></td>
 			<td class="text-left"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TGL']))); ?></td>
-			<td class="text-right"><?php echo $obj->fields['MAX_NILAI']; ?></td>
-			<td class="text-right"><?php echo $obj->fields['JML_SISA']; ?></td>
+			<td class="text-right"><?php echo to_money($obj->fields['MAX_NILAI']); ?></td>
+			<td class="text-right"><?php echo to_money($obj->fields['JML_SISA']); ?></td>
 		</tr>
 		<?php
 		$i++;

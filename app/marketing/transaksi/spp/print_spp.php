@@ -36,13 +36,73 @@
 			$document->setValue('alamat_email', $email);
 			$document->setValue('telepon', $tlp_lain);
 			$document->setValue('npwp', $npwp);
-			// $document->setValue('tanggal_tempo', $tgl_tempo);
-			// $document->setValue('kode_blok', $kode_blok);
-			// $document->setValue('nilai', $nilai);
-			// $document->setValue('bulan', $bulan);
-			// $document->setValue('denda', $denda.".00");
-			// $document->setValue('total', $total.".00");
-			// $document->setValue('terbilang', $n_terbilang." rupiah");
+			if ($jenis_npwp == '1'){
+				$document->setValue('status_pkp', '-');
+				$document->setValue('status_non_pkp', 'YES');
+			}else 
+			if ($jenis_npwp == '2'){
+				$document->setValue('status_pkp', 'YES');
+				$document->setValue('status_non_pkp', '-');
+			}else{
+				$document->setValue('status_pkp', '-');
+				$document->setValue('status_non_pkp', '-');
+			}
+			$document->setValue('kode_blok', $id);
+			$document->setValue('tipe', $r_tipe_bangunan);
+			$document->setValue('luas_tanah', $r_luas_tanah);
+			$document->setValue('luas_bangunan', $r_luas_bangunan);
+			$document->setValue('harga', to_money($r_base_total_harga).".00");
+			$document->setValue('prosen_potongan', $r_base_potongan);
+			$document->setValue('nilai_potongan', to_money($r_base_nilai_potongan).".00");
+			$document->setValue('harga_net', to_money($r_harga_net).".00");
+			$document->setValue('nilai_ppn', to_money($r_base_nilai_ppn).".00");
+			$document->setValue('harga_setelah_ppn', to_money($r_harga_setelah_ppn).".00");
+			$document->setValue('nilai_kpr', to_money($jumlah_kpr).".00");
+			$document->setValue('sisa_1', to_money($r_base_sisa_1).".00");
+			$document->setValue('tanda_jadi', to_money($tanda_jadi).".00");
+			$document->setValue('sisa_2', to_money($r_base_sisa_2).".00");
+			$document->setValue('tgl_tanda_jadi',$tgl_tanda_jadi);
+			$document->setValue('tanggal_spp',$tgl_spp);
+			//$document->setValue('terbilang', $n_terbilang." rupiah");
+			
+			$query = "
+			SELECT *
+			FROM 
+				RENCANA a
+			LEFT JOIN JENIS_PEMBAYARAN b ON a.KODE_BAYAR = b.KODE_BAYAR
+			WHERE a.KODE_BLOK = 'A2'
+			ORDER BY a.TANGGAL
+			";
+			$obj = $conn->execute($query);
+			$i = 1;
+			$tanggal = array();
+			$nilai = array();
+			
+			while( ! $obj->EOF)
+			{
+				$tanggal[] = tgltgl(f_tgl($obj->fields['TANGGAL']));
+				$nilai[] = to_money($obj->fields['NILAI']);
+				
+				$data1 = array(
+					'tanggal' =>$tanggal,
+					'nilai' => $nilai,
+				);	
+				
+				$i++;
+				$obj->movenext();
+			}
+			
+			$document->cloneRow('TGL',$data1);
+			
+			// $i=1;
+			// while(!$obj->EOF){
+				// $TANGGAL= $obj->fields['TANGGAL'];
+				// $NILAI = $obj->fields['NILAI'];
+			
+			
+			// }
+			// $document->cloneRow('TANGGAL', $TANGGAL);
+			// $document->cloneRow('NILAI', $NILAI);
 			
 			$namafile = "SPP"."_".$id." ".date('d F Y').".doc";
 			

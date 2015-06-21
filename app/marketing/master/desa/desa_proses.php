@@ -87,6 +87,12 @@ die_mod('PM09');
 $conn = conn($sess_db);
 die_conn($conn);
 	
+if ($act == 'Tambah')
+{
+	$obj = $conn->Execute("SELECT MAX(KODE_DESA) AS MAX_KODE FROM DESA");
+	$kode_desa	= 1 + $obj->fields['MAX_KODE'];
+}
+
 if ($act == 'Ubah')
 {
 	$obj = $conn->Execute("SELECT * FROM DESA WHERE KODE_DESA = '$id'");

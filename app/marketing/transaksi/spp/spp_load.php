@@ -94,8 +94,10 @@ if ($total_data > 0)
 			<td><?php echo $obj->fields['ALAMAT_RUMAH'];  ?></td>
 	</tr>
 		<?php
+		
 		$obj->movenext();
 	}
+	
 }
 ?>
 </table>

@@ -119,6 +119,12 @@ die_mod('PM03');
 $conn = conn($sess_db);
 die_conn($conn);
 
+if ($act == 'Tambah')
+{
+	$obj = $conn->Execute("SELECT MAX(KODE_FAKTOR) AS MAX_KODE FROM FAKTOR");
+	$kode_faktor		= 1 + $obj->fields['MAX_KODE'];
+}
+
 if ($act == 'Ubah')
 {
 	$obj = $conn->Execute("SELECT * FROM FAKTOR WHERE KODE_FAKTOR = '$id'");

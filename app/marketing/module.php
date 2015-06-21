@@ -2,6 +2,7 @@
 switch (trim(base64_decode($cmd)))
 {
 	# Master
+	case 'A01_home' 					: die_mod('PM01'); include('marketing/home/home_setup.php');break;
 	case 'A01_lokasi' 					: die_mod('PM01'); include('marketing/master/lokasi/lokasi_setup.php');break;
 	case 'A01_desa' 					: die_mod('PM09'); include('marketing/master/desa/desa_setup.php');break;
 	case 'A01_tipe' 					: die_mod('PM02'); include('marketing/master/tipe/tipe_setup.php');break;
@@ -12,8 +13,8 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_harga_tanah' 				: die_mod('PM07'); include('marketing/master/harga_tanah/harga_tanah_setup.php');break;
 	case 'A01_harga_bangunan' 			: die_mod('PM08'); include('marketing/master/harga_bangunan/harga_bangunan_setup.php');break;
 	case 'A01_jenis_pembayaran'			: die_mod('PM10'); include('marketing/master/jenis_pembayaran/jenis_pembayaran_setup.php');break;
-	case 'A01_agen'						: include('marketing/master/agen/agen_setup.php');break;
-	case 'A01_koordinator'				: include('marketing/master/koordinator/koordinator_setup.php');break;
+	case 'A01_agen'						:  include('marketing/master/agen/agen_setup.php');break;
+	case 'A01_koordinator'				:  include('marketing/master/koordinator/koordinator_setup.php');break;
 	
 	# Operasional
 	
@@ -107,16 +108,29 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_somasi_pertama'				: include('marketing/collection_tunai/surat/somasi_satu/somasi_satu_setup.php');break;
 	case 'A01_somasi_kedua'					: include('marketing/collection_tunai/surat/somasi_dua/somasi_dua_setup.php');break;
 	case 'A01_somasi_ketiga'				: include('marketing/collection_tunai/surat/somasi_tiga/somasi_tiga_setup.php');break;
-	case 'A01_administrasi_pembatalan'		: include('marketing/collection_tunai/surat/pembatalan/pembatalan_setup.php');break;
 	case 'A01_wanprestasi'					: include('marketing/collection_tunai/surat/wanprestasi/wanprestasi_setup.php');break;
+	case 'A01_administrasi_pembatalan'		: include('marketing/collection_tunai/surat/pembatalan/pembatalan_setup.php');break;
 	
 	
+	#Pelaporan
+	case 'A01_proyeksi_penagihan'			: include('marketing/collection_tunai/laporan/proyeksi_penagihan/proyeksi_penagihan_setup.php');break;
+	case 'A01_umur_piutang'					: include('marketing/collection_tunai/laporan/umur_piutang/umur_piutang_setup.php');break;
+	case 'A01_spp_lunas_tahunan'			: include('marketing/collection_tunai/laporan/spp_lunas_tahunan/spp_lunas_tahunan_setup.php');break;
+	case 'A01_pembebasan_denda'				: include('marketing/collection_tunai/laporan/pembebasan_denda/pembebasan_denda_setup.php');break;
+	case 'A01_pembatalan_spp'				: include('marketing/collection_tunai/laporan/pembatalan_spp/pembatalan_spp_setup.php');break;
+	case 'A01_surat_penagihan'				: include('marketing/collection_tunai/laporan/surat_penagihan/surat_penagihan_setup.php');break;
+	case 'A01_daftar_memo_pembatalan'		: include('marketing/collection_tunai/laporan/daftar_memo_pembatalan/daftar_memo_pembatalan_setup.php');break;
 	
+	
+	case 'A01_daftar_spp'					: include('marketing/collection_tunai/laporan/daftar_spp/daftar_spp_setup.php');break;
+	
+	
+	/*
 	# Pelaporan
-	case 'A01_proyeksi_penagihan' 		: include('marketing/collection_tunai/laporan/proyeksi_penagihan/proyeksi_penagihan_setup.php');break;
-	case 'A01_umur_piutang'				: include('marketing/collection_tunai/laporan/umur_piutang/umur_piutang_setup.php');break;
-	case 'A01_spp_lunas_tahunan' 		: include('marketing/collection_tunai/laporan/spp_lunas_tahunan/spp_lunas_tahunan_setup.php');break;
-	/*case 'C01_pembebasan_denda'			: die_mod('COP03'); die_ha('COP03', 'R'); include('ppjb/laporan/daftar_belum_ppjb/daftar_belum_ppjb_setup.php');break;
+	case 'C01_proyeksi_penagihan' 		: die_mod('COP01'); die_ha('COP01', 'R'); include('ppjb/laporan/daftar_ppjb/daftar_ppjb_setup.php');break;
+	case 'C01_umur_piutang'				: die_mod('COP02'); die_ha('COP02', 'R'); include('ppjb/laporan/daftar_belum_ppjb/daftar_belum_ppjb_setup.php');break;
+	case 'C01_spp_lunas_tahunan' 		: die_mod('COP07'); die_ha('COP07', 'R'); include('ppjb/laporan/daftar_ppjb/daftar_ppjb_setup.php');break;
+	case 'C01_pembebasan_denda'			: die_mod('COP03'); die_ha('COP03', 'R'); include('ppjb/laporan/daftar_belum_ppjb/daftar_belum_ppjb_setup.php');break;
 	case 'C01_pembatalan_spp'	 		: die_mod('COP04'); die_ha('COP04', 'R'); include('ppjb/laporan/daftar_ppjb/daftar_ppjb_setup.php');break;
 	case 'C01_status_surat_penagihan'	: die_mod('COP05'); die_ha('COP05', 'R'); include('ppjb/laporan/daftar_belum_ppjb/daftar_belum_ppjb_setup.php');break;
 	case 'C01_laporan_tanda_jadi' 		: die_mod('COP06'); die_ha('COP06', 'R'); include('ppjb/laporan/daftar_ppjb/daftar_ppjb_setup.php');break;
@@ -168,7 +182,7 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_tanda_terima'				: include('marketing/kredit/transaksi/tanda_terima/tanda_terima_setup.php');break;
 	
 	# Pelaporan
-	case 'A01_laporan_kuitansi'			: include('marketing/kredit/pelaporan/laporan_kuitansi_lain/laporan_kuitansi/laporan_kuitansi_setup.php');break;
+	case 'A01_laporan_kuitansi'			: include('marketing/kredit/pelaporan/laporan_kuitansi/laporan_kuitansi_setup.php');break;
 	case 'A01_laporan_kuitansi_lain'	: include('marketing/kredit/pelaporan/laporan_kuitansi_lain/laporan_kuitansi_lain_setup.php');break;
 	case 'A01_progres_penerimaan'		: include('marketing/kredit/pelaporan/progres_penerimaan/progres_penerimaan_setup.php');break;
 	case 'A01_kartu_kuning'				: include('marketing/kredit/pelaporan/kartu_kuning/kartu_kuning_setup.php');break;
@@ -179,7 +193,13 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_denda'					: include('marketing/kredit/utilitas/denda/denda_setup.php');break;
 	case 'A01_kartu_pembeli'			: include('marketing/kredit/utilitas/kartu_pembeli/kartu_pembeli_setup.php');break;
 	case 'A01_penomoran_fp'				: include('marketing/kredit/utilitas/penomoran_fp/penomoran_fp_setup.php');break;
+
 }
+
+switch ($_SESSION['HOME'])
+{
+	case 'home' 					: die_mod('PM01'); include('marketing/home/home_setup.php');$_SESSION['HOME'] = '-';
+	
+}
+
 ?>
-
-

@@ -76,17 +76,7 @@ body {
 		<form id="form-login" method="post">
 			<div class="title-page text-center">Login Form</div>
 			<table class="t-control w100">
-			<tr>
-				<td width="100"><label for="db">App</label></td>
-				<td>
-					<select name="app_id" id="app_id" class="w100">
-						<option value=""> -- App -- </option>
-						<option value="A01"> Marketing </option>		
-										
-					</select>
-				</td>
-			</tr>
-			
+			<input type="hidden" name="app_id" id="app_id" value="A01">		
 			<tr>
 				<td><label for="db">Database</label></td>
 				<td>

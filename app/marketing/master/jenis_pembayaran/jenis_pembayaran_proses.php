@@ -88,6 +88,12 @@ die_mod('PM10');
 $conn = conn($sess_db);
 die_conn($conn);
 	
+if ($act == 'Tambah')
+{
+	$obj = $conn->Execute("SELECT MAX(KODE_BAYAR) AS MAX_KODE FROM JENIS_PEMBAYARAN");
+	$kode_bayar	= 1 + $obj->fields['MAX_KODE'];
+}
+
 if ($act == 'Ubah')
 {
 	$obj = $conn->Execute("SELECT * FROM JENIS_PEMBAYARAN WHERE KODE_BAYAR = '$id'");

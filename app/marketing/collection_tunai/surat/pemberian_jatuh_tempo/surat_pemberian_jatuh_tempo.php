@@ -43,11 +43,10 @@
 			$tanggal_cetak 	= kontgl(tgltgl(date("d M Y")));
 			$kode_blok		= $id_del;
 			
-			$tanggal_surat	= substr($tanggal_tempo,0,10);
-			$pecah_tanggal	= explode("-",$tanggal_surat);
-			$thn 			= $pecah_tanggal[0];
+			$pecah_tanggal	= explode("-",$tanggal_tempo);
+			$tgl 			= $pecah_tanggal[0];
 			$bln 			= $pecah_tanggal[1];
-			$tgl			= $pecah_tanggal[2];
+			$thn			= $pecah_tanggal[2];
 			
 			if(($bln + 1) > 12)
 			{

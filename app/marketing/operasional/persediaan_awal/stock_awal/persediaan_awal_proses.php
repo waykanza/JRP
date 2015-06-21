@@ -130,6 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_false($conn->Execute($query), $query);
 					
 			$msg = 'Data persediaan awal berhasil ditambah.';
+			
 		}
 		elseif ($act == 'Ubah') # Proses Ubah
 		{

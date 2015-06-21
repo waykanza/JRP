@@ -64,15 +64,25 @@
 			$n_terbilang	= ucfirst($terbilang->eja($total));
 			
 			$query = 
-			"SELECT *
+			"SELECT *,NOMOR_PPJB = CASE WHEN f.NOMOR IS null 
+				THEN '-' ELSE f.NOMOR END,
+			TANGGAL_PPJB = CASE WHEN f.TANGGAL IS null 
+				THEN '01-01-1990' ELSE f.TANGGAL END
 			FROM
 				SPP a 
 				LEFT JOIN STOK b ON a.KODE_BLOK = b.KODE_BLOK
 				LEFT JOIN HARGA_TANAH d ON b.KODE_SK_TANAH = d.KODE_SK
 				LEFT JOIN HARGA_BANGUNAN e ON b.KODE_SK_BANGUNAN = e.KODE_SK	
+				LEFT JOIN CS_PPJB f ON f.KODE_BLOK = a.KODE_BLOK	
 			WHERE 
 				a.KODE_BLOK ='$id_del'";
 			$obj = $conn->execute($query);
+			
+			$nomor_ppjb		= $obj->fields['NOMOR_PPJB'];
+			$tanggal_ppjb	= kontgl(tgltgl(date("d M Y", strtotime($obj->fields['TANGGAL_PPJB']))));
+		
+			if($tanggal_ppjb = '01 Januari 1990')
+				$tanggal_ppjb = '-';
 			
 			$luas_bangunan	= $obj->fields['LUAS_BANGUNAN'];
 			if($luas_bangunan == 0)
@@ -134,6 +144,8 @@
 			$document->setValue('telepon', $telepon);
 			$document->setValue('tanggal_spp', $tanggal_spp);
 			$document->setValue('nomor_spp', $nomor_spp);
+			$document->setValue('tanggal_ppjb', $tanggal_ppjb);
+			$document->setValue('nomor_ppjb', $nomor_ppjb);
 			$document->setValue('tanggal_tempo', $tgl_tempo);
 			$document->setValue('no_somasi1', $no_somasi1);
 			$document->setValue('tgl_somasi1', $tgl_somasi1);

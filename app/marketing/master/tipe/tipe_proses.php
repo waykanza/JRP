@@ -87,6 +87,12 @@ die_mod('PM02');
 $conn = conn($sess_db);
 die_conn($conn);
 	
+if ($act == 'Tambah')
+{
+	$obj = $conn->Execute("SELECT MAX(KODE_TIPE) AS MAX_KODE FROM TIPE");
+	$kode_tipe	= 1 + $obj->fields['MAX_KODE'];
+}
+
 if ($act == 'Ubah')
 {
 	$obj = $conn->Execute("SELECT * FROM TIPE WHERE KODE_TIPE = '$id'");

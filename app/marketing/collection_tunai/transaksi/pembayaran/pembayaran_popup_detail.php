@@ -188,6 +188,8 @@ jQuery(function($) {
 	
 	$('#save').on('click', function(e) {
 		e.preventDefault();
+		var id			= '<?php echo $id; ?>';
+		var kode		= '<?php echo $kode_blok; ?>';
 		var url		= base_marketing + 'collection_tunai/transaksi/pembayaran/pembayaran_proses.php',
 			data	= $('#form').serialize();
 			
@@ -204,12 +206,12 @@ jQuery(function($) {
 				else if (data.act == 'Ubah')
 				{
 					alert(data.msg);
-					parent.loadData();
+					parent.load(kode);
 				}
 				else if (data.act == 'Tambah')
 				{
 					alert(data.msg);
-					parent.loadData();
+					parent.load(id);
 				}
 		}, 'json');
 		return false;

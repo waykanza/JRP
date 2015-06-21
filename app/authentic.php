@@ -98,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' AND $act == 'login')
 		$_SESSION['DIV']		= $div;
 		$_SESSION['MODUL_ID']	= $modul_id;
 		$_SESSION['MODUL_HA']	= $modul_ha;
+		$_SESSION['HOME']	= 'home';
 		
 		$msg = 'Login Sukses.';
 	}

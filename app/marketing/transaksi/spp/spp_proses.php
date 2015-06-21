@@ -207,7 +207,7 @@ die_conn($conn);
 	
 if ($act == 'Ubah')
 {
-	$query 		= "SELECT * FROM SPP S
+	$query 		= "SELECT *,s.NPWP AS CS_NPWP FROM SPP S
 				   LEFT JOIN BANK B ON S.KODE_BANK = B.KODE_BANK
 				WHERE S.KODE_BLOK = '$id'";
 	$obj 		= $conn->execute($query);
@@ -225,7 +225,7 @@ if ($act == 'Ubah')
 	$tlp_lain			= $obj->fields['TELP_LAIN'];
 	$identitas			= $obj->fields['IDENTITAS'];
 	$no_identitas		= $obj->fields['NO_IDENTITAS'];
-	$npwp				= $obj->fields['NPWP'];
+	$npwp				= $obj->fields['CS_NPWP'];
 	$jenis_npwp			= $obj->fields['JENIS_NPWP'];
 	$bank				= $obj->fields['KODE_BANK'];
 	$nospk				= $obj->fields['NOMOR_SPK_BANK'];
@@ -247,9 +247,7 @@ if ($act == 'Ubah')
 	$redistribusi		= $obj->fields['SPP_REDISTRIBUSI'];
 	$tgl_redistribusi	= tgltgl(f_tgl($obj->fields['SPP_REDISTRIBUSI_TANGGAL']));
 	$keterangan			= $obj->fields['KETERANGAN'];	
-}
-if ($act == 'Ubah')
-{
+
 	
 	$obj = $conn->Execute("
 	SELECT  
@@ -367,6 +365,15 @@ if ($act == 'Ubah')
 	$r_harga_bangunan		= $r_base_harga_bangunan + $r_fs_harga_bangunan - $r_disc_harga_bangunan + $r_ppn_harga_bangunan;
 	
 	$r_progres				= $obj->fields['PROGRESS'];
+	$r_base_total_harga		= $r_base_harga_tanah + $r_base_harga_bangunan;
+	$r_base_nilai_potongan	= $r_disc_harga_bangunan + $r_disc_harga_tanah;
+	$r_base_potongan		= ($r_base_nilai_potongan / $r_base_total_harga)*100;
+	$r_harga_net			= $r_base_total_harga - $r_base_nilai_potongan;
+	$r_base_nilai_ppn		= $r_ppn_harga_tanah + $r_ppn_harga_bangunan;
+	$r_base_ppn				= ($r_base_nilai_ppn / $r_harga_net)*100;
+	$r_harga_setelah_ppn	= $r_harga_net + $r_base_nilai_ppn;
+	$r_base_sisa_1			= $r_harga_setelah_ppn - $jumlah_kpr;
+	$r_base_sisa_2			= $r_base_sisa_1 - $tanda_jadi;
 }
 if ($act == 'Tambah')
 {

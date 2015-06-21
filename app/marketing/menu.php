@@ -1,3 +1,4 @@
+<li><a href="<?php echo base64_encode('A01_home'); ?>">HOME</a></li>
 <li><a href="">MASTER</a>
 	<ul>
 		<li><a href="">Marketing <span></span></a>
@@ -109,7 +110,7 @@
 		<li class="separator"></li>
 		<li><a href="<?php echo base64_encode('A01_pembebasan_denda'); ?>">Pembebasan Denda</a></li>
 		<li><a href="<?php echo base64_encode('A01_pembatalan_spp'); ?>">Pembatalan SPP</a></li>
-		<li><a href="<?php echo base64_encode('A01_status_surat_penagihan'); ?>">Status Surat Penagihan</a></li>
+		<li><a href="<?php echo base64_encode('A01_surat_penagihan'); ?>">Status Surat Penagihan</a></li>
 		<li><a href="<?php echo base64_encode('A01_daftar_memo_pembatalan'); ?>">Daftar Memo Pembatalan</a></li>
 		<li class="separator"></li>
 		<li><a href="">Laporan Peneriamaan<span></span></a>

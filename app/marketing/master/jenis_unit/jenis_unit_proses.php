@@ -86,6 +86,13 @@ die_app('A01');
 die_mod('PM04');
 $conn = conn($sess_db);
 die_conn($conn);
+
+if ($act == 'Tambah')
+{
+	$obj = $conn->Execute("SELECT MAX(KODE_UNIT) AS MAX_KODE FROM JENIS_UNIT");
+	$kode_unit		= 1 + $obj->fields['MAX_KODE'];
+}
+
 	
 if ($act == 'Ubah')
 {
