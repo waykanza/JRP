@@ -35,6 +35,12 @@ jQuery(function($) {
 		showPopup1('Tambah', '');
 		return false;
 	});
+	
+	$(document).on('click', '#upload', function(e) {
+		e.preventDefault();
+		showPopupUpload('Upload', '');
+		return false;
+	});
 
 	$(document).on('click', '#hapus', function(e) {
 		e.preventDefault();
@@ -138,6 +144,12 @@ function showPopup(act, id) {
 	return false;
 }
 
+function showPopupUpload(act, id) {
+	var url = this_base + 'stock_awal/persediaan_awal_upload_popup.php?act=' + act + '&id=' + id;
+	setPopup(act + ' Data Stock', url, 835, 450);
+	return false;
+}
+
 function showPopup1(act, id) {
 	var url = this_base + 'stock_awal/persediaan_awal_popup.php?act=' + act + '&id=' + id;
 	setPopup(act + ' Persediaan Awal', url, 835, 450);
@@ -202,7 +214,7 @@ function unotorisasiData()
 
 <div class="title-page">PERSEDIAAN STOK</div>
 
-<form name="form" id="form" method="post">
+<form name="form" id="form" method="post" enctype="multipart/form-data">
 <table class="t-control wauto">
 <tr>
 	<td width="100">Pencarian</td><td width="10">:</td>

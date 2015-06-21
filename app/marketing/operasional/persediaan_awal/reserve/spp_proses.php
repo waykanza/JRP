@@ -7,13 +7,13 @@ $error	= FALSE;
 $act				= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 $id					= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 $nm					= (isset($_REQUEST['nm'])) ? clean($_REQUEST['nm']) : '';
-$adress				= (isset($_REQUEST['adress'])) ? clean($_REQUEST['adress']) : '';
+$alamat				= (isset($_REQUEST['alamat'])) ? clean($_REQUEST['alamat']) : '';
 
 $kode_blok			= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 $no_customer		= (isset($_REQUEST['no_customer'])) ? clean($_REQUEST['no_customer']) : '';
 $tgl_spp			= (isset($_REQUEST['tgl_spp'])) ? clean($_REQUEST['tgl_spp']) : '';
 $no_spp				= (isset($_REQUEST['no_spp'])) ? to_number($_REQUEST['no_spp']) : '';
-$nama				= (isset($_REQUEST['nm'])) ? clean($_REQUEST['nm']) : '';
+$nama				= (isset($_REQUEST['nama'])) ? clean($_REQUEST['nama']) : '';
 $alamat_rumah		= (isset($_REQUEST['alamat_rumah'])) ? clean($_REQUEST['alamat_rumah']) : '';
 $alamat_surat		= (isset($_REQUEST['alamat_surat'])) ? clean($_REQUEST['alamat_surat']) : '';
 $alamat_npwp		= (isset($_REQUEST['alamat_npwp'])) ? clean($_REQUEST['alamat_npwp']) : '';
@@ -215,6 +215,17 @@ if ($act == 'Ubah')
 	$redistribusi		= $obj->fields['SPP_REDISTRIBUSI'];
 	$tgl_redistribusi	= tgltgl(f_tgl($obj->fields['SPP_REDISTRIBUSI_TANGGAL']));
 	$keterangan			= $obj->fields['KETERANGAN'];	
+
+// $obj = $conn->Execute("SELECT * FROM RESERVE WHERE KODE_BLOK = '$id'");	
+	
+	// $nama_calon_pembeli		= $obj->fields['NAMA_CALON_PEMBELI'];
+	// $tanggal_reserve		= tgltgl(date("d-m-Y",strtotime($obj->fields['TANGGAL_RESERVE'])));
+	// $berlaku_sampai			= tgltgl(date("d-m-Y",strtotime($obj->fields['BERLAKU_SAMPAI'])));
+	// $alamat 				= $obj->fields['ALAMAT'];
+	// $telepon 				= $obj->fields['TELEPON'];
+	// $agen 					= $obj->fields['AGEN'];
+	// $koordinator 			= $obj->fields['KOORDINATOR'];
+
 }
 if ($act == 'Ubah')
 {

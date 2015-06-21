@@ -36,6 +36,7 @@ jQuery(function($) {
 	$('#spp').on('click', function(e) {
 		e.preventDefault();
 		parent.showPopup7('Simpan', '<?php echo $id; ?>','<?php echo $nama_calon_pembeli; ?>','<?php echo $alamat; ?>');
+		// parent.showPopup7('Simpan', '<?php echo $id; ?>');
 		return false;
 	});
 	
@@ -110,7 +111,8 @@ jQuery(function($) {
 </tr>
 <tr>
 	<td>Alamat</td></td><td>:</td>
-	<td><input type="text" name="alamat" id="alamat" size="40" value="<?php echo $alamat; ?>"></td>
+	<!--<td><input type="text" name="alamat" id="alamat" size="40" value="<?php echo $alamat; ?>"></td>-->
+	<td><textarea name="alamat" id="alamat" rows="6" cols="50"><?php echo $alamat; ?></textarea></td>
 </tr>
 <tr>
 	<td>Tanggal Reserve</td><td>:</td>

@@ -61,6 +61,7 @@ $page_start = (($page_num-1) * $per_page);
 <table id="pagging-1" class="t-control w90">
 <tr>
 	<td>
+		<input type="button" id="upload" value=" Upload Data Stok ">
 		<input type="button" id="tambah" value=" Tambah ">
 		<input type="button" id="hapus" value=" Hapus ">
 		<input type="button" id="<?php echo $tombol; ?>" value=" <?php echo $nama_tombol; ?> ">

@@ -81,7 +81,8 @@ jQuery(function($) {
 </tr>
 <tr>
 	<td>Alamat</td></td><td>:</td>
-	<td><input type="text" name="alamat" id="alamat" size="40" value=""></td>
+	<!--<td><input type="text" name="alamat" id="alamat" size="40" value=""></td>-->
+	<td><textarea name="alamat" id="alamat" rows="6" cols="50"></textarea></td>
 </tr>
 <tr>
 	<td>Telepon</td></td><td>:</td>

@@ -23,10 +23,10 @@ jQuery(function($) {
 	$('#jumlah_kpr, #tanda_jadi').inputmask('numeric', { repeat: '16' });
 	$('#keterangan').inputmask('varchar', { repeat: '150' });
 
-	if ('<?php echo $act; ?>' == 'Simpan') {
-		jQuery('#nama').val('<?php echo $nm; ?>');
-		jQuery('#alamat_rumah').val('<?php echo $adress; ?>');
-	}
+	// if ('<?php echo $act; ?>' == 'Simpan') {
+		// jQuery('#nama').val('<?php echo $nm; ?>');
+		// jQuery('#alamat_rumah').val('<?php echo $adress; ?>');
+	// }
 	
 });
 </script>
@@ -42,19 +42,19 @@ jQuery(function($) {
 <tr>
 	<td><b>Kode Blok</b></td><td>:</td>
 	<td><input readonly="readonly" type="text" name="kode_blok" id="kode_blok" size="10" value="<?php echo $id; ?>"></td>
-	<td> Nama : <input type="text" name="nama" id="nama" size="60" value="<?php echo $nama; ?>"></td>
+	<td> Nama : <input type="text" name="nama" id="nama" size="60" value="<?php echo $nm; ?>"></td>
 </tr>
 <tr>
 	<td>Alamat Rumah</td><td>:</td>
-	<td colspan="2"><input type="text" name="alamat_rumah" id="alamat_rumah" size="110" value="<?php echo $alamat_rumah; ?>"></td>
+	<td colspan="2"><input type="text" name="alamat_rumah" id="alamat_rumah" size="110" value="<?php echo $alamat; ?>"></td>
 </tr>
 <tr>
 	<td>Alamat Surat</td><td>:</td>
-	<td colspan="2"><input type="text" name="alamat_surat" id="alamat_surat" size="110" value="<?php echo $alamat_surat; ?>"></td>
+	<td colspan="2"><input type="text" name="alamat_surat" id="alamat_surat" size="110" value="<?php echo $alamat; ?>"></td>
 </tr>
 <tr>
 	<td>Alamat NPWP</td><td>:</td>
-	<td colspan="2"><input type="text" name="alamat_npwp" id="alamat_npwp" size="110" value="<?php echo $alamat_npwp; ?>"></td>
+	<td colspan="2"><input type="text" name="alamat_npwp" id="alamat_npwp" size="110" value="<?php echo $alamat; ?>"></td>
 </tr>
 <tr>
 	<td>Alamat Email</td><td>:</td>
