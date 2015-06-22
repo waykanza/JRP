@@ -48,6 +48,7 @@
 				$document->setValue('status_non_pkp', '-');
 			}
 			$document->setValue('kode_blok', $id);
+			$document->setValue('no_va', $no_customer);
 			$document->setValue('tipe', $r_tipe_bangunan);
 			$document->setValue('luas_tanah', $r_luas_tanah);
 			$document->setValue('luas_bangunan', $r_luas_bangunan);
@@ -63,6 +64,7 @@
 			$document->setValue('sisa_2', to_money($r_base_sisa_2).".00");
 			$document->setValue('tgl_tanda_jadi',$tgl_tanda_jadi);
 			$document->setValue('tanggal_spp',$tgl_spp);
+			$document->setValue('keterangan_1',$keterangan);
 			//$document->setValue('terbilang', $n_terbilang." rupiah");
 			
 			$query = "
@@ -70,21 +72,22 @@
 			FROM 
 				RENCANA a
 			LEFT JOIN JENIS_PEMBAYARAN b ON a.KODE_BAYAR = b.KODE_BAYAR
-			WHERE a.KODE_BLOK = 'A2'
+			WHERE a.KODE_BLOK = '$id'
 			ORDER BY a.TANGGAL
 			";
 			$obj = $conn->execute($query);
 			$i = 1;
 			$tanggal = array();
 			$nilai = array();
-			
+			$counter = array();
 			while( ! $obj->EOF)
 			{
 				$tanggal[] = tgltgl(f_tgl($obj->fields['TANGGAL']));
 				$nilai[] = to_money($obj->fields['NILAI']);
-				
+				$counter[] = $i;
 				$data1 = array(
 					'tanggal' =>$tanggal,
+					'counter' => $counter,
 					'nilai' => $nilai,
 				);	
 				
@@ -92,6 +95,18 @@
 				$obj->movenext();
 			}
 			
+			while($i <= 24)
+			{
+				$tanggal[] = '';
+				$nilai[] = '';
+				$counter[] = $i;
+				$data1 = array(
+					'tanggal' =>$tanggal,
+					'counter' => $counter,
+					'nilai' => $nilai,
+				);	
+				$i++;
+			}
 			$document->cloneRow('TGL',$data1);
 			
 			// $i=1;

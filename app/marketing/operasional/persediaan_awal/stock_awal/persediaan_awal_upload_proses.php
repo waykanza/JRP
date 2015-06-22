@@ -10,7 +10,6 @@
 	$error = FALSE;
 	$act = (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 	$id = (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
-	$tes = (isset($_REQUEST['tes'])) ? clean($_REQUEST['tes']) : '';
 	$path = (isset($_FILES['file']['name'])) ? clean($_FILES['file']['name']) : '';
 	
 	$nama_desa			= '';
@@ -45,9 +44,9 @@
 	//type file yang bisa diupload
 	$file_type  = array('xls','xlsx');
 	//tukuran maximum file yang dapat diupload
-	$max_size   = 1000000; // 1MB
+	$max_size   = 100000000; // 100MB
 	
-	if (isset($_POST["act"])) 
+	if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
 		try
 		{
@@ -57,7 +56,7 @@
 			$conn = conn($sess_db);
 			ex_conn($conn);
 			
-			$conn->begintrans(); 
+			$conn->begintrans();
 			
 			//Mulai memorises data
 			$file_name  = $_FILES['data_upload']['name'];
@@ -113,20 +112,19 @@
 					$val[] = $cell->getValue();
 				}
 				
-				// Skip data jika username sudah ada
-				$kode_blok				= $val[1];
+				// Skip data jika kode_blok sudah ada
+				$kode_blok				= $val[0];
+				$kode_blok		= (!empty($kode_blok)) ? clean($kode_blok) : '';
 				
-				// $query = "SELECT COUNT(KODE_BLOK) AS TOTAL FROM STOK WHERE KODE_BLOK = '$kode_blok'";
-				// ex_found($conn->Execute($query)->fields['TOTAL'], "Kode blok \"$kode_blok\" telah terdaftar.");
+				
 				$query = "
-					SELECT COUNT(KODE_BLOK) AS TOTAL FROM STOK WHERE KODE_BLOK = '$kode_blok'
-					";
-					$total_data = $conn->Execute($query)->fields['TOTAL'];
+				SELECT COUNT(KODE_BLOK) AS TOTAL FROM STOK WHERE KODE_BLOK = '$kode_blok'
+				";
+				$total_data = $conn->Execute($query)->fields['TOTAL'];
 				
 				if ($total_data == 0) {
-					// Buat query insert per-baris data ke tabel user
-					// $sql = "INSERT INTO user VALUES ('','" . $val[0] . "','" . $val[1] . "','" . $val[2] . "')";
-					$kode_blok				= $val[0];
+					
+					
 					$kode_unit 				= $val[1];
 					$kode_desa 				= $val[2];
 					$kode_lokasi 			= $val[3];
@@ -150,8 +148,33 @@
 					$status_gambar_lapangan = $val[21];
 					$status_gambar_gs 		= $val[22];
 					
+					
+					$kode_desa		= (!empty($kode_desa)) ? clean($kode_desa) : '';
+					$kode_lokasi	= (!empty($kode_lokasi)) ? clean($kode_lokasi) : '';
+					$kode_unit		= (!empty($kode_unit)) ? clean($kode_unit) : '';
+					$kode_sk_tanah	= (!empty($kode_sk_tanah)) ? clean($kode_sk_tanah) : '';
+					$kode_faktor	= (!empty($kode_faktor)) ? clean($kode_faktor) : '';
+					$kode_tipe		= (!empty($kode_tipe)) ? clean($kode_tipe) : '';
+					$kode_sk_bangunan = (!empty($kode_sk_bangunan)) ? clean($kode_sk_bangunan) : '';
+					$kode_penjualan	= (!empty($kode_penjualan)) ? clean($kode_penjualan) : '';
+					
+					$class					= (!empty($class)) ? clean($class) : '';
+					$status_gambar_siteplan	= (!empty($status_gambar_siteplan)) ? to_number($status_gambar_siteplan) : '0';
+					$status_gambar_lapangan	= (!empty($status_gambar_lapangan)) ? to_number($status_gambar_lapangan) : '0';
+					$status_gambar_gs		= (!empty($status_gambar_gs)) ? to_number($status_gambar_gs) : '0';
+					$program				= (!empty($program)) ? to_number($program) : '0';
+					
+					$luas_tanah			= (!empty($luas_tanah)) ? to_decimal($luas_tanah) : '0';
+					$disc_tanah			= (!empty($disc_tanah)) ? to_decimal($disc_tanah, 16) : '0';
+					$harga_disc_tanah	= (!empty($harga_disc_tanah)) ? to_number($harga_disc_tanah) : '0';
+					$ppn_tanah			= (!empty($ppn_tanah)) ? to_decimal($ppn_tanah) : '0';
+					
+					$luas_bangunan	= (!empty($luas_bangunan)) ? to_decimal($luas_bangunan) : '0';
+					$disc_bangunan	= (!empty($disc_bangunan)) ? to_decimal($disc_bangunan, 16) : '0';
+					$ppn_bangunan	= (!empty($ppn_bangunan)) ? to_decimal($ppn_bangunan) : '0';
+					
 					$query = "
-					INSERT INTO STOK
+					INSERT INTO STOK 
 					(
 					KODE_BLOK, KODE_UNIT, KODE_DESA, KODE_LOKASI, KODE_SK_TANAH, 
 					KODE_FAKTOR, KODE_TIPE, KODE_SK_BANGUNAN, KODE_PENJUALAN, 
@@ -184,18 +207,21 @@
 					'$status_gambar_siteplan', 
 					'$status_gambar_lapangan', 
 					'$status_gambar_gs'
-					)		
+					)
+					
 					";
+					
 					
 					ex_false($conn->Execute($query), $query);
 					
+					
 				}
+				$conn->committrans(); 
 			}
-			
 			
 			// Hapus file excel ketika data sudah masuk ke tabel
 			@unlink($file_name);
-			$msg = 'Data Stok berhasil diupload.';
+			$msg = "Data berhasil diupload";
 			
 			
 		}
@@ -207,11 +233,12 @@
 		}
 		
 		close($conn);
-		$json = array('msg' => $msg );
+		$json = array('act' => $act, 'error'=> $error, 'msg' => $msg);
+		// echo json_encode($val);	
 		echo $msg;
 		exit;
 	}
 	
 	die_login();
-
-?>					
+	
+?>							

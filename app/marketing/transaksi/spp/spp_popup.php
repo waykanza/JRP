@@ -119,6 +119,7 @@ jQuery(function($) {
 
 function loadData1()
 {
+
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
 	jQuery('#tab1').load(base_marketing_transaksi + 'spp/spp_spp.php', data);	

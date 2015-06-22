@@ -29,6 +29,7 @@ function formatNumber (num) {
 }
 
 function calculate(){
+		
 		var sel_jenis_pembayaran	= jQuery('#jenis_pembayaran option:selected');
 			jenis_pembayaran		= sel_jenis_pembayaran.data('jenis');
 			kode_bayar				= jQuery('#jenis_pembayaran').val();
@@ -88,11 +89,12 @@ function calculate(){
 		jp = 'Pembayaran '+ jenis_pembayaran + ' atas pembelian ' + tanah_bangunan +
 			 '\ndi ' + lokasi + ' Blok ' + blok + ' Nomor ' + nomor + ' (TYPE ' + tipe + ') \n' ;
 		}
-		
+			
 		$('#keterangan').val(jp);
 		$('#subtotal').val(subtotal);
 		$('#ppn').val(ppn);
-}	
+		
+}
 
 function cal2(){
 		if ('<?php echo $act; ?>' == 'Tambah'){
@@ -134,6 +136,14 @@ jQuery(function($) {
 	// if ('<?php echo $act; ?>' == 'Ubah') {
 		// $('#nama_pembayar, #nomor, #sejumlah, #keterangan, #diposting, #tanggal, #tgl_terima, #via').hide();	
 	// }	
+	
+	if ('<?php echo $act; ?>' == 'Ubah') {
+		if($(jenis_pembayaran).val() == '4'){
+			$('#jumlah').prop('disabled', true);
+		} 
+		$('#catatan').prop('disabled', true);
+	}
+	
 	$('#nama_pembayar').inputmask('varchar', { repeat: '60' });
 	$('#jumlah, #diposting').inputmask('numeric', { repeat: '16' });	
 	$('#catatan').inputmask('varchar', { repeat: '20' });
@@ -151,6 +161,15 @@ jQuery(function($) {
 
 	$('#jenis_pembayaran').on('change', function(e) {
 		e.preventDefault();
+		if($(this).val() == '4'){
+			$('#jumlah').prop('disabled', true);
+			jumlah_angsuran = '<?php echo $jumlah_angsuran; ?>';
+			$('#jumlah').val(jumlah_angsuran);
+		} 
+		else{
+			$('#jumlah').prop('disabled', false);
+			$('#jumlah').val(0);
+		}
 		calculate();
 		return false;
 	});
@@ -312,6 +331,10 @@ jQuery(function($) {
 	<td colspan="2"><input type="hidden" name="sejumlah" id="sejumlah" size="98" readonly="readonly" style="text-transform:uppercase" value="<?php echo ucfirst($terbilang->eja($jumlah)); ?> rupiah"></td>
 </tr>
 <tr>
+	<td> </td><td></td>
+	<td colspan="2"><input type="hidden" name="jumlah_angsuran" id="jumlah_angsuran" size="50" value="<?php echo $jumlah_angsuran; ?>"></td>
+</tr>
+<tr>
 	<td></td><td></td>
 	<td colspan="2"><input type="hidden" name="keterangan" id="keterangan" rows="6" cols="100" value="<?php echo $keterangan; ?>"></td>
 </tr>
@@ -321,6 +344,7 @@ jQuery(function($) {
 		
 	<td> <input type="hidden" name="diposting" id="diposting" size="15" value="<?php echo to_money($diposting); ?>"></td>
 	<td> <input type="hidden" name="tanggal" id="tanggal" size="15" value="<?php echo $tanggal; ?>"></td>
+	<td> <input type="hidden" name="status_otorisasi" id="status_otorisasi" size="15" value="<?php echo $status_otorisasi; ?>"></td>
 </tr>
 </table>
 

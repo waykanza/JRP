@@ -85,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_empty($alamat_rumah, 'Alamat rumah harus diisi.');
 			ex_empty($identitas, 'Identitas harus diisi.');
 			ex_empty($no_identitas, 'No identitas harus diisi.');
+			ex_empty($npwp, 'No npwp harus diisi.');
 			ex_empty($no_customer, 'No virtual account harus diisi.');
 			ex_empty($koordinator, 'Koordinator harus diisi.');
 			ex_empty($jumlah_kpr, 'Jumlah KPR harus diisi.');

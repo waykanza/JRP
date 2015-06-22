@@ -101,6 +101,7 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_ver_kwitansi_keu' 		: die_mod('PJ04'); die_ha('PJ04', 'R'); include('marketing/collection_tunai/transaksi/ver_kwitansi_keu/ver_kwitansi_keu_setup.php');break;
 	case 'A01_pemulihan_wanprestasi'	: include('collection_tunai/transaksi/pemulihan_wanprestasi/pemulihan_wanprestasi_setup.php');break;
 	case 'A01_memo_pembatalan'			: include('collection_tunai/transaksi/memo_pembatalan/memo_pembatalan_setup.php');break;
+	case 'A01_download_tagihan'			: include('collection_tunai/transaksi/download_tagihan/download_tagihan_setup.php');break;
 	
 	#Surat
 	case 'A01_pemberitahuan_jatuh_tempo'	: include('marketing/collection_tunai/surat/pemberian_jatuh_tempo/pemberian_jatuh_tempo_setup.php');break;
@@ -110,6 +111,20 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_somasi_ketiga'				: include('marketing/collection_tunai/surat/somasi_tiga/somasi_tiga_setup.php');break;
 	case 'A01_wanprestasi'					: include('marketing/collection_tunai/surat/wanprestasi/wanprestasi_setup.php');break;
 	case 'A01_administrasi_pembatalan'		: include('marketing/collection_tunai/surat/pembatalan/pembatalan_setup.php');break;
+	
+	#Surat SPK
+	case 'A01_pemberitahuan_spk'			: include('marketing/collection_tunai/surat/spk/pemberitahuan_spk/pemberitahuan_spk_setup.php');break;
+	case 'A01_perpanjangan_spk'				: include('marketing/collection_tunai/surat/spk/perpanjangan_spk/perpanjangan_spk_setup.php');break;
+	case 'A01_pembatalan_spk'				: include('marketing/collection_tunai/surat/spk/pembatalan_spk/pembatalan_spk_setup.php');break;
+	case 'A01_pemberitahuan_akad'			: include('marketing/collection_tunai/surat/spk/pemberitahuan_akad/pemberitahuan_akad_setup.php');break;
+	case 'A01_perpanjangan_akad'			: include('marketing/collection_tunai/surat/spk/perpanjangan_akad/perpanjangan_akad_setup.php');break;
+	case 'A01_pembatalan_akad'				: include('marketing/collection_tunai/surat/spk/pembatalan_akad/pembatalan_akad_setup.php');break;
+	case 'A01_pemberitahuan_spk_review'		: include('marketing/collection_tunai/surat/spk/pemberitahuan_spk_review/pemberitahuan_spk_review_setup.php');break;
+	case 'A01_pembatalan_spk_review'		: include('marketing/collection_tunai/surat/spk/pembatalan_spk_review/pembatalan_spk_review_setup.php');break;
+	case 'A01_pemberitahuan_plafon'			: include('marketing/collection_tunai/surat/spk/pemberitahuan_plafon/pemberitahuan_plafon_setup.php');break;
+	case 'A01_pembatalan_plafon'			: include('marketing/collection_tunai/surat/spk/pembatalan_plafon/pembatalan_plafon_setup.php');break;
+	case 'A01_pemberitahuan_tolak_kredit'	: include('marketing/collection_tunai/surat/spk/pemberitahuan_tolak_kredit/pemberitahuan_tolak_kredit_setup.php');break;
+	case 'A01_pembatalan_tolak_kredit'		: include('marketing/collection_tunai/surat/spk/pembatalan_tolak_kredit/pembatalan_tolak_kredit_setup.php');break;
 	
 	
 	#Pelaporan
@@ -122,6 +137,7 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_daftar_memo_pembatalan'		: include('marketing/collection_tunai/laporan/daftar_memo_pembatalan/daftar_memo_pembatalan_setup.php');break;
 	
 	
+	case 'A01_rencana_realisasi_blok'		: include('marketing/collection_tunai/laporan/rencana_realisasi_blok/rencana_realisasi_blok_setup.php');break;
 	case 'A01_daftar_spp'					: include('marketing/collection_tunai/laporan/daftar_spp/daftar_spp_setup.php');break;
 	
 	

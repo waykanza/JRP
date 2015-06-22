@@ -24,7 +24,7 @@ SELECT
 	COUNT(*) AS TOTAL
 FROM 
 	SPP
-WHERE STATUS_KOMPENSASI = '2' AND STATUS_WANPRESTASI = '1'
+WHERE STATUS_WANPRESTASI = '1'
 $query_search
 ";
 $total_data = $conn->execute($query)->fields['TOTAL'];
@@ -68,7 +68,7 @@ if ($total_data > 0)
 	SELECT *
 	FROM 
 		SPP
-	WHERE STATUS_KOMPENSASI = '2' AND STATUS_WANPRESTASI = '1'
+	WHERE STATUS_WANPRESTASI = '1'
 	$query_search
 	ORDER BY NOMOR_SPP
 	";

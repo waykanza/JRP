@@ -40,7 +40,7 @@
 				
 				// $('#simpan').on('click', function(e) {
 					// e.preventDefault();
-					$("form#form").submit(function(){
+					$("#form").submit(function(){
 
 					var formData = new FormData($(this)[0]);
 
@@ -52,7 +52,9 @@
 						async: false,
 						success: function (data) {
 							alert(data);
+							// location.reload();
 							parent.loadData1();
+							
 						},
 						cache: false,
 						contentType: false,
@@ -61,39 +63,15 @@
 
 					return false;
 					});
-					// var url		= this_base + 'stock_awal/persediaan_awal_upload_proses.php',
-					// data	= $('#form').serialize();
 					
-					// if (confirm("Apakah data telah terisi dengan benar ?") == false)
-					// {
-						// return false;
-					// }		
-					
-					// $.post(url, data, function(result) {
-						// alert(result.msg);
-						// if (result.error == false) {
-							// if (result.act == 'Upload') {
-								// $('#reset').click();
-								
-								// location.reload();
-								// parent.loadData1();
-								// } else if (result.act == 'Ubah') {
-								// location.reload();
-							// }
-						// }
-					// }, 'json');
-					
-					// return false;
-				// });
-				
-				// function loadData() {
+			});
+			
+			// function loadData() {
 				// if (popup) { popup.close(); }
 				// var data = jQuery('#form').serialize();
 				// jQuery('#data-load').load(this_base + 'stock_awal/persediaan_awal_upload_load.php', data);
 				// return false;
 				// }
-				
-			});
 			
 			function get_kode_desa() {
 				var url = get_base + 'kode_desa.php'; 
@@ -151,7 +129,7 @@
 					<td width="120"><b>Pilih File Excel:</td><td>:</b></td>
 					<td  width="320">
 						<!--<input type="file" name="file" id="file" onChange="setvalueuplfile(this.value,'file','xls')" required />-->
-						<input type="file" name="data_upload" id="data_upload">
+						<input type="file" name="data_upload" id="data_upload" onChange="setvalueuplfile(this.value,'data_upload', 'xls')" required="true">
 						<div id="progress" style="width:500px;border:1px solid #ccc;"></div>
 						<div id="info"></div>
 					</td>
@@ -179,9 +157,8 @@
 			
 			<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
 			<input type="hidden" name="act" id="act" value="<?php echo $act; ?>">
-			<input type="text" name="tes" id="act" value="<?php echo $act; ?>">
 		</form>
-		
+		 <div id = 'data-load'></div>
 	</body>
 </html>
 

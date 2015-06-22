@@ -51,6 +51,7 @@ jQuery(function($) {
 	
 	$(document).on('click', '#hapus', function(e) {
 		e.preventDefault();
+		
 		if (confirm('Apa anda yakin akan menghapus data ini?'))
 		{
 			deleteData();
@@ -240,7 +241,11 @@ if ($jml_kpr > 0) {
 
 <?php
 	$query = "
-	SELECT a.*, b.FULL_NAME AS COL, c.FULL_NAME AS KEU
+	SELECT a.*, COL = CASE WHEN b.FULL_NAME IS null 
+	THEN '-' ELSE b.FULL_NAME END, 
+	KEU =
+	CASE WHEN c.FULL_NAME IS null 
+	THEN '-' ELSE c.FULL_NAME END
 	FROM 
 		KWITANSI a
 	LEFT JOIN USER_APPLICATIONS b ON a.VER_COLLECTION_OFFICER = b.USER_ID	
@@ -262,7 +267,18 @@ if ($jml_kpr > 0) {
 			<td><?php echo $obj->fields['COL']; ?></td>
 			<td><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['VER_COLLECTION_TANGGAL']))); ?></td>
 			<td><?php echo $obj->fields['KEU']; ?></td>
-			<td><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['VER_KEUANGAN_TANGGAL']))); ?></td>
+			<?php
+			if($obj->fields['VER_KEUANGAN'] == '0')
+			{
+				?><td>-</td>
+			<?php
+			}else
+			{
+			?>
+				<td><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['VER_KEUANGAN_TANGGAL']))); ?></td>
+			<?php
+			}
+			?>
 			<td class="text-center"><?php echo $obj->fields['CATATAN']; ?></td>
 		</tr>
 		<?php

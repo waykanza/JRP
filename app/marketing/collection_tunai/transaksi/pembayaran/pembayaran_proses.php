@@ -13,6 +13,7 @@ $jenis_pembayaran	= (isset($_REQUEST['jenis_pembayaran'])) ? clean($_REQUEST['je
 $nama_pembayar		= (isset($_REQUEST['nama_pembayar'])) ? clean($_REQUEST['nama_pembayar']) : '';
 $keterangan			= (isset($_REQUEST['keterangan'])) ? clean($_REQUEST['keterangan']) : '';
 $jumlah				= (isset($_REQUEST['jumlah'])) ? to_number($_REQUEST['jumlah']) : '';
+$jumlah_angsuran	= (isset($_REQUEST['jumlah_angsuran'])) ? to_number($_REQUEST['jumlah_angsuran']) : '';
 $diposting			= (isset($_REQUEST['diposting'])) ? to_number($_REQUEST['diposting']) : '';
 $tanggal			= (isset($_REQUEST['tanggal'])) ? clean($_REQUEST['tanggal']) : '';
 $tgl_terima			= (isset($_REQUEST['tgl_terima'])) ? clean($_REQUEST['tgl_terima']) : '';
@@ -58,25 +59,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			BAYAR_VIA = '$via' AND CATATAN = '$catatan'";
 			ex_found($conn->Execute($query)->recordcount(), "Tidak ada data yang berubah.");
 			
-			$query = "
-			UPDATE KWITANSI 
-			SET
-				NAMA_PEMBAYAR = '$nama_pembayar', 
-				TANGGAL = CONVERT(DATETIME,'$tanggal',105), 
-				KODE_BAYAR = $jenis_pembayaran,
-				NILAI = $jumlah, 
-				KETERANGAN = '$keterangan', 
-				NILAI_DIPOSTING = $diposting, 
-				TANGGAL_BAYAR = CONVERT(DATETIME,'$tgl_terima',105), 
-				BAYAR_VIA = '$via', 
-				CATATAN = '$catatan',
-				PPN = $ppn, 
-				NILAI_NETT = $subtotal,
-				VER_COLLECTION_OFFICER = $user, 
-				VER_COLLECTION_TANGGAL = CONVERT(DATETIME,GETDATE(),105) 
-			WHERE
-				NOMOR_KWITANSI = '$id'
-			";			
+			if ($status_otorisasi == 1)
+			{
+			
+				$query = "
+				UPDATE KWITANSI 
+				SET
+					NAMA_PEMBAYAR = '$nama_pembayar', 
+					TANGGAL = CONVERT(DATETIME,'$tanggal',105), 
+					KODE_BAYAR = $jenis_pembayaran,
+					NILAI = $jumlah, 
+					KETERANGAN = '$keterangan', 
+					NILAI_DIPOSTING = $diposting, 
+					TANGGAL_BAYAR = CONVERT(DATETIME,'$tgl_terima',105), 
+					BAYAR_VIA = '$via', 
+					CATATAN = '$catatan',
+					PPN = $ppn, 
+					NILAI_NETT = $subtotal,
+					VER_COLLECTION_OFFICER = '$user', 
+					VER_COLLECTION_TANGGAL = CONVERT(DATETIME,GETDATE(),105) 
+				WHERE
+					NOMOR_KWITANSI = '$id'
+				";			
+				
+			}
+			else if ($status_otorisasi == 2)
+			{
+				$query = "
+				UPDATE KWITANSI_LAIN_LAIN 
+				SET
+					NAMA_PEMBAYAR = '$nama_pembayar', 
+					TANGGAL = CONVERT(DATETIME,'$tanggal',105), 
+					KODE_PEMBAYARAN = $jenis_pembayaran,
+					NILAI = $jumlah, 
+					KETERANGAN = '$keterangan', 
+					NILAI_DIPOSTING = $diposting, 
+					TANGGAL_BAYAR = CONVERT(DATETIME,'$tgl_terima',105), 
+					BAYAR_VIA = '$via', 
+					CATATAN = '$catatan',
+					VER_COLLECTION_OFFICER = '$user', 
+					VER_COLLECTION_TANGGAL = CONVERT(DATETIME,GETDATE(),105) 
+				WHERE
+					NOMOR_KWITANSI = '$id'
+				";
+			}
 			ex_false($conn->execute($query), $query);
 			
 			$query = "
@@ -106,16 +132,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_empty($jenis_pembayaran, 'Jenis Pembayaran harus diisi.');
 			ex_empty($nama_pembayar, 'Telah Terima Dari harus diisi.');
 			ex_empty($keterangan, 'Untuk Pembayaran harus diisi.');
-			ex_empty($jumlah, 'Jumlah harus diisi.');
+			if($kode_bayar != 4)
+			{
+				ex_empty($jumlah, 'Jumlah harus diisi.');
+			}
+			else
+			{
+				$jumlah = $jumlah_angsuran;
+			}
 			ex_empty($diposting, 'Diposting harus diisi.');
 			ex_empty($tanggal, 'Tanggal harus diisi.');
 			
 			$user = $_SESSION['USER_ID']; 
 			
-			if (($kode_bayar == 1) || ($kode_bayar == 2) || ($kode_bayar == 3) || ($kode_bayar == 4) || ($kode_bayar == 5) || ($kode_bayar == 6) ||
-				($kode_bayar == 10) || ($kode_bayar == 14) || ($kode_bayar == 15) || ($kode_bayar == 21) || ($kode_bayar == 22) || ($kode_bayar == 23)||
-				($kode_bayar == 24)||($kode_bayar == 25) || ($kode_bayar == 26) || ($kode_bayar == 27) || ($kode_bayar == 28)){
-			// if($status_otorisasi == 1){
+			//if (($kode_bayar == 1) || ($kode_bayar == 2) || ($kode_bayar == 3) || ($kode_bayar == 4) || ($kode_bayar == 5) || ($kode_bayar == 6) ||
+				//($kode_bayar == 10) || ($kode_bayar == 14) || ($kode_bayar == 15) || ($kode_bayar == 21) || ($kode_bayar == 22) || ($kode_bayar == 23)||
+				//($kode_bayar == 24)||($kode_bayar == 25) || ($kode_bayar == 26) || ($kode_bayar == 27) || ($kode_bayar == 28)){
+			if($status_otorisasi == 1){
 				$query = "
 				INSERT INTO KWITANSI (
 					KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, KODE_BAYAR, NILAI, KETERANGAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, PPN, NILAI_NETT, VER_COLLECTION, VER_KEUANGAN, STATUS_KWT, VER_COLLECTION_OFFICER, VER_COLLECTION_TANGGAL 
@@ -205,15 +238,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 						$error = TRUE;
 					}
 					
-					
 				}
 							
 				$query = "update CS_VIRTUAL_ACCOUNT set SISA = SISA + '$banyak' where NOMOR_VA = '$nomor_customer' AND TANGGAL = '$max_tgl'";
 				ex_false($conn->execute($query), $query);
 			
 			}
-			
-			
 			
 			$msg = ($error) ? 'Sebagian data gagal dihapus.' : 'Data Kuitansi berhasil dihapus.';
 		}
@@ -348,7 +378,7 @@ if ($act == 'Ubah')
 		LEFT JOIN STOK b ON a.KODE_BLOK = b.KODE_BLOK
 		LEFT JOIN LOKASI c ON b.KODE_LOKASI = c.KODE_LOKASI		
 		LEFT JOIN TIPE d ON b.KODE_TIPE = d.KODE_TIPE
-		LEFT JOIN JENIS_PEMBAYARAN e ON a.KODE_BAYAR = e.KODE_BAYAR
+		LEFT JOIN JENIS_PEMBAYARAN e ON a.KODE_PEMBAYARAN = e.KODE_BAYAR
 		WHERE NOMOR_KWITANSI = '$id'
 		";
 	}
@@ -397,6 +427,28 @@ if ($act == 'Ubah')
 	$obj = $conn->execute($query);
 	$nomor_customer		= $obj->fields['NOMOR_VA'];
 	$max_tgl			= $obj->fields['MAX_TGL'];
+	
+	$tanggal_rencana	= f_tgl (date("Y-m-d"));
+	$pecah_tanggal		= explode("-",$tanggal_rencana);
+	$tgl 				= $pecah_tanggal[0];
+	$bln 				= $pecah_tanggal[1];
+	$thn 				= $pecah_tanggal[2];
+	
+	$bulan_depan	 	= $bln + 1;
+	$tahun_depan		= $thn;
+	if($bulan_depan > 12)
+	{
+		$bulan_depan 	= $bulan_depan % 12;
+		$tahun_depan 	= $thn + 1; 
+	}
+
+	$query = "
+	select * from RENCANA where kode_blok = '$id' 
+	AND TANGGAL > CONVERT(DATETIME,'01-$bln-$thn',105) AND TANGGAL < CONVERT(DATETIME,'01-$bulan_depan-$tahun_depan',105)
+	order BY TANGGAL";
+	
+	$obj = $conn->execute($query);
+	$jumlah_angsuran 	= to_money($obj->fields['NILAI']);
 }
 
 if ($act == 'Tambah')
@@ -443,6 +495,28 @@ if ($act == 'Tambah')
 	$obj = $conn->execute($query);
 	
 	$max_tgl	= $obj->fields['MAX_TGL'];
+	
+	$tanggal_rencana	= f_tgl (date("Y-m-d"));
+	$pecah_tanggal		= explode("-",$tanggal_rencana);
+	$tgl 				= $pecah_tanggal[0];
+	$bln 				= $pecah_tanggal[1];
+	$thn 				= 2014;
+	
+	$bulan_depan	 	= $bln + 1;
+	$tahun_depan		= $thn;
+	if($bulan_depan > 12)
+	{
+		$bulan_depan 	= $bulan_depan % 12;
+		$tahun_depan 	= $thn + 1; 
+	}
+
+	$query = "
+	select * from RENCANA where kode_blok = '$id' 
+	AND TANGGAL > CONVERT(DATETIME,'01-$bln-$thn',105) AND TANGGAL < CONVERT(DATETIME,'01-$bulan_depan-$tahun_depan',105)
+	order BY TANGGAL";
+	
+	$obj = $conn->execute($query);
+	$jumlah_angsuran 	= to_money($obj->fields['NILAI']);
 	
 }
 ?>

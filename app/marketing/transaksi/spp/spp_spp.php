@@ -22,7 +22,10 @@ jQuery(function($) {
 	$('#npwp').inputmask('varchar', { repeat: '15' });
 	$('#jumlah_kpr, #tanda_jadi').inputmask('numeric', { repeat: '16' });
 	$('#keterangan').inputmask('varchar', { repeat: '150' });
+	
 });
+
+
 </script>
 
 <table class="t-popup pad2 w100">

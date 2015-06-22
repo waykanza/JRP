@@ -16,6 +16,15 @@ if ($periode_awal <> '' || $periode_akhir <> '')
 	$query_search .= "WHERE TANGGAL_SPP >= CONVERT(DATETIME,'$periode_awal',105) AND TANGGAL_SPP <= CONVERT(DATETIME,'$periode_akhir',105)";
 }
 
+$query_blok_lunas = "SELECT C.KODE_BLOK FROM (SELECT A.KODE_BLOK,B.SUMOFREALISASI,A.SUMOFPLAN,(B.SUMOFREALISASI-A.SUMOFPLAN) AS REMAIN FROM (
+	SELECT SUM (A.NILAI) as SUMOFPLAN, A.KODE_BLOK from( 
+	select A.KODE_BLOK,A.TANGGAL_TANDA_JADI AS TANGGAL,ISNULL(A.TANDA_JADI,0) AS NILAI from spp A where A.KODE_BLOK is not null
+	UNION ALL
+	SELECT A.KODE_BLOK,A.TANGGAL,ISNULL(A.NILAI,0) FROM RENCANA A WHERE A.KODE_BLOK IS NOT NULL)a GROUP BY a.KODE_BLOK) A LEFT
+	JOIN (
+	SELECT SUM(A.NILAI) AS SUMOFREALISASI,A.KODE_BLOK FROM REALISASI A GROUP BY  A.KODE_BLOK)B ON A.KODE_BLOK=B.KODE_BLOK
+	where (B.SUMOFREALISASI-A.SUMOFPLAN)>=0)C";
+
 /* Pagination */
 $query = "
 SELECT 
@@ -123,6 +132,8 @@ if ($total_data > 0)
 		$TELP_RUMAH		=(trim($obj->fields["TELP_RUMAH"])!="")?",".trim(strtoupper($obj->fields["TELP_RUMAH"])):"";
 		$TELP			=$TELP_KANTOR.$TELP_LAIN.$TELP_RUMAH;
 		
+		$status_kompensasi	= $obj->fields['STATUS_KOMPENSASI'];
+			
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>"> 
 			<td class="text-center"><?php echo $i; ?></td>
@@ -144,6 +155,48 @@ if ($total_data > 0)
 			{?>
 				<td></td><td class="text-right"><?php echo $luas_tanah; ?></td>
 			<?php
+			}
+			?>
+			
+			<?php 
+			$query2 = "
+			SELECT COUNT(*) AS TOTAL FROM SPP WHERE KODE_BLOK IN ($query_blok_lunas)
+			AND KODE_BLOK = '$id'
+			";
+			$obj2 			= $conn->execute($query2);
+			$lunas			= $obj2->fields['TOTAL'];
+			
+			
+			
+			if($status_kompensasi == 2)
+			{
+				if($lunas > 0)
+				{
+				?>
+					<td>Lunas</td><td></td><td></td><td></td>
+				<?php
+				}
+				else
+				{
+				?>
+					<td></td><td>Belum</td><td></td><td></td>
+				<?php
+				}
+			}
+			else if($status_kompensasi == 1)
+			{
+				if($lunas > 0)
+				{
+				?>
+					<td></td><td></td><td>Lunas</td><td></td>
+				<?php
+				}
+				else
+				{
+				?>
+					<td></td><td></td><td></td><td>Belum</td>
+				<?php
+				}
 			}
 			?>
 			

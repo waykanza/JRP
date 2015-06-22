@@ -38,7 +38,7 @@
 
 <script type="text/javascript">
 jQuery(function($) {
-	
+	var status = 0;
 	/* -- FILTER -- */
 	$(document).on('keypress', '.apply', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
@@ -74,14 +74,14 @@ jQuery(function($) {
 	
 	$(document).on('click', '#tambah', function(e) {
 		e.preventDefault();
-		showPopup('Tambah', '');
+		showPopup('Tambah', '', '');
 		return false;
 	});
 	
 	$(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
 		e.preventDefault();
 		var id = $(this).parent().attr('id');
-		showPopup('Ubah', id);
+		showPopup('Ubah', id, status);
 		return false;
 	});
 	
@@ -99,11 +99,13 @@ jQuery(function($) {
 	$('input:radio[name="status_otorisasi"]').change(function(e){
 		e.preventDefault();
 		if($(this).val() == '0'){
+			status = 0;
 			$('#otorisasi').show();
 			$('#batal_otorisasi').hide();
 			jQuery('#nama_tombol').val('Otorisasi');
 			jQuery('#tombol').val('otorisasi');
 		} else if($(this).val() == '1'){
+			status = 1;
 			$('#otorisasi').hide();
 			$('#batal_otorisasi').show();
 			jQuery('#nama_tombol').val('Batal Otorisasi');
@@ -148,9 +150,9 @@ function loadData()
 	return false;
 }
 
-function showPopup(act, id)
+function showPopup(act, id, status)
 {
-	var url =	base_marketing_transaksi + 'spp/spp_popup.php' + '?act=' + act + '&id=' + id;
+	var url =	base_marketing_transaksi + 'spp/spp_popup.php' + '?act=' + act + '&id=' + id + '&status=' + status;
 	setPopup(act + ' SPP', url, 830, 550);	
 	return false;
 }

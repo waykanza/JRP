@@ -89,7 +89,7 @@ jQuery(function($) {
 
 <table class="t-popup pad2 w100">
 <tr>
-	<td width="280">NPWP : <input type="text" name="npwp" id="npwp" size="20" value="<?php echo $npwp; ?>"><td>
+	<td width="280">NPWP : <input type="text" name="npwp" id="npwp" size="20" value="<?php echo $npwp; ?>"></td>
 	<td>Jenis : 
 	<select name="jenis_npwp" id="jenis_npwp">
 		<option value="">   -- Jenis --   </option>

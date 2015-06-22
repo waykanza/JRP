@@ -74,15 +74,17 @@
 	<ul>
 		<li><a href="">Transaksi<span></span></a>
 		<ul>
-			<li><a href="">Denda Keterlambatan Pembayaran<span></span></a>
+			<!--<li><a href="">Denda Keterlambatan Pembayaran<span></span></a>
 			<ul>
-		<li><a href="<?php echo base64_encode('A01_entry'); ?>">Entry</a></li>
-		<li><a href="<?php echo base64_encode('A01_otoritas'); ?>">Otoritas</a></li>
-			</ul>
+				<li><a href="<?php echo base64_encode('A01_entry'); ?>">Entry</a></li>
+				<li><a href="<?php echo base64_encode('A01_otoritas'); ?>">Otoritas</a></li>
+			</ul>-->
 			<li><a href="<?php echo base64_encode('A01_virtual_account'); ?>">Virtual Account</a></li>
 			<li class="separator"></li>
 			<li><a href="<?php echo base64_encode('A01_ver_kwitansi_col'); ?>">Identifikasi</a></li>
 			<!--<li><a href="<?php echo base64_encode('A01_ver_kwitansi_keu'); ?>">Verifikasi Kwitansi (Div. Keuangan)</a></li>-->
+			<li class="separator"></li>
+			<li><a href="<?php echo base64_encode('A01_download_tagihan'); ?>">Download Tagihan</a></li>
 			<li class="separator"></li>
 			<li><a href="<?php echo base64_encode('A01_pemulihan_wanprestasi'); ?>">Pemulihan Wanprestasi</a></li>
 			<li><a href="<?php echo base64_encode('A01_memo_pembatalan'); ?>">Memo Pembatalan</a></li>
@@ -100,8 +102,36 @@
 				</ul>
 		<li><a href="<?php echo base64_encode('A01_wanprestasi'); ?>">Wanprestasi</a></li>
 		<li><a href="<?php echo base64_encode('A01_administrasi_pembatalan'); ?>">Administrasi Pembatalan</a></li>
+		<li class="separator"></li>
+		<li><a href="">Pengurusan SPK<span></span></a>
+				<ul>
+				<li><a href="<?php echo base64_encode('A01_pemberitahuan_spk'); ?>">Pemberitahuan Pengurusan SPK</a></li>
+				<li><a href="<?php echo base64_encode('A01_perpanjangan_spk'); ?>">Perpanjangan Pengurusan SPK</a></li>
+				<li><a href="<?php echo base64_encode('A01_pembatalan_spk'); ?>">Pembatalan Transaksi</a></li>
+				</ul>
+		<li><a href="">Akad Kredit<span></span></a>
+				<ul>
+				<li><a href="<?php echo base64_encode('A01_pemberitahuan_akad'); ?>">Pemberitahuan Akad Kredit</a></li>
+				<li><a href="<?php echo base64_encode('A01_perpanjangan_akad'); ?>">Pemberitahuan Ulang Akad Kredit</a></li>
+				<li><a href="<?php echo base64_encode('A01_pembatalan_akad'); ?>">Pembatalan Transaksi</a></li>
+				</ul>
+		<li><a href="">SPK Review<span></span></a>
+				<ul>
+				<li><a href="<?php echo base64_encode('A01_pemberitahuan_spk_review'); ?>">Pemberitahuan SPK Review</a></li>
+				<li><a href="<?php echo base64_encode('A01_pembatalan_spk_review'); ?>">Pembatalan Transaksi SPK Review</a></li>
+				</ul>
+		<li><a href="">Perubahan Plafon<span></span></a>
+				<ul>
+				<li><a href="<?php echo base64_encode('A01_pemberitahuan_plafon'); ?>">Pemberitahuan Perubahan Plafon</a></li>
+				<li><a href="<?php echo base64_encode('A01_pembatalan_plafon'); ?>">Pembatalan Perubahan Plafon</a></li>
+				</ul>
+		<li><a href="">Penolakkan Kredit<span></span></a>
+				<ul>
+				<li><a href="<?php echo base64_encode('A01_pemberitahuan_tolak_kredit'); ?>">Pemberitahuan Penolakkan Kredit</a></li>
+				<li><a href="<?php echo base64_encode('A01_pembatalan_tolak_kredit'); ?>">Pembatalan Penolakkan Kredit</a></li>
+				</ul>
 			</ul>	
-		</li>	
+		
 		<li><a href="">Pelaporan<span></span></a>
 		<ul>
 		<li><a href="<?php echo base64_encode('A01_proyeksi_penagihan'); ?>">Proyeksi Penagihan</a></li>
@@ -118,7 +148,7 @@
 				<li><a href="<?php echo base64_encode('A01_laporan_tanda_jadi'); ?>">Tanda jadi, uang muka dan pelunasan</a></li>
 				<li><a href="<?php echo base64_encode('A01_laporan_lain_lain'); ?>">Lain-lain</a></li>
 			</ul>
-		<li><a href="<?php echo base64_encode('A01_rencana_realisasi'); ?>">Rencana-Realisasi Seluruh Blok</a></li>
+		<li><a href="<?php echo base64_encode('A01_rencana_realisasi_blok'); ?>">Rencana-Realisasi Seluruh Blok</a></li>
 		<li><a href="<?php echo base64_encode('A01_daftar_spp'); ?>">Daftar SPP</a></li>
 		</ul>		
 	</ul>

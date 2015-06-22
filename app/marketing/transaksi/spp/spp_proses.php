@@ -6,6 +6,7 @@ $error	= FALSE;
 
 $act	= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 $id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
+$status		= (isset($_REQUEST['status'])) ? clean($_REQUEST['status']) : '';
 
 $no_customer		= (isset($_REQUEST['no_customer'])) ? clean($_REQUEST['no_customer']) : '';
 $tgl_spp			= (isset($_REQUEST['tgl_spp'])) ? clean($_REQUEST['tgl_spp']) : '';
@@ -247,7 +248,6 @@ if ($act == 'Ubah')
 	$redistribusi		= $obj->fields['SPP_REDISTRIBUSI'];
 	$tgl_redistribusi	= tgltgl(f_tgl($obj->fields['SPP_REDISTRIBUSI_TANGGAL']));
 	$keterangan			= $obj->fields['KETERANGAN'];	
-
 	
 	$obj = $conn->Execute("
 	SELECT  
