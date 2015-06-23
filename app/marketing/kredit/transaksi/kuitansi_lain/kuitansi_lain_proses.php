@@ -16,6 +16,7 @@ $tanggal			= (isset($_REQUEST['tanggal'])) ? clean($_REQUEST['tanggal']) : '';
 $tgl_terima			= (isset($_REQUEST['tgl_terima'])) ? clean($_REQUEST['tgl_terima']) : '';
 $via				= (isset($_REQUEST['via'])) ? clean($_REQUEST['via']) : '';
 $catatan			= (isset($_REQUEST['catatan'])) ? clean($_REQUEST['catatan']) : '';
+$catatan_kwt		= (isset($_REQUEST['catatan_kwt'])) ? clean($_REQUEST['catatan_kwt']) : '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -176,6 +177,7 @@ if ($act == 'Ubah')
 	$tgl_terima		= tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL_BAYAR'])));
 	$via			= $obj->fields['BAYAR_VIA'];
 	$catatan		= $obj->fields['CATATAN'];
+	$catatan_kwt	= $obj->fields['CATATAN_KWT'];
 	$biro 				= $obj->fields['VER_COLLECTION'];
 	$keuangan			= $obj->fields['VER_KEUANGAN'];
 		

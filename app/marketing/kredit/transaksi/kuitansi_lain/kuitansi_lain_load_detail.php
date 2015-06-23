@@ -13,7 +13,8 @@ $id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 	<th class="w10">NOMOR KWITANSI</th>
 	<th class="w10">TANGGAL BAYAR</th>
 	<th class="w10">JUMLAH (Rp)</th>
-	<th class="w70">KETERANGAN</th>
+	<th class="w50">REDAKASI</th>
+	<th class="w30">CATATAN COLL</th>
 </tr>
 
 <?php
@@ -61,6 +62,9 @@ $id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 			<?php
 			}
 			?>
+			
+			<td><?php echo $obj->fields['CATATAN'];  ?></td>
+			
 		</tr>
 		<?php
 		$i++;

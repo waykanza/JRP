@@ -6,6 +6,11 @@ die_login();
 //die_mod('');
 $conn = conn($sess_db);
 die_conn($conn);
+
+$jumlahHari = 10;
+
+// untuk mencari n hari sesudah hari ini
+$hariBerikutnya = mktime(0,0,0, date("m") ,date("d") + $jumlahHari , date("Y") );
 ?>
 
 <script type="text/javascript">
@@ -34,7 +39,7 @@ jQuery(function($) {
 <table class="t-popup pad2 w100">
 <tr>
 	<td class="text-left"><b>No Virtual Account :<input type="text" name="no_customer" id="no_customer" size="20" value="<?php echo $no_customer; ?>"></td>
-	<td class="text-right">Tgl / No. SPP : <input type="text" name="tgl_spp" id="tgl_spp" size="10" class="apply dd-mm-yyyy" value="<?php echo date('d-m-Y') ;?>"> / <input readonly="readonly" type="text" name="no_spp" id="no_spp" size="5" value="<?php echo to_number($no_spp); ?>"></td>
+	<td class="text-right">Tgl / No. SPP : <input readonly="readonly" type="text" name="tgl_spp" id="tgl_spp" size="10" value="<?php echo date('d-m-Y') ;?>"> / <input readonly="readonly" type="text" name="no_spp" id="no_spp" size="5" value="<?php echo to_number($no_spp); ?>"></td>
 </tr>
 </table>
 
@@ -185,9 +190,9 @@ jQuery(function($) {
 <tr>
 	<td width="230">Distribusi SPP : 
 		<input type="radio" name="status_spp" id="sudah" class="status" value="1" <?php echo is_checked('1', $status_spp); ?>>Sudah
-		<input type="radio" name="status_spp" id="belum" class="status" value="2" <?php echo is_checked('2', $status_spp); ?>>Belum  
+		<input type="radio" name="status_spp" id="belum" class="status" value="2" <?php echo is_checked('2', true); ?>>Belum  
 	</td>
-	<td><input type="text" name="tgl_proses" id="tgl_proses" size="10" class="apply dd-mm-yyyy" value="<?php echo $tgl_proses; ?>"></td>
+	<td><input type="text" name="tgl_proses" id="tgl_proses" size="10" class="apply dd-mm-yyyy" value="<?php echo date("d-m-Y",$hariBerikutnya); ?>"></td>
 	<td class="text-right">Tgl. Tanda Jadi : <input type="text" name="tgl_tanda_jadi" id="tgl_tanda_jadi" size="10" class="apply dd-mm-yyyy" value="<?php echo date('d-m-Y') ;?>"></td>
 </tr>
 <tr>

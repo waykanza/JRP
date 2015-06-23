@@ -100,7 +100,7 @@ if ($total_data > 0)
 			<td><?php echo $obj->fields['ALAMAT_SURAT']; ?></td>
 			<td><?php echo $TELP; ?></td>
 			<td class="text-center"><input type="hidden" name="tanggal_tempo" id="tanggal_tempo" value="<?php echo $tanggal_tempo; ?>"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?></td>
-			<td><?php echo $obj->fields['NILAI']; ?></td>
+			<td class="text-right"><?php echo to_money($obj->fields['NILAI']); ?></td>
 		</tr>
 		<?php
 		$obj->movenext();

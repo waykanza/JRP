@@ -112,8 +112,8 @@ jQuery(function($) {
 	});
 	
 	$('#print').on('click', function(e) {
-		e.preventDefault();		
-		window.open(base_marketing + 'kredit/transaksi/kuitansi_lain/kuitansi_lain_print.php?id=<?php echo base64_encode($id); ?>');		
+		var cat_kwt = jQuery('#catatan_kwt').val();
+		window.open(base_marketing + 'kredit/transaksi/kuitansi_lain/kuitansi_lain_print.php?id=<?php echo base64_encode($id); ?>&catatan_kwt=' + cat_kwt);
 		return false;
 	});		
 });
@@ -150,10 +150,6 @@ jQuery(function($) {
 <tr>
 	<td width="100">Nomor</td><td>:</td>
 	<td><input type="text" name="nomor" id="nomor" size="20" readonly="readonly" value="<?php echo $nomor; ?>"></td>
-	<td id="td-cb" class="text-center">
-	<input type="checkbox" onclick="return false" <?php echo is_checked('1', $biro); ?>> <i>Biro Collection
-	<input type="checkbox" onclick="return false" <?php echo is_checked('1', $keuangan); ?>> Div. Keuangan</i>
-	</td>
 </tr>
 <tr>
 	<td>Telah Terima Dari</td><td>:</td>
@@ -165,7 +161,7 @@ jQuery(function($) {
 </tr>
 <tr>
 	<td>Untuk Pembayaran</td><td>:</td>
-	<td colspan="2"><textarea name="keterangan" id="keterangan" rows="6" cols="100"><?php echo $keterangan; ?></textarea></td>
+	<td colspan="2"><textarea name="keterangan" id="keterangan" readonly="readonly" rows="6" cols="100"><?php echo $keterangan; ?></textarea></td>
 </tr>
 </table>
 <table class="t-popup">
@@ -198,7 +194,12 @@ jQuery(function($) {
 	</select>
 	</td>
 	-->
-	<td>Catatan : <input type="text" name="catatan" id="catatan" size="50" value="<?php echo $catatan; ?>"></td>
+</tr>
+<tr>
+	<td colspan ="2">Catatan Collection : <textarea type="text" name="catatan" id="catatan" readonly="readonly" rows="3" cols="100"><?php echo $catatan; ?></textarea></td>
+</tr>
+<tr>
+	<td colspan ="2">Catatan Kwitansi : <textarea type="text" name="catatan_kwt" id="catatan_kwt" rows="6" cols="100"><?php echo $catatan_kwt; ?></textarea></td></tr>
 </tr>
 <tr>
 	<td class="td-action" colspan="3">

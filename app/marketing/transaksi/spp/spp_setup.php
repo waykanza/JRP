@@ -14,6 +14,23 @@
 	</td>
 </tr>
 <tr>
+	<td width="100"></td><td width="10"></td>
+	<td>
+		<select name="field2" id="field2" class="wauto">
+			<option value="">   -- Distribusi SPP --   </option>
+			<option value="1">Sudah</option>
+			<option value="2">Belum</option>
+		</select>
+		
+	</td>
+</tr>
+<tr>
+	<td width="100">Tanggal</td><td width="10">:</td>
+	<td>
+		<input type="text" name="periode" id="periode" class="apply dd-mm-yyyy" size="15" value="">
+	</td>
+</tr>
+<tr>
 	<td>Otorisasi SPP</td><td>:</td>
 	<td>
 		<input type="radio" name="status_otorisasi" id="sbb" class="status" value="0" checked="true"> <label for="sbb">Belum</label>

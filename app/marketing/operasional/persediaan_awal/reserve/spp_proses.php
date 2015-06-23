@@ -217,15 +217,7 @@ if ($act == 'Ubah')
 	$tgl_redistribusi	= tgltgl(f_tgl($obj->fields['SPP_REDISTRIBUSI_TANGGAL']));
 	$keterangan			= $obj->fields['KETERANGAN'];	
 
-// $obj = $conn->Execute("SELECT * FROM RESERVE WHERE KODE_BLOK = '$id'");	
-	
-	// $nama_calon_pembeli		= $obj->fields['NAMA_CALON_PEMBELI'];
-	// $tanggal_reserve		= tgltgl(date("d-m-Y",strtotime($obj->fields['TANGGAL_RESERVE'])));
-	// $berlaku_sampai			= tgltgl(date("d-m-Y",strtotime($obj->fields['BERLAKU_SAMPAI'])));
-	// $alamat 				= $obj->fields['ALAMAT'];
-	// $telepon 				= $obj->fields['TELEPON'];
-	// $agen 					= $obj->fields['AGEN'];
-	// $koordinator 			= $obj->fields['KOORDINATOR'];
+
 
 }
 if ($act == 'Ubah')

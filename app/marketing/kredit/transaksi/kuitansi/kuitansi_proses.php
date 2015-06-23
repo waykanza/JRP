@@ -16,6 +16,7 @@ $tanggal			= (isset($_REQUEST['tanggal'])) ? clean($_REQUEST['tanggal']) : '';
 $tgl_terima			= (isset($_REQUEST['tgl_terima'])) ? clean($_REQUEST['tgl_terima']) : '';
 $via				= (isset($_REQUEST['via'])) ? clean($_REQUEST['via']) : '';
 $catatan			= (isset($_REQUEST['catatan'])) ? clean($_REQUEST['catatan']) : '';
+$catatan_kwt		= (isset($_REQUEST['catatan_kwt'])) ? clean($_REQUEST['catatan_kwt']) : '';
 $subtotal			= (isset($_REQUEST['subtotal'])) ? to_number($_REQUEST['subtotal']) : '';
 $ppn				= (isset($_REQUEST['ppn'])) ? to_number($_REQUEST['ppn']) : '';
 
@@ -62,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				TANGGAL_BAYAR = CONVERT(DATETIME,'$tgl_terima',105), 
 				BAYAR_VIA = '$via', 
 				CATATAN = '$catatan',
+				CATATAN_KWT = '$catatan_kwt',
 				PPN = $ppn, 
 				NILAI_NETT = $subtotal
 			WHERE
@@ -99,10 +101,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 			$query = "
 			INSERT INTO KWITANSI (
-				KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, KODE_BAYAR, NILAI, KETERANGAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, PPN, NILAI_NETT, VER_COLLECTION, VER_KEUANGAN
+				KODE_BLOK, NOMOR_KWITANSI, NAMA_PEMBAYAR, TANGGAL, KODE_BAYAR, NILAI, KETERANGAN, NILAI_DIPOSTING, TANGGAL_BAYAR, BAYAR_VIA, CATATAN, CATATAN_KWT PPN, NILAI_NETT, VER_COLLECTION, VER_KEUANGAN
 			)
 			VALUES(
-				'$id', 'XXX', '$nama_pembayar', CONVERT(DATETIME,'$tanggal',105), $jenis_pembayaran, $jumlah, '$keterangan', $diposting, CONVERT(DATETIME,'$tgl_terima',105), '$via', '$catatan', $ppn, $subtotal, '0', '0'
+				'$id', 'XXX', '$nama_pembayar', CONVERT(DATETIME,'$tanggal',105), $jenis_pembayaran, $jumlah, '$keterangan', $diposting, CONVERT(DATETIME,'$tgl_terima',105), '$via', '$catatan', '$catatan_kwt', $ppn, $subtotal, '0', '0'
 			)
 			";
 			ex_false($conn->execute($query), $query);
@@ -179,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 			$msg = 'Blok berhasil dipindahkan.';
 		}
-		
+				
 		$conn->committrans(); 
 	}
 	catch(Exception $e)
@@ -273,6 +275,7 @@ if ($act == 'Ubah')
 	$tgl_terima		= tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL_BAYAR'])));
 	$via			= $obj->fields['BAYAR_VIA'];
 	$catatan		= $obj->fields['CATATAN'];
+	$catatan_kwt	= $obj->fields['CATATAN_KWT'];
 	$biro 				= $obj->fields['VER_COLLECTION'];
 	$keuangan			= $obj->fields['VER_KEUANGAN'];
 	$pindah 			= $obj->fields['STATUS_PINDAH_BLOK'];
@@ -320,6 +323,7 @@ if ($act == 'Tambah')
 	$tgl_terima		= '';
 	$via			= '';
 	$catatan		= '';
+	$catatan_kwt	= '';
 	$biro 				= 0;
 	$keuangan			= 0;
 	$pindah 			= 0;
@@ -333,4 +337,5 @@ if ($act == 'Tambah')
 	$kode_blok 			= $obj->fields['KODE_BLOK'];	
 	$tipe	 			= $obj->fields['TIPE_BANGUNAN'];
 }
+
 ?>

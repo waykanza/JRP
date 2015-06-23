@@ -9,6 +9,7 @@ die_conn($conn);
 
 $terbilang 	= new Terbilang;
 $id			= (isset($_REQUEST['id'])) ? base64_decode(clean($_REQUEST['id'])) : '';
+$catatan_kwt= (isset($_REQUEST['catatan_kwt'])) ? (clean($_REQUEST['catatan_kwt'])) : '';
 
 $query = "
 	SELECT * 
@@ -24,7 +25,8 @@ $tanggal		= kontgl(tgltgl(date("d M Y", strtotime($obj->fields['TANGGAL']))));
 
 $query = "
 		UPDATE KWITANSI SET 
-			STATUS_KWT = '1'
+			STATUS_KWT = '1',
+			CATATAN_KWT = '$catatan_kwt'
 		WHERE NOMOR_KWITANSI = '$id'
 		";
 ex_false($conn->Execute($query), $query);

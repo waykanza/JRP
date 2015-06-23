@@ -13,6 +13,7 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_harga_tanah' 				: die_mod('PM07'); include('marketing/master/harga_tanah/harga_tanah_setup.php');break;
 	case 'A01_harga_bangunan' 			: die_mod('PM08'); include('marketing/master/harga_bangunan/harga_bangunan_setup.php');break;
 	case 'A01_jenis_pembayaran'			: die_mod('PM10'); include('marketing/master/jenis_pembayaran/jenis_pembayaran_setup.php');break;
+	case 'A01_pola_pembayaran'			: die_mod('PM10'); include('marketing/master/pola_pembayaran/pola_pembayaran_setup.php');break;
 	case 'A01_agen'						:  include('marketing/master/agen/agen_setup.php');break;
 	case 'A01_koordinator'				:  include('marketing/master/koordinator/koordinator_setup.php');break;
 	

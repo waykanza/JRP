@@ -67,7 +67,8 @@ jQuery(function($) {
 			alert('Maaf datfar tagihan ini belum didistribusi');
 		}
 		else{
-			location.href = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_excel.php?' + $('#form').serializeArray();
+			//location.href = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_bca_excel.php?' + $('#form').serializeArray();
+			location.href = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_mandiri_excel.php?' + $('#form').serializeArray();
 		}
 		return false;
 	});

@@ -8,6 +8,8 @@ $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
 
 $field1		= (isset($_REQUEST['field1'])) ? clean($_REQUEST['field1']) : '';
 $search1	= (isset($_REQUEST['search1'])) ? clean($_REQUEST['search1']) : '';
+$field2		= (isset($_REQUEST['field2'])) ? clean($_REQUEST['field2']) : '';
+$periode	= (isset($_REQUEST['periode'])) ? clean($_REQUEST['periode']) : date('d-m-Y');
 
 $status_otorisasi	= (isset($_REQUEST['status_otorisasi'])) ? clean($_REQUEST['status_otorisasi']) : '';
 $tombol				= (isset($_REQUEST['tombol'])) ? clean($_REQUEST['tombol']) : '';
@@ -27,6 +29,14 @@ if ($search1 != '')
 {
 	$query_search .= " AND $field1 LIKE '%$search1%' ";
 }
+
+if ($field2 != ''){
+	$query_search .= "AND STATUS_SPP = $field2";
+}
+if ($periode != ''){
+	$query_search .= "AND TANGGAL_SPP = CONVERT(DATETIME,'$periode',105)";
+}
+
 
 /* Pagination */
 $query = "
@@ -66,6 +76,7 @@ $page_start = (($page_num-1) * $per_page);
 	<th class="w15">BLOK / NOMOR</th>
 	<th class="w20">NAMA PEMBELI</th>
 	<th class="w10">NOMOR SPP</th>
+	<th class="w10">TANGGAL SPP</th>
 	<th class="w45">ALAMAT RUMAH</th>
 </tr>
 
@@ -77,7 +88,7 @@ if ($total_data > 0)
 	FROM 
 		SPP
 	$query_search
-	ORDER BY KODE_BLOK
+	ORDER BY TANGGAL_SPP
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
 
@@ -91,6 +102,7 @@ if ($total_data > 0)
 			<td><?php echo $id; ?></td>
 			<td><?php echo $obj->fields['NAMA_PEMBELI'];  ?></td>
 			<td class="text-center"><?php echo to_money($obj->fields['NOMOR_SPP']);  ?></td>
+			<td class="text-center"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL_SPP'])));  ?></td>
 			<td><?php echo $obj->fields['ALAMAT_RUMAH'];  ?></td>
 	</tr>
 		<?php

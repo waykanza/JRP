@@ -54,7 +54,7 @@ $page_start = (($page_num-1) * $per_page);
 if ($total_data > 0)
 {
 	$query = "
-	SELECT *
+	SELECT *, ISNULL (NOMOR_CUSTOMER, '-') AS NO_CUST
 	FROM 
 		SPP
 	$query_search
@@ -69,7 +69,7 @@ if ($total_data > 0)
 		<tr class="onclick" id="<?php echo $id; ?>"> 
 			<td class="text-center"><?php echo $id; ?></td>
 			<td><?php echo $obj->fields['NAMA_PEMBELI'];  ?></td>
-			<td class="text-center"><?php echo $obj->fields['NOMOR_CUSTOMER'];  ?></td>
+			<td class="text-center"><?php echo $obj->fields['NO_CUST'];  ?></td>
 		</tr>
 		<?php
 		$obj->movenext();
