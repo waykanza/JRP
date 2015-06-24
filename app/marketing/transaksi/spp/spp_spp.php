@@ -6,8 +6,16 @@
 	//die_mod('');
 	$conn = conn($sess_db);
 	die_conn($conn);
+	if($status_otorisasi=='0'){
+		$tombol				= 'otorisasi';
+		$nama_tombol		= 'Otorisasi';
+	}else{
+		$tombol				= 'batal_otorisasi';
+		$nama_tombol		= 'Batal Otorisasi';
+	}
 ?>
 
+											
 <script type="text/javascript">
 	jQuery(function($) {
 		$('.dd-mm-yyyy').Zebra_DatePicker({
@@ -23,9 +31,74 @@
 		$('#jumlah_kpr, #tanda_jadi').inputmask('numeric', { repeat: '16' });
 		$('#keterangan').inputmask('varchar', { repeat: '150' });
 		
+		//tombol status otoritas;
+		var status_otorisasi = <?php echo $status_otorisasi; ?>;
+		alert(status_otorisasi) ;
+		if(status_otorisasi == '0'){
+			status = 0;
+			$('#otorisasi').show();
+			$('#batal_otorisasi').hide();
+			$('#nama_tombol').val('Otorisasi');
+			$('#tombol').val('otorisasi');
+		} else if(status_otorisasi == '1'){
+			status = 1;
+			$('#otorisasi').hide();
+			$('#batal_otorisasi').show();
+			$('#nama_tombol').val('Batal Otorisasi');
+			$('#tombol').val('batal_otorisasi');
+		}
+		
+	$(document).on('click', '#otorisasi', function(e) {
+		e.preventDefault();
+		 if (confirm('Apakah anda yakin akan mengotorisasi data ini ?')) 
+		{
+			otorisasiData();
+		}
+		return false;
+	});
+	
+	$(document).on('click', '#batal_otorisasi', function(e) {
+		e.preventDefault();
+		var checked = $(".cb_data:checked").length;
+		if (checked < 1) {
+			alert('Pilih data yang akan dibatalkan otorisasi.');
+		} else if (confirm('Apakah anda yakin akan membatalkan otorisasi data ini ?')) 
+		{
+			unotorisasiData();
+		}
+		return false;
+	});
+		function otorisasiData()
+		{	
+			var url		= base_marketing_transaksi + 'spp/spp_proses.php',
+			data	= jQuery('#form').serializeArray();
+			data.push({ name: 'act', value: 'Otorisasi' });
+			
+			jQuery.post(url, data, function(result) {
+				var list_id = result.act.join(', #');
+				alert(result.msg);		
+			}, 'json');	
+			loadData();
+			return false;
+		}
+		
+		function unotorisasiData()
+		{
+			var url		= base_marketing_transaksi + 'spp/spp_proses.php',
+			data	= jQuery('#form').serializeArray();
+			data.push({ name: 'act', value: 'Batal_Otorisasi' });
+			
+			jQuery.post(url, data, function(result) {
+				var list_id = result.act.join(', #');
+				alert(result.msg);		
+			}, 'json');	
+			loadData();
+			return false;
+		}
+		
 		//disable jika sudah diotoritas
 		$('input:radio[name="status_spp"]').change(function(e){
-		e.preventDefault();
+			e.preventDefault();
 			var status_spp = $('input[name=status_spp]:checked', '#form').val() ;
 			
 			if(status_spp== 1){
@@ -42,8 +115,8 @@
 				var curr_date = d.getDate();
 				var curr_month = d.getMonth()+1;
 				var curr_year = d.getFullYear();
-			
-
+				
+				
 				var tgl_proses = curr_date + "-0" + curr_month
 				+ "-" + curr_year;
 				$('#tgl_proses').val(tgl_proses);
@@ -117,6 +190,7 @@
 	
 	
 </script>
+
 
 <table class="t-popup pad2 w100">
 	<tr>
@@ -298,10 +372,12 @@
 													</tr>
 													<tr>
 														<td class="td-action" colspan="10"><br>
+															<input type="button" id="<?php echo $tombol; ?>" value=" <?php echo $nama_tombol; ?> ">
 															<input type="submit" id="save" value=" <?php echo $act; ?> ">
 															<?php if($status_otorisasi== 1){
 																echo '<input type="submit" id="print" value="Print">';
 															} ?>
+															
 															<input type="reset" id="reset" value=" Reset ">
 															<input type="button" id="close" value=" Tutup ">
 														</td>
@@ -311,4 +387,8 @@
 												<?php
 													close($conn);
 													exit;
-												?>												
+												?>							
+												
+												
+												
+	
