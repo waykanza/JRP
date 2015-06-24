@@ -209,7 +209,9 @@ jQuery(function($) {
 <tr>
 	<td class="td-action" colspan="10"><br>
 	<input type="submit" id="save" value=" <?php echo $act; ?> ">
-	<input type="submit" id="print" value="Print">
+	<?php if($status_otorisasi== 1){
+		echo '<input type="submit" id="print" value="Print">';
+	} ?>
 	<input type="reset" id="reset" value=" Reset ">
 	<input type="button" id="close" value=" Tutup ">
 	</td>
