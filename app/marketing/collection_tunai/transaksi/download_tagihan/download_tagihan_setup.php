@@ -28,12 +28,24 @@
 		<td>Total Data</td><td>:</td>
 		<td id="total-data"></td>
 	</tr>
+	<tr>
+	<td width="100">Download Tagihan</td><td width="10">:</td>
+		<td>
+			<select name="pilih" id="pilih" class="wauto">
+				<option value="bca"> Bank BCA </option>
+				<option value="mandiri"> Bank Mandiri </option>
+			</select>
+			<input type="button" id="download" value=" Download ">		
+		</td>
+	</tr>
+	
 </table>
 
 <script type="text/javascript">
 jQuery(function($) {
 	/* -- FILTER -- */
 	var distribusi = 1;
+	var bank = 'bca';
 	
 	$(document).on('keypress', '.apply', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
@@ -60,6 +72,17 @@ jQuery(function($) {
 		if (page_num > 0) { $('.page_num').val(page_num); $('#apply').trigger('click'); }
 		return false;
 	});
+	
+	$(document).on('click', '#pilih', function(e) {
+		e.preventDefault();
+		if($(this).val() == 'bca'){
+			bank = 'bca';
+		} else {
+			bank = 'mandiri';
+		}
+		return false;
+	});
+	
 
 	$(document).on('click', '#download', function(e) {
 		e.preventDefault();
@@ -67,9 +90,14 @@ jQuery(function($) {
 			alert('Maaf datfar tagihan ini belum didistribusi');
 		}
 		else{
-			//location.href = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_bca_excel.php?' + $('#form').serializeArray();
+			if(bank == 'bca'){
+			location.href = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_bca_excel.php?' + $('#form').serializeArray();
+			}
+			else{
 			location.href = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_mandiri_excel.php?' + $('#form').serializeArray();
+			}
 		}
+		
 		return false;
 	});
 	

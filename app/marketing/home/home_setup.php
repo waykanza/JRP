@@ -1,3 +1,7 @@
+<div class="title-page">HOME MARKETING</div>
+
+<form name="form" id="form" method="post">
+
 <script type="text/javascript">
 jQuery(function($) {
 	
@@ -46,4 +50,6 @@ function loadData()
 }
 
 </script>
+</form>
+
 <div id="t-detail"></div>

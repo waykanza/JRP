@@ -70,10 +70,13 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_recovery'				: die_mod('zzzz'); include('marketing/utilitas/recovery/recovery_setup.php');break;
 	*/
 	## security_management
-		case 'A01_users'			: die_mod('PU05'); include('marketing/utilitas/security_management/users/users_setup.php');break;
-		case 'A01_aplications'		: die_mod('PU05'); include('marketing/utilitas/security_management/aplications/aplications_setup.php');break;
-		case 'A01_modules'			: die_mod('PU05'); include('marketing/utilitas/security_management/modules/modules_setup.php');break;
-		case 'A01_rights'			: die_mod('PU05'); include('marketing/utilitas/security_management/rights/rights_setup.php');break;
+	
+		case 'A01_parameter_program_mark'	: include('marketing/utilitas/parameter/parameter_setup.php');break;
+		case 'A01_pemulihan_spp'			: include('marketing/utilitas/pemulihan_spp/pemulihan_spp_setup.php');break;
+		case 'A01_users'					: die_mod('PU05'); include('marketing/utilitas/security_management/users/users_setup.php');break;
+		case 'A01_aplications'				: die_mod('PU05'); include('marketing/utilitas/security_management/aplications/aplications_setup.php');break;
+		case 'A01_modules'					: die_mod('PU05'); include('marketing/utilitas/security_management/modules/modules_setup.php');break;
+		case 'A01_rights'					: die_mod('PU05'); include('marketing/utilitas/security_management/rights/rights_setup.php');break;
 		
 	/*
 	case 'A01_nomor_customer'		: die_mod('zzzz'); include('marketing/utilitas/nomor_customer/nomor_customer_setup.php');break;
@@ -155,7 +158,7 @@ switch (trim(base64_decode($cmd)))
 	*/
 	
 	# Lain-lain
-	case 'A01_parameter_program'		: die_mod('CL01'); die_ha('CL01', 'R'); include('marketing/collection_tunai/lain/parameter/parameter_setup.php');break;
+	case 'A01_parameter_program_coll'	: include('marketing/collection_tunai/lain/parameter/parameter_setup.php');break;
 	case 'A01_registrasi_user'			: die_mod('COL02'); die_ha('COL02', 'R'); include('collection_tunai/lain/registrasi_user/users_setup.php');break;
 	case 'A01_nomor_surat'				: die_mod('COL03'); die_ha('COL03', 'R'); include('collection_tunai/lain/nomor_surat/nomor_surat_setup.php');break;
 	case 'A01_spp_tidak_valid'			: die_mod('CL04'); die_ha('CL04', 'R'); include('marketing/collection_tunai/lain/spp_tidak_valid/spp_tidak_valid_setup.php');break;
@@ -183,7 +186,7 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_daftar_spp_belum_ppjb'	: die_mod('JB11'); die_ha('JB11', 'R'); include('marketing/ppjb/laporan/daftar_belum_ppjb/daftar_belum_ppjb_setup.php');break;
 	
 	# Lain-lain
-	case 'A01_parameter_program'		: die_mod('JB12'); die_ha('JB12', 'R'); include('marketing/ppjb/lain/parameter/parameter_setup.php');break;
+	case 'A01_parameter_program_ppjb'		: die_mod('JB12'); die_ha('JB12', 'R'); include('marketing/ppjb/lain/parameter/parameter_setup.php');break;
 	//case 'C03_registrasi_user'		: die_mod('JBLL2'); die_ha('JBLL2', 'R'); include('ppjb/lain/xxx/xxx_setup.php');break;
 	//case 'C03_ubah_sandi' 			: include('ppjb/lain/xxx/xxx_setup.php');break;
 }

@@ -1,4 +1,4 @@
-<div class="title-page">SURAT PERMOHONAN PEMBELIAN (SPP) TELAH DISTRIBUSI</div>
+<div class="title-page">PEMULIHAN WAKTU TENGGANG SPP</div>
 
 <form name="form" id="form" method="post">
 <table class="t-control wauto">
@@ -8,19 +8,10 @@
 		<select name="field1" id="field1" class="wauto">
 			<option value="KODE_BLOK"> BLOK / NOMOR </option>
 			<option value="NAMA_PEMBELI"> NAMA PEMBELI </option>
-			<option value="NOMOR_SPP"> NOMOR SPP </option>
+			<option value="TANGGAL_SPP"> TANGGAL SPP </option>
 		</select>
 		<input type="text" name="search1" id="search1" class="apply" value="">
 	</td>
-</tr>
-<tr>
-	<td width="100">Tanggal</td><td width="10">:</td>
-	
-	<td>
-		<input type="text" name="periode_awal" id="periode_awal" class="apply dd-mm-yyyy" size="15" value=""> s/d
-		<input type="text" name="periode_akhir" id="periode_akhir" class="apply dd-mm-yyyy" size="15" value="">
-	</td>
-	
 </tr>
 <tr>
 	<td>Jumlah Baris</td><td>:</td>
@@ -34,6 +25,9 @@
 	<td id="total-data"></td>
 </tr>
 </table>
+
+<input type="hidden" name="tombol" id="tombol" value="otorisasi">
+<input type="hidden" name="nama_tombol" id="nama_tombol" value="Otorisasi">
 
 <script type="text/javascript">
 jQuery(function($) {
@@ -71,30 +65,29 @@ jQuery(function($) {
 		return false;
 	});
 	
-	$(document).on('click', '#tambah', function(e) {
-		e.preventDefault();
-		showPopup('Tambah', '');
-		return false;
-	});
-	
-	$(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
-		e.preventDefault();
-		var id = $(this).parent().attr('id');
-		showPopup('Ubah', id);
-		return false;
-	});
-	
 	$(document).on('click', '#hapus', function(e) {
 		e.preventDefault();
 		var checked = $(".cb_data:checked").length;
 		if (checked < 1) {
-			alert('Pilih data SPP yang akan dihapus.');
-		} else if (confirm('Apa data SPP ini akan dihapus?')) {
+			alert('Pilih data yang akan dihapus.');
+		} else if (confirm('Apa data ini akan dihapus?')) {
 			hapusData();
 		}
 		return false;
 	});
-		
+	
+	$(document).on('click', '#pemulihan', function(e) {
+		e.preventDefault();
+		var checked = $(".cb_data:checked").length;
+		if (checked < 1) {
+			alert('Pilih data yang akan dipulihkan.');
+		} else if (confirm('Apakah anda yakin akan memulihkan data ini ?')) 
+		{
+			pemulihanData();
+		}
+		return false;
+	});
+	
 	loadData();
 });
 
@@ -102,20 +95,14 @@ function loadData()
 {
 	if (popup) { popup.close(); }
 	var data = jQuery('#form').serialize();
-	jQuery('#t-detail').load(base_marketing_transaksi + 'edit_spp_penjualan/edit_spp_penjualan_load.php', data);	
-	return false;
-}
-
-function showPopup(act, id)
-{
-	var url =	base_marketing_transaksi + 'edit_spp_penjualan/spp_popup.php' + '?act=' + act + '&id=' + id;
-	setPopup(act + ' SPP', url, 830, 550);	
+	jQuery('#t-detail').load(base_marketing + 'utilitas/pemulihan_spp/pemulihan_spp_load.php', data);	
 	return false;
 }
 
 function hapusData()
 {	
-	var url		= base_marketing_transaksi + 'spp/spp_proses.php?act=Hapus',
+
+	var url		= base_marketing + 'utilitas/pemulihan_spp/pemulihan_spp_proses.php?act=Hapus',
 		data	= jQuery('#form').serializeArray();
 	
 	jQuery.post(url, data, function(result) {
@@ -125,6 +112,21 @@ function hapusData()
 	}, 'json');
 	return false;
 }
+
+function pemulihanData()
+{	
+	var url		= base_marketing + 'utilitas/pemulihan_spp/pemulihan_spp_proses.php',
+		data	= jQuery('#form').serializeArray();
+	data.push({ name: 'act', value: 'Pemulihan' });
+	
+	jQuery.post(url, data, function(result) {
+		var list_id = result.act.join(', #');
+		alert(result.msg);		
+	}, 'json');	
+	loadData();
+	return false;
+}
+
 </script>
 
 <div id="t-detail"></div>

@@ -1,8 +1,7 @@
 <?php
-require_once('../../../../config/config.php');
+require_once('../../../../../config/config.php');
 die_login();
-die_app('C01');
-die_mod('COL01');
+
 $conn = conn($sess_db);
 die_conn($conn);
 $msg = '';
@@ -27,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		$tanggal_efektif_prog	= (isset($_REQUEST['tanggal_efektif_prog'])) ? clean($_REQUEST['tanggal_efektif_prog']) : '';
 		$nilai_sisa_tagihan		= (isset($_REQUEST['nilai_sisa_tagihan'])) ? to_number($_REQUEST['nilai_sisa_tagihan']) : '';
 		$masa_berlaku_denda		= (isset($_REQUEST['masa_berlaku_denda'])) ? clean($_REQUEST['masa_berlaku_denda']) : '';
-		
 		$conn->Execute("DELETE FROM CS_PARAMETER_COL");
 		
 		$query = "

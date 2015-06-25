@@ -248,6 +248,8 @@ if ($act == 'Ubah')
 	$redistribusi		= $obj->fields['SPP_REDISTRIBUSI'];
 	$tgl_redistribusi	= tgltgl(f_tgl($obj->fields['SPP_REDISTRIBUSI_TANGGAL']));
 	$keterangan			= $obj->fields['KETERANGAN'];	
+	$status_otorisasi	= $obj->fields['OTORISASI'];	
+	
 	
 	$obj = $conn->Execute("
 	SELECT  

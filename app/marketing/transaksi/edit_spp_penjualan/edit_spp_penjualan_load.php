@@ -8,11 +8,18 @@ $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
 
 $field1		= (isset($_REQUEST['field1'])) ? clean($_REQUEST['field1']) : '';
 $search1	= (isset($_REQUEST['search1'])) ? clean($_REQUEST['search1']) : '';
+$periode_awal		= (isset($_REQUEST['periode_awal'])) ? clean($_REQUEST['periode_awal']) : date('d-m-Y');
+$periode_akhir		= (isset($_REQUEST['periode_akhir'])) ? clean($_REQUEST['periode_akhir']) : date('d-m-Y');
 
 $query_search = '';
 if ($search1 != '')
 {
-	$query_search .= " WHERE $field1 LIKE '%$search1%' ";
+	$query_search .= " AND $field1 LIKE '%$search1%' ";
+}
+
+if ($periode_awal != '' && $periode_akhir != '')
+{
+	$query_search .= " AND TANGGAL_SPP >= CONVERT(DATETIME,'$periode_awal',105) AND TANGGAL_SPP <= CONVERT(DATETIME,'$periode_akhir',105)";
 }
 
 /* Pagination */
@@ -21,6 +28,7 @@ SELECT
 	COUNT(*) AS TOTAL
 FROM 
 	SPP
+WHERE STATUS_SPP = 1
 $query_search
 ";
 $total_data = $conn->execute($query)->fields['TOTAL'];
@@ -31,7 +39,7 @@ $page_start = (($page_num-1) * $per_page);
 /* End Pagination */
 ?>
 
-<table id="pagging-1" class="t-control w60">
+<table id="pagging-1" class="t-control w100">
 <tr>
 	<td>
 		<input type="button" id="hapus" value=" Hapus ">	
@@ -46,12 +54,14 @@ $page_start = (($page_num-1) * $per_page);
 </tr>
 </table>
 
-<table class="t-data w60">
+<table class="t-data w100">
 <tr>
 	<th class="w1"><input type="checkbox" id="cb_all"></th>
-	<th class="w10">BLOK / NOMOR</th>
-	<th class="w40">NAMA PEMBELI</th>
-	<th class="w7">NOMOR SPP</th>
+	<th class="w15">BLOK / NOMOR</th>
+	<th class="w20">NAMA PEMBELI</th>
+	<th class="w10">NOMOR SPP</th>
+	<th class="w10">TANGGAL SPP</th>
+	<th class="w45">ALAMAT RUMAH</th>
 </tr>
 
 <?php
@@ -61,8 +71,9 @@ if ($total_data > 0)
 	SELECT *
 	FROM 
 		SPP
+	WHERE STATUS_SPP = 1
 	$query_search
-	ORDER BY NOMOR_SPP
+	ORDER BY TANGGAL_SPP DESC
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
 
@@ -74,7 +85,9 @@ if ($total_data > 0)
 			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td>
 			<td><?php echo $id; ?></td>
 			<td><?php echo $obj->fields['NAMA_PEMBELI'];  ?></td>
-			<td class="text-right"><?php echo to_money($obj->fields['NOMOR_SPP']);  ?></td>
+			<td class="text-center"><?php echo to_money($obj->fields['NOMOR_SPP']);  ?></td>
+			<td class="text-center"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL_SPP'])));  ?></td>
+			<td><?php echo $obj->fields['ALAMAT_RUMAH'];  ?></td>
 		</tr>
 		<?php
 		$obj->movenext();
@@ -83,7 +96,7 @@ if ($total_data > 0)
 ?>
 </table>
 
-<table id="pagging-2" class="t-control w60"></table>
+<table id="pagging-2" class="t-control w100"></table>
 
 <script type="text/javascript">
 jQuery(function($) {

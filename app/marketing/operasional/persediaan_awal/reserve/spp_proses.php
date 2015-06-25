@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_empty($npwp, 'No npwp harus diisi.');
 			ex_empty($no_customer, 'No virtual account harus diisi.');
 			ex_empty($koordinator, 'Koordinator harus diisi.');
-			ex_empty($jumlah_kpr, 'Jumlah KPR harus diisi.');
+			ex_empty($bank, 'Bank harus diisi.');
 			ex_empty($tanda_jadi, 'Tanda jadi harus diisi.');
 			
 			$query = "SELECT COUNT(KODE_BLOK) AS TOTAL FROM SPP WHERE KODE_BLOK = '$id'";
@@ -161,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$query = "DELETE FROM RESERVE WHERE KODE_BLOK = '$id'";		
 			ex_false($conn->execute($query), $query);
 
-			$msg = 'Data SPP berhasil disimpan.';
+			$msg = 'Data SPP berhasil disimpan';
 		}
 	
 		$conn->committrans(); 

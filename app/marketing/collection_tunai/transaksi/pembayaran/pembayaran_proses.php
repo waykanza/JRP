@@ -449,6 +449,14 @@ if ($act == 'Ubah')
 	
 	$obj = $conn->execute($query);
 	$jumlah_angsuran 	= to_money($obj->fields['NILAI']);
+	
+	$query = "
+	select count(*) as TOTAL_ANGSURAN from kwitansi where kode_blok = '$id' 
+	";
+	
+	$obj = $conn->execute($query);
+	$angsuran_ke	= 1 + $obj->fields['TOTAL_ANGSURAN'];
+	
 }
 
 if ($act == 'Tambah')
@@ -517,6 +525,13 @@ if ($act == 'Tambah')
 	
 	$obj = $conn->execute($query);
 	$jumlah_angsuran 	= to_money($obj->fields['NILAI']);
+	
+	$query = "
+	select count(*) as TOTAL_ANGSURAN from kwitansi where kode_blok = '$id' 
+	";
+	
+	$obj = $conn->execute($query);
+	$angsuran_ke	= 1 + $obj->fields['TOTAL_ANGSURAN'];
 	
 }
 ?>

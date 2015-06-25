@@ -6,8 +6,6 @@ $error = FALSE;
 
 $act = (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 $id = (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
-$jenis = (isset($_REQUEST['jenis'])) ? clean($_REQUEST['jenis']) : '';
-$kode_sk_sebelumnya = (isset($_REQUEST['kode_sk_sebelumnya'])) ? clean($_REQUEST['kode_sk_sebelumnya']) : '';
 
 $kode_blok		= (isset($_REQUEST['kode_blok'])) ? clean($_REQUEST['kode_blok']) : '';
 $kode_desa		= (isset($_REQUEST['kode_desa'])) ? clean($_REQUEST['kode_desa']) : '';
@@ -104,8 +102,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 					
 			$query = "
 			UPDATE STOK 
-			SET KODE_SK_TANAH = '$kode_sk_tanah', 
+			SET KODE_BLOK = '$kode_blok', 
+				KODE_UNIT = '$kode_unit', 
+				KODE_DESA = '$kode_desa', 
+				KODE_LOKASI = '$kode_lokasi', 
+				KODE_SK_TANAH = '$kode_sk_tanah', 
+				KODE_FAKTOR = '$kode_faktor', 
+				KODE_TIPE = '$kode_tipe', 
+				KODE_SK_BANGUNAN = '$kode_sk_bangunan', 
+				KODE_PENJUALAN = '$kode_penjualan', 
 				
+				LUAS_TANAH = '$luas_tanah', 
+				LUAS_BANGUNAN = '$luas_bangunan', 
+				PPN_TANAH = '$ppn_tanah', 
+				PPN_BANGUNAN = '$ppn_bangunan', 
+				DISC_TANAH = '$disc_tanah', 
+				DISC_BANGUNAN = '$disc_bangunan', 
+				
+				CLASS = '$class',
+				PROGRAM = '$program',
+				
+				STATUS_GAMBAR_SITEPLAN = '$status_gambar_siteplan', 
+				STATUS_GAMBAR_LAPANGAN = '$status_gambar_lapangan', 
+				STATUS_GAMBAR_GS = '$status_gambar_gs'
 			WHERE
 				
 				KODE_BLOK = '$id'
@@ -113,42 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_false($conn->Execute($query), $query);
 			
 			$msg = 'Data persediaan awal berhasil diubah.';
-		}
-		elseif ($act == 'Ubah_SK') # Proses Ubah
-		{
-			//ex_ha('PO01', 'U');
-			
-			if($jenis == 'Tanah')
-			{
-				ex_empty($kode_sk_tanah, 'SK Tanah baru harus diisi.');
-			}
-			if($jenis == 'Bangunan')
-			{
-				ex_empty($kode_sk_bangunan, 'SK Bangunan baru harus diisi.');
-			}
-			
-			if($jenis == 'Tanah')
-			{
-				$query = "
-				UPDATE STOK 
-				SET KODE_SK_TANAH = '$kode_sk_tanah' 
-				WHERE
-					KODE_SK_TANAH = '$kode_sk_sebelumnya' AND TERJUAL = '0'
-				";
-			}
-			if($jenis == 'Bangunan')
-			{
-				$query = "
-				UPDATE STOK 
-				SET KODE_SK_BANGUNAN = '$kode_sk_bangunan' 
-				WHERE
-					KODE_SK_BANGUNAN = '$kode_sk_sebelumnya' AND TERJUAL = '0'
-				";
-			}
-			
-			ex_false($conn->Execute($query), $query);
-			
-			$msg = 'Data SK berhasil diubah.';
 		}
 		elseif ($act == 'Hapus-Status-Reserve') # Proses Hapus Status Reserve
 		{

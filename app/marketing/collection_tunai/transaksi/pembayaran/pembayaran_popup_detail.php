@@ -39,6 +39,7 @@ function calculate(){
 		lokasi				= '<?php echo $lokasi; ?>';		
 		kode_blok			= '<?php echo $kode_blok; ?>';
 		tipe				= '<?php echo $tipe; ?>';
+		angsuran_ke			= '<?php echo $angsuran_ke; ?>';
 		
 		awal				= kode_blok.search("/");
 		akhir				= kode_blok.search("-");
@@ -80,7 +81,7 @@ function calculate(){
 		if ((kode_bayar == 1) || (kode_bayar == 2) || (kode_bayar == 3) || (kode_bayar == 4) || (kode_bayar == 5) || (kode_bayar == 6) ||
 				(kode_bayar == 10) || (kode_bayar == 14) || (kode_bayar == 15) || (kode_bayar == 21) || (kode_bayar == 22) || (kode_bayar == 23)||
 				(kode_bayar == 24)){
-		jp = 'Pembayaran '+ jenis_pembayaran + ' atas pembelian ' + tanah_bangunan +
+		jp = 'Pembayaran '+ jenis_pembayaran + ' ke-' + angsuran_ke +' atas pembelian ' + tanah_bangunan +
 			 '\ndi ' + lokasi + ' Blok ' + blok + ' Nomor ' + nomor + ' (TYPE ' + tipe + ') \n' +
 			 jenis_pembayaran + ' : Rp. ' + formatNumber(subtotal) + ',-' +
 			 '\nPPN : Rp. ' + formatNumber(ppn) + ',-' ;
@@ -333,6 +334,10 @@ jQuery(function($) {
 <tr>
 	<td> </td><td></td>
 	<td colspan="2"><input type="hidden" name="jumlah_angsuran" id="jumlah_angsuran" size="50" value="<?php echo $jumlah_angsuran; ?>"></td>
+</tr>
+<tr>
+	<td> </td><td></td>
+	<td colspan="2"><input type="hidden" name="angsuran_ke" id="angsuran_ke" size="50" value="<?php echo $angsuran_ke; ?>"></td>
 </tr>
 <tr>
 	<td></td><td></td>

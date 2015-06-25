@@ -12,12 +12,15 @@
 	$kode_bayar				= '';
 	$keterangan				= '';
 	
-	$total_harga			= (isset($_REQUEST['total_harga'])) ? clean($_REQUEST['total_harga']) : '';
-	$tanda_jadi				= (isset($_REQUEST['tanda_jadi'])) ? clean($_REQUEST['tanda_jadi']) : '';
+	$total_harga			= (isset($_REQUEST['total_harga'])) ? to_number($_REQUEST['total_harga']) : '';
+	$tanda_jadi				= (isset($_REQUEST['tanda_jadi'])) ? to_number($_REQUEST['tanda_jadi']) : '';
 	$jumlah					= (isset($_REQUEST['jumlah'])) ? clean($_REQUEST['jumlah']) : '';	
-	$tanggal_input			= (isset($_REQUEST['tanggal'])) ? clean($_REQUEST['tanggal']) : '';
+	$tanggal_input			= (isset($_REQUEST['tgl_spp'])) ? clean($_REQUEST['tgl_spp']) : '';
 	$kode_bayar				= (isset($_REQUEST['kode_bayar'])) ? clean($_REQUEST['kode_bayar']) : '';
 	$keterangan				= (isset($_REQUEST['keterangan'])) ? clean($_REQUEST['keterangan']) : '';
+	$pola_bayar				= (isset($_REQUEST['pola_bayar'])) ? clean($_REQUEST['pola_bayar']) : '';
+	$status_kompensasi		= (isset($_REQUEST['status_kompensasi'])) ? clean($_REQUEST['status_kompensasi']) : '';
+	$uang_muka				= (isset($_REQUEST['uang_muka'])) ? clean($_REQUEST['uang_muka']) : '';
 	
 	
 	
@@ -37,15 +40,60 @@
 			{
 				//ex_ha('', 'U');
 				//CONVERT(DATETIME,'$tanggal',105),
-				$nilai					= ($total_harga-$tanda_jadi)/$jumlah;
-				for($i=0;$i<$jumlah;$i++){				
+				$pecah_tgl  = explode("-",$tgl_input);
+				$tgl		= $pecah_tgl[0];
+				$bln		= $pecah_tgl[1];
+				$thn		= $pecah_tgl[2];
+				
+				if($tgl <= 28)
+				{
+					$tempo = 1;
+				}
+				else
+				{
+					$tempo = 2;
+				}
+				
+				$next_bln	= $bln + $tempo;  
+				$next_thn	= $thn;
+				if($next_bln > 12)
+				{
+					$next_bln = $nexy_bln % 12;
+					$next_thn = $next_thn + 1;
+					
+				}
+				
+				$tanggal_input = '25-07-2015';
+				
+				if ($status_kompensasi == 2){
+					$nilai	= ($total_harga/$pola_bayar);
+				}
+				else if ($status_kompensasi == 1){
+					$nilai	= ((($total_harga*$uang_muka)/100)/$pola_bayar);
+				}
+				
+				$nilai_a = $nilai;
+				
+				for($i=0;$i<$pola_bayar;$i++){				
 					
 					if($i==0){
 							$tanggal = date("Y-m-d",strtotime($tanggal_input));
-					}else{
-						$query 		= "SELECT TOP 1 DATEADD(month,$i,CURRENT_TIMESTAMP) AS TANGGAL
+							$nilai = $nilai - $tanda_jadi;
+							if($nilai < 0)
+							{	$sisa = $nilai * -1;
+								$nilai = 0;
+							}
+					}
+					else{
+						$nilai = $nilai_a;
+						if($i == 1){
+							$nilai = $nilai - $sisa;
+						}
+						
+						$query 		= "SELECT TOP 1 DATEADD(month,1,TANGGAL) AS TANGGAL
 										FROM RENCANA
-										WHERE KODE_BLOK = '$id'";
+										WHERE KODE_BLOK = '$id'
+										ORDER BY TANGGAL DESC";
 							$obj 		= $conn->execute($query);						
 							$tanggal	= $obj->fields['TANGGAL'];
 					}	
@@ -64,7 +112,8 @@
 				
 				
 			
-				$msg = 'Data RENCANA berhasil ditambahkan.';
+				//$msg = 'Data RENCANA berhasil ditambahkan.';
+				$msg = $pola_bayar.','.$sisa;
 			}
 			elseif ($act == 'Hapus') # Proses Hapus
 			{

@@ -1,8 +1,6 @@
 <?php
-require_once('../../../../config/config.php');
+require_once('../../../../../config/config.php');
 die_login();
-die_app('C01');
-die_mod('COL01');
 $conn = conn($sess_db);
 die_conn($conn);
 
@@ -30,7 +28,7 @@ jQuery(function($) {
 	$('#wanprestasi').inputmask('numeric', { repeat: '3' });
 	$('#undangan_pembatalan').inputmask('numeric', { repeat: '3' });
 	
-	$('#nilai_sisa_tagihan').varchar, { repeat: '5'});	
+	$('#nilai_sisa_tagihan').inputmask('varchar', { repeat: '5' }); 
 	$('#masa_berlaku_denda').inputmask('numeric', { repeat: '2' });
 });
 </script>

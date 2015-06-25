@@ -104,7 +104,7 @@ jQuery(function($) {
 	</td>
 	<td class="text-right">Bank : 
 	<select name="bank" id="bank">
-		<option value="0"> -- Bank -- </option>
+		<option value=""> -- Bank -- </option>
 		<?php
 		$obj = $conn->execute("
 		SELECT *
@@ -192,7 +192,7 @@ jQuery(function($) {
 		<input type="radio" name="status_spp" id="sudah" class="status" value="1" <?php echo is_checked('1', $status_spp); ?>>Sudah
 		<input type="radio" name="status_spp" id="belum" class="status" value="2" <?php echo is_checked('2', true); ?>>Belum  
 	</td>
-	<td><input type="text" name="tgl_proses" id="tgl_proses" size="10" class="apply dd-mm-yyyy" value="<?php echo date("d-m-Y",$hariBerikutnya); ?>"></td>
+	<td><input readonly="readonly" type="text" name="tgl_proses" id="tgl_proses" size="10" value="<?php echo date("d-m-Y",$hariBerikutnya); ?>"></td>
 	<td class="text-right">Tgl. Tanda Jadi : <input type="text" name="tgl_tanda_jadi" id="tgl_tanda_jadi" size="10" class="apply dd-mm-yyyy" value="<?php echo date('d-m-Y') ;?>"></td>
 </tr>
 <tr>

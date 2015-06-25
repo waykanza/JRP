@@ -201,6 +201,8 @@
 	<ul>
 		<li><a href="">Marketing <span></span></a>
 			<ul>
+		<li><a href="<?php echo base64_encode('A01_parameter_program_mark'); ?>">Parameter Program</a></li>
+		<li><a href="<?php echo base64_encode('A01_pemulihan_spp'); ?>">Pemulihan SPP Tenggang</a></li>
 		<li><a href="<?php echo base64_encode('A01_ubah_password'); ?>">Ubah Password</a></li>
 		<li><a href="<?php echo base64_encode('A01_configurasi_sistem'); ?>">Configurasi Sistem</a></li>
 		<li><a href="<?php echo base64_encode('A01_backup'); ?>">Backup</a></li>
@@ -221,9 +223,9 @@
 				</ul>
 		</li>
 		
-		<li><a href="">CoLllection<span></span></a>
+		<li><a href="">Collection<span></span></a>
 			<ul>
-		<li><a href="<?php echo base64_encode('A01_parameter_program'); ?>">Parameter Program</a></li>
+		<li><a href="<?php echo base64_encode('A01_parameter_program_coll'); ?>">Parameter Program</a></li>
 		<li><a href="<?php echo base64_encode('A01_registrasi_user'); ?>">Registrasi Pengguna/User Program</a></li>
 		<li><a href="<?php echo base64_encode('A01_nomor_surat'); ?>">Nomor Surat</a></li>
 		<li class="separator"></li>
@@ -236,7 +238,7 @@
 
 		<li><a href="">PPJB<span></span></a>
 			<ul>
-		<li><a href="<?php echo base64_encode('A01_parameter_program'); ?>">Parameter Program</a></li>
+		<li><a href="<?php echo base64_encode('A01_parameter_program_ppjb'); ?>">Parameter Program</a></li>
 		<li><a href="<?php echo base64_encode('A01_registrasi_user'); ?>">Registrasi User</a></li>
 		<li class="separator"></li>
 		<li><a href="<?php echo base64_encode('A01_ubah_sandi'); ?>">Ubah Sandi</a></li>

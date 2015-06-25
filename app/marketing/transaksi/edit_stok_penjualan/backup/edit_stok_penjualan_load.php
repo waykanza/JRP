@@ -11,26 +11,13 @@ $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
 
 $s_opf1		= (isset($_REQUEST['s_opf1'])) ? clean($_REQUEST['s_opf1']) : '';
 $s_opv1		= (isset($_REQUEST['s_opv1'])) ? clean($_REQUEST['s_opv1']) : '';
-$kode_sk_tanah	= (isset($_REQUEST['kode_sk_tanah'])) ? clean($_REQUEST['kode_sk_tanah']) : '';
-$kode_sk_bangunan = (isset($_REQUEST['kode_sk_bangunan'])) ? clean($_REQUEST['kode_sk_bangunan']) : '';
-
 
 $query_search = '';
-if($s_opf1 == 's.KODE_BLOK')
+if ($s_opv1 != '')
 {
-	if ($s_opv1 != '')
-	{
-		$query_search .= " AND $s_opf1 LIKE '%$s_opv1%' ";
-	}
+	$query_search .= " AND $s_opf1 LIKE '%$s_opv1%' ";
 }
-if($s_opf1 == 's.KODE_SK_TANAH')
-{
-	$query_search .= " AND $s_opf1 = $kode_sk_tanah ";
-}
-if($s_opf1 == 's.KODE_SK_BANGUNAN')
-{
-	$query_search .= " AND $s_opf1 = $kode_sk_bangunan ";
-}
+
 # Pagination
 $query = "
 SELECT  
@@ -39,7 +26,7 @@ FROM
 	STOK s
 	LEFT JOIN TIPE t ON s.KODE_TIPE = t.KODE_TIPE
 	LEFT JOIN HARGA_BANGUNAN hb ON s.KODE_SK_BANGUNAN = hb.KODE_SK
-	WHERE TERJUAL = '0'
+	WHERE STATUS_STOK = '1' AND TERJUAL = '2'
 	$query_search
 ";
 $total_data = $conn->Execute($query)->fields['TOTAL'];
@@ -52,9 +39,6 @@ $page_start = (($page_num-1) * $per_page);
 
 <table id="pagging-1" class="t-control w90">
 <tr>
-	<td>
-		<input type="button" name="update_all" id="update_all" value=" Update SK Untuk Data Tersortir ">
-	</td>
 	<td class="text-right">
 		<input type="button" id="prev_page" value=" < ">
 		Hal : <input type="text" name="page_num" size="5" class="page_num apply text-center" value="<?php echo $page_num; ?>">
@@ -150,7 +134,7 @@ if ($total_data > 0)
 		LEFT JOIN DESA g ON s.KODE_DESA = g.KODE_DESA
 		LEFT JOIN LOKASI h ON s.KODE_LOKASI = h.KODE_LOKASI
 		LEFT JOIN JENIS_UNIT i ON s.KODE_UNIT = i.KODE_UNIT
-		WHERE TERJUAL = '0'
+		WHERE STATUS_STOK = '1' AND TERJUAL = '2'
 		$query_search
 	ORDER BY s.KODE_BLOK ASC
 	";
