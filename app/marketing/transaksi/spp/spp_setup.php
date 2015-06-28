@@ -117,7 +117,7 @@ jQuery(function($) {
 		e.preventDefault();
 		if($(this).val() == '0'){
 			status = 0;
-			$('#otorisasi').show();
+			$('#otorisasi').hide();
 			$('#batal_otorisasi').hide();
 			jQuery('#nama_tombol').val('Otorisasi');
 			jQuery('#tombol').val('otorisasi');

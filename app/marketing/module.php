@@ -162,6 +162,9 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_registrasi_user'			: die_mod('COL02'); die_ha('COL02', 'R'); include('collection_tunai/lain/registrasi_user/users_setup.php');break;
 	case 'A01_nomor_surat'				: die_mod('COL03'); die_ha('COL03', 'R'); include('collection_tunai/lain/nomor_surat/nomor_surat_setup.php');break;
 	case 'A01_spp_tidak_valid'			: die_mod('CL04'); die_ha('CL04', 'R'); include('marketing/collection_tunai/lain/spp_tidak_valid/spp_tidak_valid_setup.php');break;
+	// PENAMBAHAN MODUL PENERIMAAN VA -->
+	case 'A01_upload_penerimaan_va'		: include('marketing/collection_tunai/lain/upload_penerimaan_va/upload_penerimaan_va_setup.php');break;
+	// END PENAMBAHAN MODUL PENERIMAAN VA -->
 }
 ?>
 

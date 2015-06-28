@@ -58,7 +58,7 @@ $page_start = (($page_num-1) * $per_page);
 # End Pagination
 ?>
 
-<table id="pagging-1" class="t-control w90">
+<table id="pagging-1" class="t-control">
 <tr>
 	<td>
 		<input type="button" id="upload" value=" Upload Data Stok ">
@@ -76,9 +76,10 @@ $page_start = (($page_num-1) * $per_page);
 </tr>
 </table>
 
-<table class="t-data w90">
+<table class="t-data ">
 <tr>
 	<th rowspan="2"><input type="checkbox" id="cb_all"></th>
+	<th rowspan="2">VIRTUAL ACCOUNT</th>
 	<th rowspan="2">KODE BLOK</th>
 	<th colspan="2">LUAS (M&sup2;)</th>
 	<th rowspan="2">DESA</th>
@@ -99,6 +100,7 @@ if ($total_data > 0)
 {
 	$query = "
 	SELECT  
+		s.NO_VA,
 		s.KODE_BLOK,
 		s.LUAS_TANAH,
 		s.LUAS_BANGUNAN,
@@ -190,6 +192,7 @@ if ($total_data > 0)
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>"> 
 			<td class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td>
+			<td><?php echo $obj->fields['NO_VA']; ?></td>
 			<td><?php echo $id; ?></td>
 			<td class="text-right"><?php echo to_decimal($obj->fields['LUAS_TANAH']); ?></td>
 			<td class="text-right"><?php echo to_decimal($obj->fields['LUAS_BANGUNAN']); ?></td>
@@ -209,7 +212,7 @@ if ($total_data > 0)
 ?>
 </table>
 
-<table id="pagging-2" class="t-control w90"></table>
+<table id="pagging-2" class="t-control "></table>
 
 <script type="text/javascript">
 jQuery(function($) {

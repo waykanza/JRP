@@ -28,7 +28,7 @@ $query_pemby_terakhir = "(SELECT KODE_BLOK, MAX(TANGGAL) AS TGL FROM RENCANA GRO
 $query = "
 SELECT COUNT(*) AS TOTAL FROM SPP 
 WHERE TANGGAL_AKAD IS NOT NULL AND
-DATEADD(dd,+7,TANGGAL_AKAD) = CONVERT(DATETIME,'$tgl',105)
+(select dbo.kurang_tgl(TANGGAL_AKAD,7))= CONVERT(DATETIME,'$tgl',105)
 ";
 $total_data = $conn->execute($query)->fields['TOTAL'];
 $total_page = ceil($total_data/$per_page);
@@ -71,7 +71,7 @@ if ($total_data > 0)
 	$query = "
 	SELECT * FROM SPP 
 	WHERE TANGGAL_AKAD IS NOT NULL AND
-	DATEADD(dd,+7,TANGGAL_AKAD) = CONVERT(DATETIME,'$tgl',105)
+	(select dbo.kurang_tgl(TANGGAL_AKAD,7)) = CONVERT(DATETIME,'$tgl',105)
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
 

@@ -122,7 +122,7 @@
 			inside: true
 		});
 		$('#nama').inputmask('varchar', { repeat: '60' });
-		$('#alamat_rumah, #alamat_surat, #alamat_npwp').inputmask('varchar', { repeat: '110' });
+		$('#alamat_rumah, #alamat_surat, #alamat_npwp').inputmask('varchar', { repeat: '100' });
 		$('#email').inputmask('varchar', { repeat: '50' });
 		$('#tlp_rumah, #tlp_kantor, #tlp_lain, #no_identitas').inputmask('varchar', { repeat: '30' });
 		$('#npwp').inputmask('varchar', { repeat: '15' });
@@ -131,7 +131,7 @@
 		
 		//tombol status otoritas;
 		var status_otorisasi = <?php echo $status_otorisasi; ?>;
-		alert(status_otorisasi) ;
+		//alert(status_otorisasi) ;
 		if(status_otorisasi == '0'){
 			status = 0;
 			$('#otorisasi').show();
@@ -305,15 +305,15 @@
 		</tr>
 		<tr>
 			<td>Alamat Rumah</td><td>:</td>
-			<td colspan="2"><input type="text" name="alamat_rumah" id="alamat_rumah" size="110" value="<?php echo $alamat_rumah; ?>"></td>
+			<td colspan="2"><input type="text" name="alamat_rumah" id="alamat_rumah" size="100" value="<?php echo $alamat_rumah; ?>"></td>
 		</tr>
 		<tr>
 			<td>Alamat Surat</td><td>:</td>
-			<td colspan="2"><input type="text" name="alamat_surat" id="alamat_surat" size="110" value="<?php echo $alamat_surat; ?>"></td>
+			<td colspan="2"><input type="text" name="alamat_surat" id="alamat_surat" size="100" value="<?php echo $alamat_surat; ?>"></td>
 		</tr>
 		<tr>
 			<td>Alamat NPWP</td><td>:</td>
-			<td colspan="2"><input type="text" name="alamat_npwp" id="alamat_npwp" size="110" value="<?php echo $alamat_npwp; ?>"></td>
+			<td colspan="2"><input type="text" name="alamat_npwp" id="alamat_npwp" size="100" value="<?php echo $alamat_npwp; ?>"></td>
 		</tr>
 		<tr>
 			<td>Alamat Email</td><td>:</td>
@@ -357,8 +357,8 @@
 									</select>
 								</td>
 								<td class="text-right">Bank : 
-									<select name="bank" id="bank">
-										<option value=""> -- Bank -- </option>
+								<select name="kbank" id="kbank">
+										<option value="0"> -- Bank -- </option>
 										<?php
 											$obj = $conn->execute("
 											SELECT *
@@ -369,7 +369,7 @@
 											{
 												$ov = $obj->fields['KODE_BANK'];
 												$oj = $obj->fields['NAMA_BANK'];
-												echo "<option value='$ov'".is_selected($ov, $bank)."> $oj </option>";
+												echo "<option value='$ov'".is_selected($ov, $kbank)."> $oj </option>";
 												$obj->movenext();
 											}
 										?>
@@ -423,7 +423,7 @@
 														?>
 													</select>
 													<td>
-														<td class="text-right">Tgl. Rencana Akad : <input type="text" name="tgl_akad" id="tgl_akad" size="10" class="apply dd-mm-yyyy" value="<?php echo $tgl_akad; ?>"></td>
+														<td class="text-right">Tgl. Rencana Akad : <input type="text" name="tgl_akad" id="tgl_akad" size="10" value="<?php echo $tgl_akad; ?>"></td>
 													</tr>
 												</table>
 												
@@ -478,6 +478,9 @@
 															
 															<input type="reset" id="reset" value=" Reset ">
 															<input type="button" id="close" value=" Tutup ">
+															<!-- PENAMBAHAN CHECKBOX UNTUK OTORISASI-->
+															<input type="checkbox" name="cb_data[]" class="cb_data" style="opacity:0; position:absolute; left:9999px;" value="<?php echo $id; ?>" checked>
+															<!-- END PENAMBAHAN CHECKBOX UNTUK OTORISASI-->
 														</td>
 													</tr>
 												</table>

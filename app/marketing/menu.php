@@ -220,11 +220,15 @@
 		<li><a href="<?php echo base64_encode('A01_spp_belum_distribusi'); ?>">SPP Belum Distribusi</a></li>
 		<li><a href="<?php echo base64_encode('A01_spp_redistribusi'); ?>">SPP Redistribusi</a></li>
 		<li><a href="<?php echo base64_encode('A01_ekspor_data_spp'); ?>">Ekspor Data SPP</a></li>
-				</ul>
+		
+			</ul>
 		</li>
 		
 		<li><a href="">Collection<span></span></a>
 			<ul>
+		<!-- PENAMBAHAN MODUL PENERIMAAN VA -->
+		<li><a href="<?php echo base64_encode('A01_upload_penerimaan_va'); ?>">Upload Penerimaan VA</a></li>
+		<!-- END PENAMBAHAN MODUL PENERIMAAN VA -->
 		<li><a href="<?php echo base64_encode('A01_parameter_program_coll'); ?>">Parameter Program</a></li>
 		<li><a href="<?php echo base64_encode('A01_registrasi_user'); ?>">Registrasi Pengguna/User Program</a></li>
 		<li><a href="<?php echo base64_encode('A01_nomor_surat'); ?>">Nomor Surat</a></li>

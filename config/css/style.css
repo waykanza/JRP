@@ -384,3 +384,5 @@ body.popup table th,
 body.popup table td {
 	padding:5px 10px;
 }
+
+.error {color: #FF0000;}

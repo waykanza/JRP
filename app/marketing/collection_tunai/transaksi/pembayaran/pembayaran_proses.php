@@ -1,19 +1,19 @@
 <?php
 require_once('../../../../../config/config.php');
-
 $msg 	= '';
 $error	= FALSE;
-
 $act				= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 $id					= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 $status_otorisasi	= (isset($_REQUEST['status_otorisasi'])) ? clean($_REQUEST['status_otorisasi']) : '';
-
 $kode_bayar			= (isset($_REQUEST['jenis_pembayaran'])) ? clean($_REQUEST['jenis_pembayaran']) : '';
+$kode_lain			= (isset($_REQUEST['kode_lain'])) ? clean($_REQUEST['kode_lain']) : '';
 $jenis_pembayaran	= (isset($_REQUEST['jenis_pembayaran'])) ? clean($_REQUEST['jenis_pembayaran']) : '';
 $nama_pembayar		= (isset($_REQUEST['nama_pembayar'])) ? clean($_REQUEST['nama_pembayar']) : '';
 $keterangan			= (isset($_REQUEST['keterangan'])) ? clean($_REQUEST['keterangan']) : '';
 $jumlah				= (isset($_REQUEST['jumlah'])) ? to_number($_REQUEST['jumlah']) : '';
 $jumlah_angsuran	= (isset($_REQUEST['jumlah_angsuran'])) ? to_number($_REQUEST['jumlah_angsuran']) : '';
+$jumlah_denda		= (isset($_REQUEST['jumlah_denda'])) ? to_number($_REQUEST['jumlah_denda']) : '';
+$jumlah_lain		= (isset($_REQUEST['jumlah_lain'])) ? to_number($_REQUEST['jumlah_lain']) : '';
 $diposting			= (isset($_REQUEST['diposting'])) ? to_number($_REQUEST['diposting']) : '';
 $tanggal			= (isset($_REQUEST['tanggal'])) ? clean($_REQUEST['tanggal']) : '';
 $tgl_terima			= (isset($_REQUEST['tgl_terima'])) ? clean($_REQUEST['tgl_terima']) : '';
@@ -21,14 +21,11 @@ $via				= (isset($_REQUEST['via'])) ? clean($_REQUEST['via']) : '';
 $catatan			= (isset($_REQUEST['catatan'])) ? clean($_REQUEST['catatan']) : '';
 $subtotal			= (isset($_REQUEST['subtotal'])) ? to_number($_REQUEST['subtotal']) : '';
 $ppn				= (isset($_REQUEST['ppn'])) ? to_number($_REQUEST['ppn']) : '';
-
 $blok_baru			= (isset($_REQUEST['blok_baru'])) ? clean($_REQUEST['blok_baru']) : '';
 $nomor_va			= (isset($_REQUEST['nomor_va'])) ? clean($_REQUEST['nomor_va']) : '';
 $nomor_customer		= (isset($_REQUEST['nomor_customer'])) ? clean($_REQUEST['nomor_customer']) : '';
 $max_tgl			= (isset($_REQUEST['max_tgl'])) ? clean($_REQUEST['max_tgl']) : '';
 $jumlah_awal		= (isset($_REQUEST['jumlah_awal'])) ? clean($_REQUEST['jumlah_awal']) : '';
-
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	try
@@ -38,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		//ex_mod('');
 		$conn = conn($sess_db);
 		ex_conn($conn);
-
 		$conn->begintrans(); 
 		
 		if ($act == 'Ubah') # Proses Ubah
@@ -132,18 +128,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_empty($jenis_pembayaran, 'Jenis Pembayaran harus diisi.');
 			ex_empty($nama_pembayar, 'Telah Terima Dari harus diisi.');
 			ex_empty($keterangan, 'Untuk Pembayaran harus diisi.');
-			if($kode_bayar != 4)
+			if($kode_bayar == 4)
 			{
-				ex_empty($jumlah, 'Jumlah harus diisi.');
+				$jumlah = $jumlah_angsuran;
+			}
+			else if($kode_bayar == 9)
+			{
+				$jumlah = $jumlah_lain;
 			}
 			else
 			{
-				$jumlah = $jumlah_angsuran;
+				ex_empty($jumlah, 'Jumlah harus diisi.');
 			}
 			ex_empty($diposting, 'Diposting harus diisi.');
 			ex_empty($tanggal, 'Tanggal harus diisi.');
 			
-			$user = $_SESSION['USER_ID']; 
+			$user = $_SESSION['USER_ID']; 	
 			
 			//if (($kode_bayar == 1) || ($kode_bayar == 2) || ($kode_bayar == 3) || ($kode_bayar == 4) || ($kode_bayar == 5) || ($kode_bayar == 6) ||
 				//($kode_bayar == 10) || ($kode_bayar == 14) || ($kode_bayar == 15) || ($kode_bayar == 21) || ($kode_bayar == 22) || ($kode_bayar == 23)||
@@ -189,6 +189,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_false($conn->execute($query), $query);
 			
 			$query = "update CS_VIRTUAL_ACCOUNT set SISA = SISA - '$jumlah' where NOMOR_VA = '$nomor_customer' AND TANGGAL = '$max_tgl'";
+			ex_false($conn->execute($query), $query);
+			
+			$query = "
+			select TOP 1 * from TAGIHAN where kode_blok = '$id'
+			AND STATUS_BAYAR = 0;
+			";
+			
+			$obj = $conn->execute($query);
+			$tgl_angsuran	= $obj->fields['TANGGAL'];
+			
+			$query = "update TAGIHAN set STATUS_BAYAR = '1' where KODE_BLOK = '$id' AND TANGGAL = '$tgl_angsuran'";
 			ex_false($conn->execute($query), $query);
 				
 			$msg = 'Data Kuitansi telah ditambah.';
@@ -283,13 +294,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		$error = TRUE;
 		if ($conn) { $conn->rollbacktrans(); } 
 	}
-
 	close($conn);
 	$json = array('act' => $act, 'error'=> $error, 'msg' => $msg);
 	echo json_encode($json);
 	exit;
 }
-
 die_login();
 //die_app('');
 //die_mod('');
@@ -356,7 +365,6 @@ if ($act == 'Detail')
 	$max_tgl			= $obj2->fields['MAX_TGL'];
 		
 }
-
 if ($act == 'Ubah')
 {
 	if ($status_otorisasi == 1)
@@ -441,14 +449,6 @@ if ($act == 'Ubah')
 		$bulan_depan 	= $bulan_depan % 12;
 		$tahun_depan 	= $thn + 1; 
 	}
-
-	$query = "
-	select * from RENCANA where kode_blok = '$id' 
-	AND TANGGAL > CONVERT(DATETIME,'01-$bln-$thn',105) AND TANGGAL < CONVERT(DATETIME,'01-$bulan_depan-$tahun_depan',105)
-	order BY TANGGAL";
-	
-	$obj = $conn->execute($query);
-	$jumlah_angsuran 	= to_money($obj->fields['NILAI']);
 	
 	$query = "
 	select count(*) as TOTAL_ANGSURAN from kwitansi where kode_blok = '$id' 
@@ -458,7 +458,6 @@ if ($act == 'Ubah')
 	$angsuran_ke	= 1 + $obj->fields['TOTAL_ANGSURAN'];
 	
 }
-
 if ($act == 'Tambah')
 {
 	$query = "
@@ -473,7 +472,6 @@ if ($act == 'Tambah')
 	
 	$nama_pembayar	= $obj->fields['NAMA_PEMBELI'];
 	$kpr	 		= $obj->fields['JUMLAH_KPR'];
-
 	$nomor			= '';	
 	$keterangan 	= '';
 	$jumlah 		= 0;
@@ -490,7 +488,7 @@ if ($act == 'Tambah')
 	
 	$jenis_pembayaran	= 0;	
 	$kode_bayar			= 0;	
-
+	$kode_lain			= 5;	
 	$luas_bangunan 		= $obj->fields['LUAS_BANGUNAN'];
 	$lokasi 			= $obj->fields['LOKASI'];
 	$kode_blok 			= $obj->fields['KODE_BLOK'];	
@@ -508,7 +506,7 @@ if ($act == 'Tambah')
 	$pecah_tanggal		= explode("-",$tanggal_rencana);
 	$tgl 				= $pecah_tanggal[0];
 	$bln 				= $pecah_tanggal[1];
-	$thn 				= 2014;
+	$thn 				= $pecah_tanggal[2];
 	
 	$bulan_depan	 	= $bln + 1;
 	$tahun_depan		= $thn;
@@ -517,15 +515,7 @@ if ($act == 'Tambah')
 		$bulan_depan 	= $bulan_depan % 12;
 		$tahun_depan 	= $thn + 1; 
 	}
-
-	$query = "
-	select * from RENCANA where kode_blok = '$id' 
-	AND TANGGAL > CONVERT(DATETIME,'01-$bln-$thn',105) AND TANGGAL < CONVERT(DATETIME,'01-$bulan_depan-$tahun_depan',105)
-	order BY TANGGAL";
-	
-	$obj = $conn->execute($query);
-	$jumlah_angsuran 	= to_money($obj->fields['NILAI']);
-	
+		
 	$query = "
 	select count(*) as TOTAL_ANGSURAN from kwitansi where kode_blok = '$id' 
 	";
@@ -533,5 +523,12 @@ if ($act == 'Tambah')
 	$obj = $conn->execute($query);
 	$angsuran_ke	= 1 + $obj->fields['TOTAL_ANGSURAN'];
 	
+	
+	$query = "
+	select * from TAGIHAN_LAIN_LAIN where kode_bayar = '9' and kode_blok = '$id'
+	AND STATUS_BAYAR = 0;
+	";
+	$obj = $conn->execute($query);
+	$jumlah_denda	= to_money($obj->fields['NILAI']);
 }
 ?>

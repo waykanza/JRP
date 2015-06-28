@@ -4,7 +4,7 @@
 	$conn = conn($sess_db);
 	die_conn($conn);
 
-	$namafile = "Daftar Pemberitahuan SPK "."(".date('d F Y').").doc";
+	$namafile = "Daftar Pembatalan Akad "."(".date('d F Y').").doc";
 	header("Content-Type: application/vnd.ms-word");
 	header("Expires: 0");
 	header("Cache-Control:  must-revalidate, post-check=0, pre-check=0");
@@ -30,7 +30,7 @@
 	$query = "
 	SELECT * FROM SPP 
 	WHERE TANGGAL_AKAD IS NOT NULL AND
-	DATEADD(dd,+14,TANGGAL_AKAD) = CONVERT(DATETIME,'$tgl',105)
+	(select dbo.kurang_tgl(TANGGAL_AKAD,14)) = CONVERT(DATETIME,'$tgl',105)
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
 

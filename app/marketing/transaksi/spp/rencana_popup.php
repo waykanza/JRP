@@ -1,10 +1,12 @@
 <?php
 	require_once('rencana_proses.php');
-	require_once('spp_proses.php');
 	require_once('../../../../config/config.php');
 	$conn = conn($sess_db);
 	ex_conn($conn);
-	$id		= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
+	
+	$id				= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
+	$act			= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
+	
 ?>
 
 <!DOCTYPE html>
@@ -28,65 +30,74 @@
 		<script type="text/javascript" src="../../../../config/js/main.js"></script>
 		
 	</head>
-	<body class="">
+	
+	<script type="text/javascript">
+	jQuery(function($) {
+		$('#close').on('click', function(e) {
+			e.preventDefault();
+			return parent.loadData();
+		});
 		
-		<form name="form" id="form" method="post">
-			<table class="wauto">
+		$('#save').on('click', function(e) {
+			e.preventDefault();
+
+			var id		= '<?php echo $id; ?>';
+			var url		= base_marketing_transaksi + 'spp/rencana_proses.php',
+			data		= $('#form').serialize();
+			
+			if (confirm("Apakah data telah terisi dengan benar ?") == false)
+			{
+				return false;
+			}			
+		
+			$.post(url, data, function(data) {
+				if (data.error == true)
+				{
+					alert(data.msg);
+				}				
+				else
+				{
+					alert(data.msg);
+					parent.loadData();
+				}
+			}, 'json');
+			return false;
+		});
+		
+	});
+	
+	</script>
+	<body class="popup2">
+		
+		<form name="form" id="form" method="POST">
+			<table class="t-popup">
 				<tr>
 					<td><b>Kode Blok</b></td><td>:</td>
 					<td><input readonly="readonly" type="text" name="kode_blok" id="kode_blok" size="10" value="<?php echo $id; ?>"></td>
 				</tr>
 				<tr>
 					<td><b>Harga</b></td><td>:</td>
-					<td><b>Rp. <input class="text-right" type="text" name="total_harga" id="tanda_jadi" size="20" value="<?php echo to_money($r_harga_tanah + $r_harga_bangunan); ?>"></b></td>
+					<td><b>Rp. <input readonly="readonly" class="text-right" type="text" name="total_h" id="total_h" size="20" value="<?php echo to_money($r_harga_tanah + $r_harga_bangunan); ?>"></b></td>
+					<input class="text-right" type="hidden" name="total" id="total" size="20" value="<?php echo ($r_harga_tanah + $r_harga_bangunan); ?>">
 				<tr>
 				<tr>
 					<td><b>Tanda Jadi</b></td><td>:</td>
-					<td><b>Rp. <input class="text-right" type="text" name="tanda_jadi" id="tanda_jadi" size="20" value="<?php echo to_money($tanda_jadi); ?>"></b></td>
-				</tr>
-				<tr>
-					<td>Jenis Pembayaran</td><td>:</td>
-					<td>
-						<select name="status_kompensasi" id="status_kompensasi" required="true">
-							<option value="">-- Status SPP --</option>
-							<option value="1" <?php echo is_selected('1', $status_kompensasi); ?>>KPR</option>
-							<option value="2" <?php echo is_selected('2', $status_kompensasi); ?>>TUNAI</option>
-						</select>
-				
-						<select name="uang_muka" id="uang_muka" required="true">
-							<option value="">-- Uang Muka --</option>
-							<?php
-							$obj = $conn->execute("		
-								SELECT * FROM POLA_BAYAR
-								WHERE KODE_JENIS = 1
-								ORDER BY KODE_POLA_BAYAR 
-							");
-							while( ! $obj->EOF)
-							{
-								$ov = $obj->fields['RUMUS_POLA_BAYAR'];
-								$oj = $obj->fields['NAMA_POLA_BAYAR'];
-								echo "<option value='$ov'".is_selected($ov, $pola_bayar)."> $oj </option>";
-								$obj->movenext();
-							}
-							?>
-						</select>
-					</td>
+					<td><b>Rp. <input readonly="readonly" class="text-right" type="text" name="tanda_jadi" id="tanda_jadi" size="20" value="<?php echo to_money($tanda_jadi); ?>"></b></td>
 				</tr>
 				
 				<tr>	
 					<td>Pola Bayar</td><td>:</td>
 					<td>
 						<select name="pola_bayar" id="pola_bayar" required="true">
-							<option value=""> --Pola Bayar-- </option>
+							<option value="" > --Pola Bayar-- </option>
 							<?php
 							$obj = $conn->execute("		
 								SELECT * FROM POLA_BAYAR
-								WHERE KODE_JENIS = 2
 								ORDER BY KODE_POLA_BAYAR 
 							");
 							while( ! $obj->EOF)
 							{
-								$ov = $obj->fields['RUMUS_POLA_BAYAR'];
+								$ov = $obj->fields['KODE_POLA_BAYAR'];
 								$oj = $obj->fields['NAMA_POLA_BAYAR'];
 								echo "<option value='$ov'".is_selected($ov, $pola_bayar)."> $oj </option>";
 								$obj->movenext();
@@ -95,15 +106,27 @@
 						</select>
 					<td>
 				</tr>
-				
+					
 				<tr>	
-					<td>Tanggal SPP</td><td>:</td>
-					<td><input type="text" name="tgl_spp" id="tgl_spp" readonly="readonly" size="10" class="apply dd-mm-yyyy" value="<?php echo $tgl_spp; ?>"></td>
-				</tr>
-				
-				<tr>	
-					<td>Keterangan</td><td>:</td>
-					<td><input type="text" name="keterangan" id="keterangan" size="45" value=""></td>
+					<td>Bank </td><td>:</td>					
+								<td><select name="kbank" id="kbank">
+										<option value="0"> -- Bank -- </option>
+										<?php
+											$obj = $conn->execute("
+											SELECT *
+											FROM 
+											BANK
+											");
+											while( ! $obj->EOF)
+											{
+												$ov = $obj->fields['KODE_BANK'];
+												$oj = $obj->fields['NAMA_BANK'];
+												echo "<option value='$ov'".is_selected($ov, $kbank)."> $oj </option>";
+												$obj->movenext();
+											}
+										?>
+									</select>
+								</td>
 				</tr>
 				<td width="150" class="text-right"></td>
 				<tr>
@@ -113,82 +136,12 @@
 					<tr>
 						<td colspan="3"><br></td>
 					</tr>
-					</table>
-					
-					<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
-					<input type="hidden" name="act" id="act" value="Apply">
-					<input type="hidden" name="kode_bayar" id="kode_bayar" size="1" value="4">
-				</form>
-			</body>
-
-<script type="text/javascript">
-			jQuery( document ).ready(function() {
-				jQuery("#status_kompensasi").change(function() {
-//$('#status_kompensasi').on('change', function(e){
-					var value = jQuery('select#status_kompensasi option:selected').val();
-					alert(value);
-					if (value == '2') {
-						jQuery('#uang_muka').hide();
-					}
-				
-			});
-			});
-			var get_base = base_marketing + 'operasional/get/';
-			jQuery(function($) {
-				$('#keterangan').inputmask('varchar', { repeat: '30' });
-				$('#tanggal').inputmask('date');
-				
-				
-				
-				// $('#close').on('click', function(e) {
-					// e.preventDefault();
-					// return parent.load();
-				// });
-				
-				$('#save').on('click', function(e) {
-					
-					e.preventDefault();
-					var url = base_marketing_transaksi + 'spp/rencana_proses.php',
-					data	= $('#form').serialize();
-					
-					$.post(url, data, function(data) {
-						if (data.error == true)
-						{
-							 window.onunload = refreshParent;
-								function refreshParent() {
-									window.opener.location.reload();
-								}
-						}
-						else
-						{
-							if (data.act == 'Apply')
-							{
-								alert(data.msg);
-								//parent.loadData();
-								 // window.onunload = refreshParent;
-									// function refreshParent() {
-										// window.opener.location.reload();
-									// }
-								// $('#reset').click();
-							}
-							else if (data.act == 'Hapus')
-							{
-								alert(data.msg);
-								// parent.loadData();
-							}
-						}
-					}, '');
-					return false;
-				});
-				return false;
-			});
-			
-			function get_kode_bayar() {
-				var url = get_base + 'kode_bayar.php'; 
-				setPopup('Daftar Jenis Pembayaran', url, 300, winHeight-100); 
-				return false; 
-			}
-		</script>
-			
-		</html>
-	<?php close($conn); ?>		
+			</table>
+				<input type="hidden" name="tgl_spp" id="tgl_spp" value="<?php echo $tgl_spp; ?>">
+				<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
+				<input type="hidden" name="act" id="act" value="Apply">
+				<input type="hidden" name="kode_bayar" id="kode_bayar" value="4">
+		</form>
+	</body>
+</html>
+<?php close($conn); ?>

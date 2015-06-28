@@ -8,19 +8,18 @@ die_conn($conn);
 
 $per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
 $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
-$tgl = '15-05-2015';
+$tgl 		= f_tgl (date("Y-m-d"));
 $query_blok_lunas = '';
 $query_pemb_jt = '';
 $query_tglmerah = '';
 $query_libur = '';
-$query_blok_lunas .= "(SELECT A.KODE_BLOK,B.SUMOFREALISASI,A.SUMOFPLAN,(B.SUMOFREALISASI-A.SUMOFPLAN) AS REMAIN FROM (
-	SELECT SUM (A.NILAI) as SUMOFPLAN, A.KODE_BLOK from( 
-	select A.KODE_BLOK,A.TANGGAL_TANDA_JADI AS TANGGAL,ISNULL(A.TANDA_JADI,0) AS NILAI from spp A where A.KODE_BLOK is not null
-	UNION ALL
-	SELECT A.KODE_BLOK,A.TANGGAL,ISNULL(A.NILAI,0) FROM RENCANA A WHERE A.KODE_BLOK IS NOT NULL)a GROUP BY a.KODE_BLOK) A LEFT
-	JOIN (
-	SELECT SUM(A.NILAI) AS SUMOFREALISASI,A.KODE_BLOK FROM REALISASI A GROUP BY  A.KODE_BLOK)B ON A.KODE_BLOK=B.KODE_BLOK
-	where (B.SUMOFREALISASI-A.SUMOFPLAN)>=0)C";
+$query_blok_lunas = "SELECT C.KODE_BLOK FROM ( SELECT A.KODE_BLOK,B.SUMOFREALISASI,A.SUMOFPLAN,(B.SUMOFREALISASI-A.SUMOFPLAN) AS REMAIN FROM 
+( SELECT SUM (A.NILAI) as SUMOFPLAN, A.KODE_BLOK from ( select A.KODE_BLOK,A.TANGGAL_TANDA_JADI AS TANGGAL,ISNULL(A.TANDA_JADI,0) 
+AS NILAI from spp A where A.KODE_BLOK is not null UNION ALL SELECT A.KODE_BLOK,A.TANGGAL,ISNULL(A.NILAI,0) FROM RENCANA A WHERE A.KODE_BLOK IS NOT NULL
+)a GROUP BY a.KODE_BLOK ) A LEFT JOIN (SELECT SUM(A.NILAI) AS SUMOFREALISASI,A.KODE_BLOK FROM REALISASI A GROUP BY  A.KODE_BLOK)B 
+ON A.KODE_BLOK=B.KODE_BLOK where (B.SUMOFREALISASI-A.SUMOFPLAN)>=0 )C LEFT JOIN SPP D ON C.KODE_BLOK = D.KODE_BLOK
+WHERE C.REMAIN - (ISNULL(D.NILAI_CAIR_KPR,0)) >= 0
+";
 $query_pemb_jt .= "(SELECT PEMB_JATUH_TEMPO FROM CS_PARAMETER_COL)";
 $query_tglmerah = "SELECT COUNT(*) FROM CS_HARI_LIBUR a WHERE a.tanggal_awal<=@CUR_DATE AND @CUR_DATE<=a.tanggal_akhir)";
 $query_pemby_terakhir = "(SELECT KODE_BLOK, MAX(TANGGAL) AS TGL FROM RENCANA GROUP BY KODE_BLOK ) c";
@@ -31,7 +30,7 @@ FROM
 	$query_pemby_terakhir 
 where 
 	DATEADD(dd,0,c.TGL) = CONVERT(DATETIME,'$tgl',105) AND 
-	c.KODE_BLOK NOT IN(SELECT C.KODE_BLOK FROM $query_blok_lunas)
+	c.KODE_BLOK NOT IN($query_blok_lunas)
 ";
 $total_data = $conn->execute($query)->fields['TOTAL'];
 $total_page = ceil($total_data/$per_page);
@@ -76,7 +75,7 @@ if ($total_data > 0)
 	ON C.KODE_BLOK = d.KODE_BLOK
 	where 
 	DATEADD(dd,0,c.TGL) = CONVERT(DATETIME,'$tgl',105) AND 
-	c.KODE_BLOK NOT IN(SELECT C.KODE_BLOK FROM $query_blok_lunas)
+	c.KODE_BLOK NOT IN($query_blok_lunas)
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
 

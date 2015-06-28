@@ -7,8 +7,10 @@ die_conn($conn);
 
 //pengembalian stok yang spp lewat masa tenggang
 $tgl = f_tgl (date("Y-m-d"));
-$query_batas = "(SELECT BATAS_DISTRIBUSI FROM CS_PARAMETER_MARK)";
-$query_tenggang = "(SELECT TENGGANG_DISTRIBUSI FROM CS_PARAMETER_MARK)";
+$obj = $conn->Execute("SELECT BATAS_DISTRIBUSI FROM CS_PARAMETER_MARK");
+$query_batas	= $obj->fields['BATAS_DISTRIBUSI'];
+$obj = $conn->Execute("SELECT TENGGANG_DISTRIBUSI FROM CS_PARAMETER_MARK");
+$query_tenggang	= $obj->fields['TENGGANG_DISTRIBUSI'];
 $total_hari = $query_batas + $query_tenggang;
 
 $query = "
@@ -37,8 +39,11 @@ $query = "
 	}
 
 //penghapusan spp yang telah lewat tenggang
-$conn->Execute("DELETE FROM SPP WHERE DATEADD(dd,3,TANGGAL_PROSES) < CONVERT(DATETIME,'20-06-2015',105) AND STATUS_SPP = 2");
-
+$conn->Execute("DELETE FROM SPP 
+WHERE
+	CONVERT(DATETIME,'$tgl',105) > DATEADD(dd,$total_hari,TANGGAL_SPP)
+	AND STATUS_SPP = 2
+");
 
 //belum distribusi
 $query = "select COUNT(STATUS_SPP) AS TOTAL_BELUM_DISTRIBUSI FROM SPP WHERE STATUS_SPP IS NULL OR STATUS_SPP != 1";

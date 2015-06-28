@@ -104,6 +104,10 @@
 				// echo '</table>';
 			}
 			
+			//penambahan status jumlah
+			$jumlah_berhasil = 0;
+			$jumlah_gagal = 0;
+			
 			// Proses perulangan baris file excel yang diupload
 			for ($row = 2; $row <= $highestRow; ++$row) {
 				$val = array();
@@ -112,41 +116,51 @@
 					$val[] = $cell->getValue();
 				}
 				
-				// Skip data jika kode_blok sudah ada
-				$kode_blok				= $val[0];
-				$kode_blok		= (!empty($kode_blok)) ? clean($kode_blok) : '';
 				
+				
+				// Skip data jika kode_blok dan va sudah ada
+				$kode_blok		= $val[0];
+				$kode_blok		= (!empty($kode_blok)) ? clean($kode_blok) : '';
+				$virtual_account		= $val[1];
+				$virtual_account = (!empty($virtual_account)) ? clean($virtual_account) : '';
 				
 				$query = "
-				SELECT COUNT(KODE_BLOK) AS TOTAL FROM STOK WHERE KODE_BLOK = '$kode_blok'
+				SELECT COUNT(KODE_BLOK) AS TOTAL FROM STOK WHERE KODE_BLOK = '$kode_blok' OR NO_VA = '$virtual_account'
 				";
 				$total_data = $conn->Execute($query)->fields['TOTAL'];
 				
+				
+				$jumBaris = $row -1;
+				$jumData = $highestRow -1;
+			
+				
 				if ($total_data == 0) {
+				
 					
 					
-					$kode_unit 				= $val[1];
-					$kode_desa 				= $val[2];
-					$kode_lokasi 			= $val[3];
-					$kode_sk_tanah 			= $val[4];
-					$kode_faktor 			= $val[5];
-					$kode_tipe 				= $val[6];
-					$kode_sk_bangunan 		= $val[7];
-					$kode_penjualan 		= $val[8];
-					$luas_tanah 			= $val[9];
-					$luas_bangunan 			= $val[10];
-					$ppn_tanah 				= $val[11];
-					$ppn_bangunan 			= $val[12];
-					$disc_tanah 			= $val[13];
-					$disc_bangunan 			= $val[14];
-					$progress 				= $val[15];
-					$class					= $val[16];
-					$status_stok 			= $val[17];
-					$terjual 				= $val[18];
-					$program 				= $val[19];
-					$status_gambar_siteplan = $val[20];
-					$status_gambar_lapangan = $val[21];
-					$status_gambar_gs 		= $val[22];
+					$kode_unit 				= $val[2];
+					$kode_desa 				= $val[3];
+					$kode_lokasi 			= $val[4];
+					$kode_sk_tanah 			= $val[5];
+					$kode_faktor 			= $val[6];
+					$kode_tipe 				= $val[7];
+					$kode_sk_bangunan 		= $val[8];
+					$kode_penjualan 		= $val[9];
+					$luas_tanah 			= $val[10];
+					$luas_bangunan 			= $val[11];
+					$ppn_tanah 				= $val[12];
+					$ppn_bangunan 			= $val[13];
+					$disc_tanah 			= $val[14];
+					$disc_bangunan 			= $val[15];
+					$progress 				= $val[16];
+					$class					= $val[17];
+					$status_stok 			= $val[18];
+					$terjual 				= $val[19];
+					$program 				= $val[20];
+					$status_gambar_siteplan = $val[21];
+					$status_gambar_lapangan = $val[22];
+					$status_gambar_gs 		= $val[23];
+					
 					
 					
 					$kode_desa		= (!empty($kode_desa)) ? clean($kode_desa) : '';
@@ -176,7 +190,7 @@
 					$query = "
 					INSERT INTO STOK 
 					(
-					KODE_BLOK, KODE_UNIT, KODE_DESA, KODE_LOKASI, KODE_SK_TANAH, 
+					NO_VA,KODE_BLOK, KODE_UNIT, KODE_DESA, KODE_LOKASI, KODE_SK_TANAH, 
 					KODE_FAKTOR, KODE_TIPE, KODE_SK_BANGUNAN, KODE_PENJUALAN, 
 					
 					LUAS_TANAH, LUAS_BANGUNAN, 
@@ -193,7 +207,7 @@
 					)
 					VALUES
 					(
-					'$kode_blok', $kode_unit, $kode_desa, $kode_lokasi, $kode_sk_tanah, 
+					'$virtual_account','$kode_blok', $kode_unit, $kode_desa, $kode_lokasi, $kode_sk_tanah, 
 					$kode_faktor, $kode_tipe, $kode_sk_bangunan, $kode_penjualan, 
 					
 					$luas_tanah, $luas_bangunan, 
@@ -207,21 +221,23 @@
 					'$status_gambar_siteplan', 
 					'$status_gambar_lapangan', 
 					'$status_gambar_gs'
-					)
+					)					
+					";							
 					
-					";
+					ex_false($conn->Execute($query), $query);		
 					
-					
-					ex_false($conn->Execute($query), $query);
-					
-					
-				}
+				} 
+				
 				$conn->committrans(); 
+				//hitung jumlah gagal
+				$jumlah_gagal+=$total_data;
+				//hitung jumlah berhasil
+				$jumlah_berhasil = $jumData - $jumlah_gagal;	
 			}
 			
 			// Hapus file excel ketika data sudah masuk ke tabel
 			@unlink($file_name);
-			$msg = "Data berhasil diupload";
+			$msg = " Data berhasil diupload \n ". $jumlah_berhasil." data sukses \n ". $jumlah_gagal." data Gagal " ;
 			
 			
 		}

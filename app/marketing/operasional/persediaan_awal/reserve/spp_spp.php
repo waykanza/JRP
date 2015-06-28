@@ -12,6 +12,14 @@ $jumlahHari = 10;
 // untuk mencari n hari sesudah hari ini
 $hariBerikutnya = mktime(0,0,0, date("m") ,date("d") + $jumlahHari , date("Y") );
 ?>
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+.error {color: #FF0000;}
+</style>
+</head>
+<body>
 
 <script type="text/javascript">
 jQuery(function($) {
@@ -28,10 +36,7 @@ jQuery(function($) {
 	$('#jumlah_kpr, #tanda_jadi').inputmask('numeric', { repeat: '16' });
 	$('#keterangan').inputmask('varchar', { repeat: '150' });
 
-	// if ('<?php echo $act; ?>' == 'Simpan') {
-		// jQuery('#nama').val('<?php echo $nm; ?>');
-		// jQuery('#alamat_rumah').val('<?php echo $adress; ?>');
-	// }
+	
 	
 });
 </script>
@@ -50,7 +55,7 @@ jQuery(function($) {
 	<td> Nama : <input type="text" name="nama" id="nama" size="60" value="<?php echo $nm; ?>"></td>
 </tr>
 <tr>
-	<td>Alamat Rumah</td><td>:</td>
+	<td>Alamat Rumah<span class="error">*</span></td><td>:</td>
 	<td colspan="2"><input type="text" name="alamat_rumah" id="alamat_rumah" size="110" value="<?php echo $alamat; ?>"></td>
 </tr>
 <tr>
@@ -71,7 +76,7 @@ jQuery(function($) {
 <tr>
 	<td>Telepon Rumah :<td>
 	<td>Telepon Kantor :<td>
-	<td>Telepon Lain :</td>
+	<td>Hp<span class="error">*</span> :</td>
 </tr>
 <tr>
 	<td><input type="text" name="tlp_rumah" id="tlp_rumah" size="30" value="<?php echo $tlp_rumah; ?>"><td>
@@ -82,20 +87,20 @@ jQuery(function($) {
 
 <table class="t-popup pad2 w100">
 <tr>
-	<td width="290">Identitas :
+	<td width="290">Identitas<span class="error">*</span> :
 		<input type="radio" name="identitas" id="ktp" value="1" <?php echo is_checked('1', $identitas); ?>>KTP
 		<input type="radio" name="identitas" id="sim" value="2" <?php echo is_checked('2', $identitas); ?>>SIM   
 		<input type="radio" name="identitas" id="pasport" value="3" <?php echo is_checked('3', $identitas); ?>>Pasport
 		<input type="radio" name="identitas" id="kims" value="4" <?php echo is_checked('4', $identitas); ?>> KIMS
 	</td>
-	<td>No. : <input type="text" name="no_identitas" id="no_identitas" size="20" value="<?php echo $no_identitas; ?>"><td>
+	<td>No.<span class="error">*</span> : <input type="text" name="no_identitas" id="no_identitas" size="20" value="<?php echo $no_identitas; ?>"><td>
 </tr>
 </table>
 
 <table class="t-popup pad2 w100">
 <tr>
-	<td width="280">NPWP : <input type="text" name="npwp" id="npwp" size="20" value="<?php echo $npwp; ?>"></td>
-	<td>Jenis : 
+	<td width="280">NPWP<span class="error">*</span> : <input type="text" name="npwp" id="npwp" size="20" value="<?php echo $npwp; ?>"></td>
+	<td>Jenis<span class="error">*</span> : 
 	<select name="jenis_npwp" id="jenis_npwp">
 		<option value="">   -- Jenis --   </option>
 		<option value="1" <?php echo is_selected('1', $jenis_npwp); ?>>Non PKP</option>
@@ -104,7 +109,7 @@ jQuery(function($) {
 	</td>
 	<td class="text-right">Bank : 
 	<select name="bank" id="bank">
-		<option value=""> -- Bank -- </option>
+		<option value="0"> -- Bank -- </option>
 		<?php
 		$obj = $conn->execute("
 		SELECT *
@@ -127,7 +132,7 @@ jQuery(function($) {
 <table class="t-popup pad2 w100">
 <tr>
 	<td>Agen : <td>
-	<td>Koordinator : <td>
+	<td>Koordinator<span class="error">*</span> : <td>
 	<td class="text-right">Jumlah KPR : <input type="text" name="jumlah_kpr" id="jumlah_kpr" size="20" value="<?php echo $jumlah_kpr; ?>"></td>
 </tr>
 <tr>
@@ -185,14 +190,14 @@ jQuery(function($) {
 		<option value="5" <?php echo is_selected('5', $status_kompensasi); ?>>KPR JAYA</option>
 	</select>
 	</td>
-	<td colspan="2" class="text-right">Tanda Jadi : <input type="text" name="tanda_jadi" id="tanda_jadi" size="20" value="<?php echo $tanda_jadi; ?>"></td>
+	<td colspan="2" class="text-right">Tanda Jadi<span class="error">*</span> : <input type="text" name="tanda_jadi" id="tanda_jadi" size="20" value="<?php echo $tanda_jadi; ?>"></td>
 </tr>
 <tr>
 	<td width="230">Distribusi SPP : 
 		<input type="radio" name="status_spp" id="sudah" class="status" value="1" <?php echo is_checked('1', $status_spp); ?>>Sudah
 		<input type="radio" name="status_spp" id="belum" class="status" value="2" <?php echo is_checked('2', true); ?>>Belum  
 	</td>
-	<td><input readonly="readonly" type="text" name="tgl_proses" id="tgl_proses" size="10" value="<?php echo date("d-m-Y",$hariBerikutnya); ?>"></td>
+	<td><input readonly="readonly" type="text" name="tgl_proses" id="tgl_proses" size="10" value=""></td>
 	<td class="text-right">Tgl. Tanda Jadi : <input type="text" name="tgl_tanda_jadi" id="tgl_tanda_jadi" size="10" class="apply dd-mm-yyyy" value="<?php echo date('d-m-Y') ;?>"></td>
 </tr>
 <tr>
@@ -227,6 +232,8 @@ jQuery(function($) {
 <input type="hidden" name="act" id="act" value="<?php echo $act; ?>">
 </form>
 
+</body>
+</html>
 <?php
 close($conn);
 exit;

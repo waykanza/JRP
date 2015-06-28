@@ -16,6 +16,7 @@ $tombol				= (isset($_REQUEST['tombol'])) ? clean($_REQUEST['tombol']) : '';
 $nama_tombol		= (isset($_REQUEST['nama_tombol'])) ? clean($_REQUEST['nama_tombol']) : '';
 
 $query_search = '';
+$query_batas = "(SELECT BATAS_DISTRIBUSI FROM CS_PARAMETER_MARK)";
 if ($status_otorisasi == 0)
 	{
 		$query_search .= "WHERE OTORISASI = '0' ";
@@ -46,8 +47,9 @@ SELECT
 FROM 
 	SPP
 $query_search
-AND TANGGAL_PROSES >= CONVERT(DATETIME,'$tgl',105)
+
 ";
+//AND CONVERT(DATETIME,'$tgl',105) < DATEADD(dd,$query_batas,TANGGAL_SPP)
 $total_data = $conn->execute($query)->fields['TOTAL'];
 $total_page = ceil($total_data/$per_page);
 
@@ -74,11 +76,12 @@ $page_start = (($page_num-1) * $per_page);
 
 <table class="t-data w100">
 <tr>
-	<th class="w1"><input type="checkbox" id="cb_all"></th>
+
 	<th class="w15">BLOK / NOMOR</th>
 	<th class="w20">NAMA PEMBELI</th>
-	<th class="w10">NOMOR SPP</th>
 	<th class="w10">TANGGAL SPP</th>
+	<th class="w10">TANGGAL BATAS</th>
+	<th class="w10">JUMLAH HARI</th>
 	<th class="w45">ALAMAT RUMAH</th>
 </tr>
 
@@ -86,26 +89,31 @@ $page_start = (($page_num-1) * $per_page);
 if ($total_data > 0)
 {
 	$query = "
-	SELECT *
+	SELECT *, DATEADD(dd,$query_batas,TANGGAL_SPP) AS TGL_BATAS
 	FROM 
 		SPP
 	$query_search
-	AND TANGGAL_PROSES >= CONVERT(DATETIME,'$tgl',105)
-	ORDER BY TANGGAL_SPP
+	
+	ORDER BY TANGGAL_SPP DESC
 	";
+	//AND CONVERT(DATETIME,'$tgl',105) < DATEADD(dd,$query_batas,TANGGAL_SPP)
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
 
 	while( ! $obj->EOF)
 	{
 		$id = $obj->fields['KODE_BLOK'];
+		$tgl1 = tgltgl(date("d-m-Y", strtotime($tgl)));
+		$tgl2 = tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL_SPP'])));
+		$diff = strtotime($tgl1) - strtotime($tgl2);
+		$hari = $diff/(60*60*24);
 			
 		?>
 		<tr class="onclick" id="<?php echo $id; ?>"> 
-			<td width="30" class="notclick text-center"><input type="checkbox" name="cb_data[]" class="cb_data" value="<?php echo $id; ?>"></td>
 			<td><?php echo $id; ?></td>
 			<td><?php echo $obj->fields['NAMA_PEMBELI'];  ?></td>
-			<td class="text-center"><?php echo to_money($obj->fields['NOMOR_SPP']);  ?></td>
 			<td class="text-center"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL_SPP'])));  ?></td>
+			<td class="text-center"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TGL_BATAS'])));  ?></td>
+			<td class="text-center"><?php echo $hari;  ?></td>
 			<td><?php echo $obj->fields['ALAMAT_RUMAH'];  ?></td>
 	</tr>
 		<?php

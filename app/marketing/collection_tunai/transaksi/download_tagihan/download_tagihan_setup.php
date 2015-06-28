@@ -1,14 +1,16 @@
 <form name="form" id="form" method="post">
 <table class="t-control2">
     <tr>
-      <td style="font-size:20px;text-align:center;font-weight:bold" >Daftar Tagihan Bulan <?php echo substr(fm_date(date("Y-m-d")),3);  ?></td>
+      <td style="font-size:20px;text-align:center;font-weight:bold" >DAFTAR TAGIHAN VIRTUAL ACCOUNT</td>
     </tr>
 </table>	
 <table class="t-control">
-	<tr>
-      <td>Tanggal</td><td>:</td>
-	  <td><?php echo fm_date(date("Y-m-d"));  ?></td>
-    </tr>
+	<tr>	
+		<td width="100">Bulan Tagihan</td><td width="10">:</td>
+		<td><input type="text" name="bulan" id="bulan" class="apply mm-yyyy" size="15" value="">
+			<input type="button" name="apply" id="apply" value=" Apply ">
+		</td>
+	</tr>
 	<tr>
 	<td>Status Distribusi</td><td>:</td>
 		<td>
@@ -20,7 +22,6 @@
 		<td width="100">Jumlah Baris</td><td width="10">:</td>
 		<td>
 			<input type="text" name="per_page" size="3" id="per_page" class=" apply text-center" value="20">
-			<input type="button" name="apply" id="apply" value=" Apply ">
 			<input type="hidden" name="act" id="act" value="Surat">
 		</td>
 	</tr>
@@ -83,6 +84,15 @@ jQuery(function($) {
 		return false;
 	});
 	
+	$(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
+		var id = $(this).parent().attr('id');
+		var bulan = jQuery('#bulan').val();
+		showPopup('Detail', id, bulan);
+		return false;
+		
+	});
+	
+	
 
 	$(document).on('click', '#download', function(e) {
 		e.preventDefault();
@@ -91,10 +101,10 @@ jQuery(function($) {
 		}
 		else{
 			if(bank == 'bca'){
-			location.href = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_bca_excel.php?' + $('#form').serializeArray();
+			location.href = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_bca_excel.php?' + $('#form').serialize();
 			}
 			else{
-			location.href = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_mandiri_excel.php?' + $('#form').serializeArray();
+			location.href = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_mandiri_excel.php?' + $('#form').serialize();
 			}
 		}
 		
@@ -113,7 +123,6 @@ jQuery(function($) {
 		return false;
 	});
 	
-	loadData();
 });
 
 function loadData()
@@ -124,6 +133,12 @@ function loadData()
 	return false;
 }
 
+function showPopup(act, id, bulan)
+{
+	var url = base_marketing + 'collection_tunai/transaksi/download_tagihan/download_tagihan_popup.php' + '?act=' + act + '&id=' + id + '&bulan=' + bulan 	
+	setPopup(act + 'Identifikasi', url, 600, 500);
+	return false;
+}
 
 </script>
 

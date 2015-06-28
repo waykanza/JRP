@@ -23,6 +23,7 @@ $identitas			= (isset($_REQUEST['identitas'])) ? clean($_REQUEST['identitas']) :
 $no_identitas		= (isset($_REQUEST['no_identitas'])) ? clean($_REQUEST['no_identitas']) : '';
 $npwp				= (isset($_REQUEST['npwp'])) ? clean($_REQUEST['npwp']) : '';
 $jenis_npwp			= (isset($_REQUEST['jenis_npwp'])) ? clean($_REQUEST['jenis_npwp']) : '';
+$kbank				= (isset($_REQUEST['kbank'])) ? clean($_REQUEST['kbank']) : '';
 $bank				= (isset($_REQUEST['bank'])) ? clean($_REQUEST['bank']) : '';
 $jumlah_kpr			= (isset($_REQUEST['jumlah_kpr'])) ? to_number($_REQUEST['jumlah_kpr']) : '0';
 $agen				= (isset($_REQUEST['agen'])) ? clean($_REQUEST['agen']) : '';
@@ -97,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				NO_IDENTITAS		= '$no_identitas',
 				NPWP				= '$npwp',
 				JENIS_NPWP			= '$jenis_npwp',
-				KODE_BANK			= '$bank',
+				KODE_BANK			= '$kbank',
 				JUMLAH_KPR			= '$jumlah_kpr',
 				KODE_AGEN			= '$agen',
 				KODE_KOORDINATOR	= '$koordinator',
@@ -228,7 +229,7 @@ if ($act == 'Ubah')
 	$no_identitas		= $obj->fields['NO_IDENTITAS'];
 	$npwp				= $obj->fields['CS_NPWP'];
 	$jenis_npwp			= $obj->fields['JENIS_NPWP'];
-	$bank				= $obj->fields['KODE_BANK'];
+	$kbank				= $obj->fields['KODE_BANK'];
 	$nospk				= $obj->fields['NOMOR_SPK_BANK'];
 	$plafonkpr			= $obj->fields['PLAFON_KPR_DISETUJUI'];
 	$retensi			= $obj->fields['NILAI_RETENSI'];
@@ -236,7 +237,7 @@ if ($act == 'Ubah')
 	$agen				= $obj->fields['KODE_AGEN'];
 	$koordinator		= $obj->fields['KODE_KOORDINATOR'];	
 	$tgl_akad			= tgltgl(f_tgl($obj->fields['TANGGAL_AKAD'])); 
-	$tgl_akad			= tgltgl(f_tgl($obj->fields['TANGGAL_REALISASI_AKAD_KREDIT']));
+	$tgl_akad1			= tgltgl(f_tgl($obj->fields['TANGGAL_REALISASI_AKAD_KREDIT']));
 	$tgl_spk			= tgltgl(f_tgl($obj->fields['TANGGAL_SPK_BANK']));
 	$tgl_cair_kpr		= tgltgl(f_tgl($obj->fields['TANGGAL_CAIR_KPR'])); 
 	$tgl_retensi		= tgltgl(f_tgl($obj->fields['TANGGAL_RETENSI'])); 
@@ -367,7 +368,7 @@ if ($act == 'Ubah')
 	$r_harga_bangunan		= $r_base_harga_bangunan + $r_fs_harga_bangunan - $r_disc_harga_bangunan + $r_ppn_harga_bangunan;
 	
 	$r_progres				= $obj->fields['PROGRESS'];
-	$r_base_total_harga		= $r_base_harga_tanah + $r_base_harga_bangunan;
+	$r_base_total_harga		= $r_base_harga_tanah + $r_base_harga_bangunan + $r_fs_harga_tanah;
 	$r_base_nilai_potongan	= $r_disc_harga_bangunan + $r_disc_harga_tanah;
 	$r_base_potongan		= ($r_base_nilai_potongan / $r_base_total_harga)*100;
 	$r_harga_net			= $r_base_total_harga - $r_base_nilai_potongan;

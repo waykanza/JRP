@@ -27,7 +27,6 @@ $sisa	= (isset($_REQUEST['sisa'])) ? clean($_REQUEST['sisa']) : '';
 function formatNumber (num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 }
-
 function calculate(){
 		
 		var sel_jenis_pembayaran	= jQuery('#jenis_pembayaran option:selected');
@@ -77,7 +76,6 @@ function calculate(){
 		subtotal = Math.round((100/110) * jumlah);
 		ppn		 = Math.round(jumlah-subtotal);	
 		} 
-
 		if ((kode_bayar == 1) || (kode_bayar == 2) || (kode_bayar == 3) || (kode_bayar == 4) || (kode_bayar == 5) || (kode_bayar == 6) ||
 				(kode_bayar == 10) || (kode_bayar == 14) || (kode_bayar == 15) || (kode_bayar == 21) || (kode_bayar == 22) || (kode_bayar == 23)||
 				(kode_bayar == 24)){
@@ -96,7 +94,6 @@ function calculate(){
 		$('#ppn').val(ppn);
 		
 }
-
 function cal2(){
 		if ('<?php echo $act; ?>' == 'Tambah'){
 			var sel_jenis_pembayaran	= jQuery('#jenis_pembayaran option:selected');
@@ -129,7 +126,6 @@ function cal2(){
 		$('#subtotal').val(subtotal);
 		$('#ppn').val(ppn);
 }	
-
 jQuery(function($) {
 	// if ('<?php echo $act; ?>' == 'Tambah') {
 		// $('#nama_pembayar, #nomor, #sejumlah, #keterangan, #diposting, #tanggal, #tgl_terima, #via').hide();	
@@ -159,16 +155,32 @@ jQuery(function($) {
 		jQuery('#diposting').val(jumlah);
 		return false;
 	});
-
 	$('#jenis_pembayaran').on('change', function(e) {
 		e.preventDefault();
 		if($(this).val() == '4'){
 			$('#jumlah').prop('disabled', true);
+			
+			<?php
+				$query = "
+				select TOP 1 * from TAGIHAN where kode_blok = '$kode_blok'
+				AND STATUS_BAYAR = 0;
+				";
+				
+				$obj = $conn->execute($query);
+				$jumlah_angsuran	= to_money($obj->fields['NILAI']);
+			
+			?>
 			jumlah_angsuran = '<?php echo $jumlah_angsuran; ?>';
 			$('#jumlah').val(jumlah_angsuran);
+			$('#jumlah_angsuran').val(jumlah_angsuran);
 		} 
+		else if($(this).val() == '9'){
+			$('#jumlah').prop('disabled', true);		
+			jumlah_denda = $('#jumlah_denda').val();
+			$('#jumlah').val(jumlah_denda);
+		}
 		else{
-			$('#jumlah').prop('disabled', false);
+			$('#jumlah').prop('disabled', false);		
 			$('#jumlah').val(0);
 		}
 		calculate();
@@ -262,7 +274,6 @@ jQuery(function($) {
 		return false;
 	});	
 });
-
 </script>
 </head>
 <body class="popup2">
@@ -334,6 +345,13 @@ jQuery(function($) {
 <tr>
 	<td> </td><td></td>
 	<td colspan="2"><input type="hidden" name="jumlah_angsuran" id="jumlah_angsuran" size="50" value="<?php echo $jumlah_angsuran; ?>"></td>
+</tr><tr>
+	<td> </td><td></td>
+	<td colspan="2"><input type="hidden" name="jumlah_denda" id="jumlah_denda" size="50" value="<?php echo $jumlah_denda; ?>"></td>
+</tr>
+<tr>
+	<td> </td><td></td>
+	<td colspan="2"><input type="hidden" name="jumlah_lain" id="jumlah_lain" size="50" value="<?php echo $jumlah_lain; ?>"></td>
 </tr>
 <tr>
 	<td> </td><td></td>

@@ -38,10 +38,10 @@
 			$document->setValue('npwp', $npwp);
 			if ($jenis_npwp == '1'){
 				$document->setValue('status_pkp', '-');
-				$document->setValue('status_non_pkp', 'YES');
+				$document->setValue('status_non_pkp', 'X');
 			}else 
 			if ($jenis_npwp == '2'){
-				$document->setValue('status_pkp', 'YES');
+				$document->setValue('status_pkp', 'X');
 				$document->setValue('status_non_pkp', '-');
 			}else{
 				$document->setValue('status_pkp', '-');

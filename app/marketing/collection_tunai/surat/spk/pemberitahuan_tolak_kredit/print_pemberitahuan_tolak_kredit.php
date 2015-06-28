@@ -4,7 +4,7 @@
 	$conn = conn($sess_db);
 	die_conn($conn);
 
-	$namafile = "Daftar Pemberitahuan SPK "."(".date('d F Y').").doc";
+	$namafile = "Daftar Pemberitahuan Penolakan Kredit "."(".date('d F Y').").doc";
 	header("Content-Type: application/vnd.ms-word");
 	header("Expires: 0");
 	header("Cache-Control:  must-revalidate, post-check=0, pre-check=0");

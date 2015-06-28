@@ -18,10 +18,12 @@ $query = "
 ";
 $obj = $conn->execute($query);
 
+$kode_blok	 	= $obj->fields['KODE_BLOK'];	
 $nama_pembayar 	= $obj->fields['NAMA_PEMBAYAR'];	
 $keterangan 	= $obj->fields['KETERANGAN'];
 $nilai 			= $obj->fields['NILAI'];
 $tanggal		= kontgl(tgltgl(date("d M Y", strtotime($obj->fields['TANGGAL']))));
+$tgl_bayar		= tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL'])));
 
 $query = "
 		UPDATE KWITANSI SET 
@@ -30,6 +32,25 @@ $query = "
 		WHERE NOMOR_KWITANSI = '$id'
 		";
 ex_false($conn->Execute($query), $query);
+
+
+$query = " SELECT COUNT(*) AS TOTAL FROM REALISASI WHERE NOMOR_KWITANSI = '$id' ";
+$obj = $conn->execute($query);
+$total	 = $obj->fields['TOTAL'];	
+
+if($total == 0)
+{
+	$query = "
+	INSERT INTO REALISASI (
+	KODE_BLOK, TANGGAL, NILAI, NOMOR_KWITANSI
+	)
+	VALUES(
+	'$kode_blok', CONVERT(DATETIME,'$tgl_bayar',105), $nilai, '$id'
+	)
+	";
+	ex_false($conn->execute($query), $query);
+}
+
 ?>
 
 <!DOCTYPE html>

@@ -61,7 +61,7 @@ function loadData() {
 
 function showPopup(act, id) {
 	var url = this_base + 'pola_pembayaran_popup.php?act=' + act + '&id=' + id;
-	setPopup(act + ' Pola Pembayaran', url, 500, 200);
+	setPopup(act + ' Pola Pembayaran', url, 500, 400);
 	return false;
 }
 </script>

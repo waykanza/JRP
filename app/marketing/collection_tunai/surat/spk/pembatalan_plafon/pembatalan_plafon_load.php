@@ -8,7 +8,7 @@ die_conn($conn);
 
 $per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
 $page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
-$tgl = '02-12-2006';
+$tgl 		= f_tgl (date("Y-m-d"));
 $query_blok_lunas = '';
 $query_pemb_jt = '';
 $query_tglmerah = '';
@@ -28,7 +28,7 @@ $query_pemby_terakhir = "(SELECT KODE_BLOK, MAX(TANGGAL) AS TGL FROM RENCANA GRO
 $query = "
 SELECT COUNT(*) AS TOTAL FROM SPP 
 WHERE 
-DATEADD(dd,+14,TGL_SRT_PERUBAHAN_PLAFON) = CONVERT(DATETIME,'$tgl',105) 
+(select dbo.kurang_tgl(TGL_SRT_PERUBAHAN_PLAFON,14))= CONVERT(DATETIME,'$tgl',105) 
 ";
 $total_data = $conn->execute($query)->fields['TOTAL'];
 $total_page = ceil($total_data/$per_page);
@@ -71,7 +71,7 @@ if ($total_data > 0)
 	$query = "
 	SELECT * FROM SPP 
 	WHERE 
-	DATEADD(dd,+14,TGL_SRT_PERUBAHAN_PLAFON) = CONVERT(DATETIME,'$tgl',105) 
+	(select dbo.kurang_tgl(TGL_SRT_PERUBAHAN_PLAFON,14)) = CONVERT(DATETIME,'$tgl',105) 
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);
 

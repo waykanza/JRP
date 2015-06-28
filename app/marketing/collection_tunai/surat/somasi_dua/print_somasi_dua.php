@@ -26,21 +26,39 @@
 </tr>
 
 <?php
-$tgl = f_tgl (date("Y-m-d"));
-$query_blok_lunas = '';
+$tgl 		= f_tgl (date("Y-m-d"));
+
+$tanggal_bulan		= $tgl;
+$pecah				= explode("-",$tanggal_bulan);
+$sekarang_tgl		= $pecah[0];
+$sekarang_bln 		= $pecah[1];
+$sekarang_thn 		= $pecah[2];
+
+//bulan kemarin
+$kemarin_bln	= $sekarang_bln - 1;
+$kemarin_thn	= $sekarang_thn;
+if($sekarang_bln == 1)
+{
+	$kemarin_bln	= 12;
+	$kemarin_thn	= $sekarang_thn - 1;
+}
+
+$query_blok_lunas_bayar = '';
 $query_pemb_jt = '';
 $query_tglmerah = '';
 $query_libur = '';
-$query_blok_lunas .= "(SELECT A.KODE_BLOK,B.SUMOFREALISASI,A.SUMOFPLAN,(B.SUMOFREALISASI-A.SUMOFPLAN) AS REMAIN FROM (
-	SELECT SUM (A.NILAI) as SUMOFPLAN, A.KODE_BLOK from( 
-	select A.KODE_BLOK,A.TANGGAL_TANDA_JADI AS TANGGAL,ISNULL(A.TANDA_JADI,0) AS NILAI from spp A where A.KODE_BLOK is not null
-	UNION ALL
-	SELECT A.KODE_BLOK,A.TANGGAL,ISNULL(A.NILAI,0) FROM RENCANA A WHERE A.KODE_BLOK IS NOT NULL)a GROUP BY a.KODE_BLOK) A LEFT
-	JOIN (
-	SELECT SUM(A.NILAI) AS SUMOFREALISASI,A.KODE_BLOK FROM REALISASI A GROUP BY  A.KODE_BLOK)B ON A.KODE_BLOK=B.KODE_BLOK
-	where (B.SUMOFREALISASI-A.SUMOFPLAN)>=0)C";
+$query_blok_lunas_bayar = "SELECT C.KODE_BLOK FROM ( SELECT A.KODE_BLOK,B.SUMOFREALISASI,A.SUMOFPLAN,(B.SUMOFREALISASI-A.SUMOFPLAN) AS REMAIN FROM 
+( SELECT SUM (A.NILAI) as SUMOFPLAN, A.KODE_BLOK from ( select A.KODE_BLOK,A.TANGGAL_TANDA_JADI AS TANGGAL,ISNULL(A.TANDA_JADI,0) 
+AS NILAI from spp A where A.KODE_BLOK is not null UNION ALL SELECT A.KODE_BLOK,A.TANGGAL,ISNULL(A.NILAI,0) FROM RENCANA A WHERE A.KODE_BLOK IS NOT NULL
+)a GROUP BY a.KODE_BLOK ) A LEFT JOIN (SELECT SUM(A.NILAI) AS SUMOFREALISASI,A.KODE_BLOK FROM REALISASI A GROUP BY  A.KODE_BLOK)B 
+ON A.KODE_BLOK=B.KODE_BLOK where (B.SUMOFREALISASI-A.SUMOFPLAN)>=0 )C LEFT JOIN SPP D ON C.KODE_BLOK = D.KODE_BLOK
+WHERE C.REMAIN - (ISNULL(D.NILAI_CAIR_KPR,0)) >= 0 UNION ALL SELECT KODE_BLOK FROM KWITANSI WHERE TANGGAL >= CONVERT(DATETIME,'01-$kemarin_bln-$kemarin_thn',105)
+AND TANGGAL < CONVERT(DATETIME,'01-$sekarang_bln-$sekarang_thn',105)
+";
+
 $query_pemb_jt .= "(SELECT SOMASI_DUA FROM CS_PARAMETER_COL)";
 $query_tglmerah = "SELECT COUNT(*) FROM CS_HARI_LIBUR a WHERE a.tanggal_awal<=@CUR_DATE AND @CUR_DATE<=a.tanggal_akhir)";
+
 
 $query = "
 SELECT 
@@ -48,8 +66,8 @@ SELECT
 FROM 
 	SPP A JOIN RENCANA B ON A.KODE_BLOK = B.KODE_BLOK
 WHERE
-	DATEADD(dd,$query_pemb_jt,B.TANGGAL) = CONVERT(DATETIME,'$tgl',105)AND 
-B.KODE_BLOK NOT IN(SELECT C.KODE_BLOK FROM $query_blok_lunas)
+	(select dbo.tambah_tgl(B.TANGGAL,$query_pemb_jt)) = CONVERT(DATETIME,'$tgl',105)AND 
+b.KODE_BLOK NOT IN($query_blok_lunas_bayar)
 ORDER BY A.KODE_BLOK
 ";
 $obj = $conn->execute($query);

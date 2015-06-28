@@ -93,6 +93,19 @@ jQuery(function($) {
 		return false;
 	});
 	
+	$(document).on('click', '#print', function(e) {
+			e.preventDefault();
+				var cb_data = $('#cb_data').val();
+				var act = 'Surat';
+				
+			 if (confirm('Apa anda yakin akan mencetak surat untuk data ini?')) {
+				e.preventDefault();
+				location.href = base_marketing_operasional + 'persediaan_awal/reserve/surat_reserve_persediaan_popup.php' + '?act=' + act + '&cb_data=' + cb_data;
+				// location.href = base_marketing_operasional + 'persediaan_awal/reserve/surat_reserve_persediaan.php?' + $('#form').serialize();
+				//cetakSurat();
+			}
+			return false;
+		});
 	//loadData();
 });
 </script>
@@ -104,6 +117,7 @@ jQuery(function($) {
 <tr>
 <td width="140">Kode Blok</td><td width="10">:</td>
 	<td><input type="text" name="kode_blok" id="kode_blok" size="10" readonly value="<?php echo $id; ?>"></td>
+	<td><input type="hidden" name="cb_data[]" id="cb_data" size="10"  value="<?php echo $id; ?>"></td>
 </tr>
 <tr>
 	<td>Nama Calon Pembeli</td></td><td>:</td>
@@ -116,11 +130,11 @@ jQuery(function($) {
 </tr>
 <tr>
 	<td>Tanggal Reserve</td><td>:</td>
-	<td><input type="text" name="tanggal_reserve" id="tanggal_reserve" value="<?php echo $tanggal_reserve; ?>" class="apply dd-mm-yyyy" size="10"></td>
+	<td><input readonly="readonly" type="text" name="tanggal_reserve" id="tanggal_reserve" value="<?php echo $tanggal_reserve; ?>" size="10"></td>
 </tr>
 <tr>
 	<td>Berlaku sampai dengan</td><td>:</td>
-	<td><input type="text" name="berlaku_sampai" id="berlaku_sampai" value="<?php echo $berlaku_sampai; ?>" class="apply dd-mm-yyyy" size="10"></td>
+	<td><input readonly="readonly" type="text" name="berlaku_sampai" id="berlaku_sampai" value="<?php echo $berlaku_sampai; ?>"  size="10"></td>
 </tr>
 
 <tr>
