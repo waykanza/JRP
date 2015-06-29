@@ -106,9 +106,13 @@ die_conn($conn);
 
 if ($act == 'Ubah')
 {
+	$obj = $conn->Execute("SELECT * FROM STOK WHERE KODE_BLOK = '$id'");
+	$no_va					= $obj->fields['NO_VA'];
+	
 	$obj = $conn->Execute("SELECT * FROM RESERVE WHERE KODE_BLOK = '$id'");	
 	
 	$nama_calon_pembeli		= $obj->fields['NAMA_CALON_PEMBELI'];
+	
 	$tanggal_reserve		= tgltgl(date("d-m-Y",strtotime($obj->fields['TANGGAL_RESERVE'])));
 	$berlaku_sampai			= tgltgl(date("d-m-Y",strtotime($obj->fields['BERLAKU_SAMPAI'])));
 	$alamat 				= $obj->fields['ALAMAT'];

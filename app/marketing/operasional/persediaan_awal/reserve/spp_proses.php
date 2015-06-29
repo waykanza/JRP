@@ -8,6 +8,7 @@ $act				= (isset($_REQUEST['act'])) ? clean($_REQUEST['act']) : '';
 $id					= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 $nm					= (isset($_REQUEST['nm'])) ? clean($_REQUEST['nm']) : '';
 $alamat				= (isset($_REQUEST['alamat'])) ? clean($_REQUEST['alamat']) : '';
+$no_va				= (isset($_REQUEST['no_va'])) ? clean($_REQUEST['no_va']) : '';
 
 $kode_blok			= (isset($_REQUEST['id'])) ? clean($_REQUEST['id']) : '';
 $no_customer		= (isset($_REQUEST['no_customer'])) ? clean($_REQUEST['no_customer']) : '';

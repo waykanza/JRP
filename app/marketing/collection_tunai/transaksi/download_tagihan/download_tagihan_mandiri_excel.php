@@ -240,8 +240,47 @@
 			
 			//bila tidak ada pembayaran
 			if($bayar == 0)
-			{			
+			{	
+				//pengecekkan, apakah bulan lalu lalu ada pembayaran atau tidak
+				$query2 = "
+				SELECT COUNT(*) AS TOTAL
+				FROM REALISASI WHERE KODE_BLOK = '$id' 
+				AND TANGGAL >= CONVERT(DATETIME,'01-$last2_bln-$last2_thn',105)
+				AND TANGGAL < CONVERT(DATETIME,'01-$last_bln-$last_thn',105)
+				";
+				$obj2 			= $conn->execute($query2);
+				$bayar_lalu		= $obj2->fields['TOTAL'];
+				
+				//bila tidak ada pembayaran bulan lalu lalu
+				if($bayar_lalu == 0)
+				{
+					$rencana_kemarin2 = 0;
+					
+					//tagihan 2 bulan yang lalu ditambah 30 hari
+					$query2 = "
+					SELECT *
+					FROM RENCANA WHERE KODE_BLOK = '$id' 
+					AND TANGGAL >= CONVERT(DATETIME,'01-$last2_bln-$last2_thn',105)
+					AND TANGGAL < CONVERT(DATETIME,'01-$last_bln-$last_thn',105)
+					";
+					$obj2 				= $conn->execute($query2);				
+					$rencana_kemarin2	= $rencana_kemarin2 + $obj2->fields['NILAI'];
+					
+					$obj3 = $conn->Execute("select dbo.selisih_tgl('01-$last_bln-$last_thn','01-$bln-$thn') AS SELISIH");
+					$selisih_hari		= $obj3->fields['SELISIH'] - 1;
+					
+					$denda_kemarin2	 	= $rencana_kemarin2 * 0.001 * $selisih_hari;
+						
+					$total_rencana 		= $total_rencana + $rencana_kemarin2;
+					$total_denda 		= $total_denda + $denda_kemarin2;
+				
+					$tagihan[$n_tagihan] = $rencana_kemarin2;
+					$n_tagihan++;
+				}
+			
 				//tagihan bulan lalu ditambah denda 5 hari
+				$rencana_kemarin  = 0;
+				
 				$query2 = "
 				SELECT *
 				FROM RENCANA WHERE KODE_BLOK = '$id' 
@@ -249,7 +288,7 @@
 				AND TANGGAL < CONVERT(DATETIME,'01-$bln-$thn',105)
 				";
 				$obj2 			 	= $conn->execute($query2);				
-				$rencana_kemarin 	= $obj2->fields['NILAI'];
+				$rencana_kemarin 	= $rencana_kemarin + $obj2->fields['NILAI'];
 				
 				$obj3 = $conn->Execute("select dbo.selisih_tgl('25-$last_bln-$last_thn','01-$bln-$thn') AS SELISIH");
 				$selisih_hari		= $obj3->fields['SELISIH'] - 1;
@@ -262,29 +301,11 @@
 				$tagihan[$n_tagihan] = $rencana_kemarin;
 				$n_tagihan++;
 				
-				//tagihan 2 bulan yang lalu ditambah 35 hari
-				$query2 = "
-				SELECT *
-				FROM RENCANA WHERE KODE_BLOK = '$id' 
-				AND TANGGAL >= CONVERT(DATETIME,'01-$last2_bln-$last2_thn',105)
-				AND TANGGAL < CONVERT(DATETIME,'01-$last_bln-$last_thn',105)
-				";
-				$obj2 				= $conn->execute($query2);				
-				$rencana_kemarin2	= $obj2->fields['NILAI'];
-				
-				$obj3 = $conn->Execute("select dbo.selisih_tgl('25-$last2_bln-$last2_thn','01-$bln-$thn') AS SELISIH");
-				$selisih_hari		= $obj3->fields['SELISIH'] - 1;
-				
-				$denda_kemarin2	 	= $rencana_kemarin2 * 0.001 * $selisih_hari;
-					
-				$total_rencana 		= $total_rencana + $rencana_kemarin2;
-				$total_denda 		= $total_denda + $denda_kemarin2;
-				
-				$tagihan[$n_tagihan] = $rencana_kemarin2;
-				$n_tagihan++;
 			}
 			
 			//tagihan bulan ini
+			$rencana_sekarang = 0;
+			
 			$query2 = "
 			SELECT *
 			FROM RENCANA WHERE KODE_BLOK = '$id' 
@@ -292,7 +313,7 @@
 			AND TANGGAL < CONVERT(DATETIME,'01-$next_bln-$next_thn',105)
 			";
 			$obj2 				= $conn->execute($query2);				
-			$rencana_sekarang	= $obj2->fields['NILAI'];
+			$rencana_sekarang	= $rencana_sekarang + $obj2->fields['NILAI'];
 			
 			$total_rencana 		= $total_rencana + $rencana_sekarang;
 			

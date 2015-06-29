@@ -83,6 +83,7 @@ body {
 					<select name="db" id="db" class="w100">
 						<option value=""> -- Database -- </option>
 						<option value="JAYA"> JRP PUSAT (BINTARO JAYA) </option>
+						<option value="SERPONG_BETA"> SERPONG </option>
 					</select>
 				</td>
 			</tr>

@@ -5,6 +5,7 @@
 			<ul>
 		<li><a href="<?php echo base64_encode('A01_lokasi'); ?>">Lokasi</a></li>
 		<li><a href="<?php echo base64_encode('A01_desa'); ?>">Desa</a></li>
+		<li><a href="<?php echo base64_encode('A01_nomor_va'); ?>">Virtual Account</a></li>
 		<li><a href="<?php echo base64_encode('A01_tipe'); ?>">Tipe Bangunan</a></li>
 		<li><a href="<?php echo base64_encode('A01_faktor_strategis'); ?>">Faktor Strategis</a></li>
 		<li><a href="<?php echo base64_encode('A01_jenis_unit'); ?>">Jenis Unit</a></li>

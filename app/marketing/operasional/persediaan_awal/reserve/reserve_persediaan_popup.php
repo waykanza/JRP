@@ -35,7 +35,7 @@ jQuery(function($) {
 	//showPopup7 ada di folder persediaan_awal/persediaan_awal_setup
 	$('#spp').on('click', function(e) {
 		e.preventDefault();
-		parent.showPopup7('Simpan', '<?php echo $id; ?>','<?php echo $nama_calon_pembeli; ?>','<?php echo $alamat; ?>');
+		parent.showPopup7('Simpan', '<?php echo $id; ?>','<?php echo $nama_calon_pembeli; ?>','<?php echo $alamat; ?>','<?php echo $no_va; ?>');
 		// parent.showPopup7('Simpan', '<?php echo $id; ?>');
 		return false;
 	});

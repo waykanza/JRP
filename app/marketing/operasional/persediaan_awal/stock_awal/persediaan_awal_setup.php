@@ -164,9 +164,9 @@ function showPopup2(act, id) {
 }
 
 //spp reserve
-function showPopup7(act, id, nm, alamat)
+function showPopup7(act, id, nm, alamat, no_va)
 {
-	var url = this_base + 'reserve/spp_popup.php' + '?act=' + act + '&id=' + id + '&nm=' + nm + '&alamat=' + alamat;
+	var url = this_base + 'reserve/spp_popup.php' + '?act=' + act + '&id=' + id + '&nm=' + nm + '&alamat=' + alamat + '&no_va=' + no_va;
 	setPopup(act + ' SPP', url, 830, 550);	
 	return false;
 }

@@ -5,6 +5,7 @@ switch (trim(base64_decode($cmd)))
 	case 'A01_home' 					: die_mod('PM01'); include('marketing/home/home_setup.php');break;
 	case 'A01_lokasi' 					: die_mod('PM01'); include('marketing/master/lokasi/lokasi_setup.php');break;
 	case 'A01_desa' 					: die_mod('PM09'); include('marketing/master/desa/desa_setup.php');break;
+	case 'A01_nomor_va' 				: die_mod('PM09'); include('marketing/master/nomor_va/nomor_va_setup.php');break;
 	case 'A01_tipe' 					: die_mod('PM02'); include('marketing/master/tipe/tipe_setup.php');break;
 	case 'A01_faktor_strategis'			: die_mod('PM03'); include('marketing/master/faktor_strategis/faktor_strategis_setup.php');break;
 	case 'A01_jenis_unit' 				: die_mod('PM04'); include('marketing/master/jenis_unit/jenis_unit_setup.php');break;
@@ -93,8 +94,8 @@ switch (trim(base64_decode($cmd)))
 {
 	# Master
 	
-	case 'AO1_informasi_pembeli' 		: die_mod('PI01'); die_ha('PI01', 'R'); include('marketing/collection_tunai/master/informasi_pembeli/informasi_pembeli_setup.php');break;
-	case 'AO1_hari_libur' 				: die_mod('PI02'); die_ha('PI02', 'R'); include('marketing/collection_tunai/master/cs_hari_libur/cs_hari_libur_setup.php');break;
+	case 'AO1_informasi_pembeli' 		: /*die_mod('PI01'); die_ha('PI01', 'R');*/ include('marketing/collection_tunai/master/informasi_pembeli/informasi_pembeli_setup.php');break;
+	case 'AO1_hari_libur' 				: /*die_mod('PI02'); die_ha('PI02', 'R');*/ include('marketing/collection_tunai/master/cs_hari_libur/cs_hari_libur_setup.php');break;
 	
 	# Transaksi
 	## denda_keterlambatan
@@ -221,7 +222,8 @@ switch (trim(base64_decode($cmd)))
 
 switch ($_SESSION['HOME'])
 {
-	case 'home' 					: die_mod('PM01'); include('marketing/home/home_setup.php');$_SESSION['HOME'] = '-';
+	//case 'home' 					: die_mod('PM01'); include('marketing/home/home_setup.php');$_SESSION['HOME'] = '-';
+	case 'home' 					: include('marketing/home/home_setup.php');$_SESSION['HOME'] = '-';
 	
 }
 

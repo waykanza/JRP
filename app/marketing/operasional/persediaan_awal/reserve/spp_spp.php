@@ -43,7 +43,7 @@ jQuery(function($) {
 <form name="form" id="form" method="post">
 <table class="t-popup pad2 w100">
 <tr>
-	<td class="text-left"><b>No Virtual Account :<input type="text" name="no_customer" id="no_customer" size="20" value="<?php echo $no_customer; ?>"></td>
+	<td class="text-left"><b>No Virtual Account :<input readonly="readonly" type="text" name="no_customer" id="no_customer" size="20" value="<?php echo $no_va; ?>"></td>
 	<td class="text-right">Tgl / No. SPP : <input readonly="readonly" type="text" name="tgl_spp" id="tgl_spp" size="10" value="<?php echo date('d-m-Y') ;?>"> / <input readonly="readonly" type="text" name="no_spp" id="no_spp" size="5" value="<?php echo to_number($no_spp); ?>"></td>
 </tr>
 </table>

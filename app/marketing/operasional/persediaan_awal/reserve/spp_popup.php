@@ -150,6 +150,7 @@ function loadData3()
 <input type="hidden" name="act" id="act" value="<?php echo $act; ?>">
 <input type="hidden" name="nm" id="nm" value="<?php echo $nm; ?>">
 <input type="hidden" name="alamat" id="alamat" value="<?php echo $alamat; ?>">
+<input type="hidden" name="no_va" id="no_va" value="<?php echo $no_va; ?>">
 </form>
 
 </body>
