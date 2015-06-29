@@ -65,8 +65,19 @@ jQuery(function($) {
 		if (page_num > 0) { $('.page_num').val(page_num); $('#apply').trigger('click'); }
 		return false;
 	});
+
+	$(document).on('click', '#excel', function(e) {
+		e.preventDefault();
+		location.href = base_marketing + 'collection_tunai/laporan/daftar_spp/excel_daftar_spp.php?' + $('#form').serialize();
+		return false;
+	});
 	
-	loadData();
+	$(document).on('click', '#print', function(e) {
+		e.preventDefault();
+		window.open(base_marketing + 'collection_tunai/laporan/daftar_spp/print_daftar_spp.php?' + $('#form').serialize());
+		return false;
+	});
+	
 });
 
 function loadData()

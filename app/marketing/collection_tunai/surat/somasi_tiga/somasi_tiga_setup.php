@@ -67,7 +67,7 @@ jQuery(function($) {
 	
 	$(document).on('click', '#print', function(e) {
 		e.preventDefault();
-		location.href = base_marketing + 'collection_tunai/surat/somasi_tiga/print_somasi_tiga.php?' + $('#form').serializeArray();
+		window.open(base_marketing + 'collection_tunai/surat/somasi_tiga/print_somasi_tiga.php?' + $('#form').serialize());
 		return false;
 	});
 	

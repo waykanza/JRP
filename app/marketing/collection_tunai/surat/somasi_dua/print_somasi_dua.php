@@ -1,31 +1,13 @@
 <?php
-	require_once('../../../../../config/config.php');
-	die_login();
-	$conn = conn($sess_db);
-	die_conn($conn);
+require_once('../../../../../config/config.php');
+die_login();
+//die_app('C01');
+//die_mod('COS01');
+$conn = conn($sess_db);
+die_conn($conn);
 
-	$namafile = "Daftar Somasi Dua "."(".date('d F Y').").doc";
-	header("Content-Type: application/vnd.ms-word");
-	header("Expires: 0");
-	header("Cache-Control:  must-revalidate, post-check=0, pre-check=0");
-	header("Content-disposition: attachment; filename=$namafile");
-	
-?>
-
-<html>
-<body>
-
-<table border="1">
-<tr>
-	<th class="w5">BLOK/NO.</th>
-	<th class="w20">NAMA</th>
-	<th class="w40">ALAMAT SURAT</th>
-	<th class="w10">TELEPON</th>
-	<th class="w10">TANGGAL JATUH TEMPO</th>
-	<th class="w10">NILAI JATUH TEMPO</th>
-</tr>
-
-<?php
+$per_page	= (isset($_REQUEST['per_page'])) ? max(1, $_REQUEST['per_page']) : 20;
+$page_num	= (isset($_REQUEST['page_num'])) ? max(1, $_REQUEST['page_num']) : 1;
 $tgl 		= f_tgl (date("Y-m-d"));
 
 $tanggal_bulan		= $tgl;
@@ -57,24 +39,161 @@ AND TANGGAL < CONVERT(DATETIME,'01-$sekarang_bln-$sekarang_thn',105)
 ";
 
 $query_pemb_jt .= "(SELECT SOMASI_DUA FROM CS_PARAMETER_COL)";
-$query_tglmerah = "SELECT COUNT(*) FROM CS_HARI_LIBUR a WHERE a.tanggal_awal<=@CUR_DATE AND @CUR_DATE<=a.tanggal_akhir)";
 
-
+# Pagination
 $query = "
 SELECT 
-	A.KODE_BLOK,A.NAMA_PEMBELI,A.ALAMAT_SURAT,A.TELP_KANTOR,A.TELP_LAIN,A.TELP_RUMAH,B.TANGGAL,B.NILAI
-FROM 
-	SPP A JOIN RENCANA B ON A.KODE_BLOK = B.KODE_BLOK
-WHERE
-	(select dbo.tambah_tgl(B.TANGGAL,$query_pemb_jt)) = CONVERT(DATETIME,'$tgl',105)AND 
-b.KODE_BLOK NOT IN($query_blok_lunas_bayar)
-ORDER BY A.KODE_BLOK
+	A.KODE_BLOK
+	FROM 
+		SPP A JOIN RENCANA B ON A.KODE_BLOK = B.KODE_BLOK
+	WHERE
+		(select dbo.tambah_tgl(B.TANGGAL,$query_pemb_jt)) = CONVERT(DATETIME,'$tgl',105)AND 
+	b.KODE_BLOK NOT IN($query_blok_lunas_bayar)
+	ORDER BY A.KODE_BLOK
 ";
-$obj = $conn->execute($query);
 
-while( !$obj->EOF)
+$total_data = $conn->execute($query)->recordcount();
+$total_page = ceil($total_data/$per_page);
+
+$set_jrp = '
+<tr><td colspan="8" class="nb text-center"><b> LAPORAN DAFTAR SURAT SOMASI II </b></td></tr>
+<tr><td colspan="8" class="nb text-center"> Tanggal Cetak : '.fm_date(date("Y-m-d")).' </td></tr>
+<tr>
+	<td colspan="6" class="nb">
+	</td>
+	<td colspan="2" class="nb">Halaman 
+';
+
+$set_th = '
+	dari ' . $total_page . '</td>
+</tr>
+<tr>
+	<th class="w5">BLOK / NOMOR </th>
+	<th class="w20">NAMA</th>
+	<th class="w40">ALAMAT SURAT</th>
+	<th class="w10">TELEPON</th>
+	<th class="w10">TANGGAL JATUH TEMPO</th>
+	<th class="w10">NILAI JATUH TEMPO</th>
+</tr>
+';
+
+$set_ttd = '
+<tr>
+	<td colspan="7" class="nb text-center"></td>
+	<td colspan="3" class="nb text-center"><br><br><br><br></td>
+</tr>
+<tr>
+	<td colspan="7" class="nb text-center"></td>
+	<td colspan="3" class="nb text-center">' . 'Tangerang, ' .kontgl(date('d M Y')). '</td>
+</tr>
+<tr>
+	<td colspan="7" class="nb text-center"></td>
+	<td colspan="3" class="nb text-center">Mengetahui,</td>
+</tr>
+<tr>
+	<td colspan="7" class="nb text-center"></td>
+	<td colspan="3" class="nb text-center"><br><br><br><br></td>
+</tr>
+<tr>
+	<td colspan="7" class="nb text-center"></td>
+	<td colspan="3" class="nb text-center">(------------------)</td>
+</tr>
+';
+
+$p = 1;
+function th_print() {
+	Global $p, $set_jrp, $set_th;
+	echo $set_jrp . $p . $set_th;
+	$p++;
+}
+
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>LAPORAN DAFTAR SURAT SOMASI II</title>
+<style type="text/css">
+@media print {
+	@page {
+		size: 8.5in 4in portrait;
+	}
+	.newpage {page-break-before:always;}
+}
+
+.newpage {margin-top:25px;}
+
+table {
+	font-family:Arial, Helvetica, sans-serif;
+	width:100%;
+	border-spacing:0;
+	border-collapse:collapse;
+}
+table tr {
+	font-size:11px;
+	padding:2px;
+}
+table td {
+	padding:2px;
+	vertical-align:top;
+}
+table th.nb,
+table td.nb {
+	border:none !important;
+}
+table.data th {
+	border:1px solid #000000;
+}
+table.data td {
+	border-right:1px solid #000000;
+	border-left:1px solid #000000;
+}
+tfoot tr {
+	font-weight:bold;
+	text-align:right;
+	border:1px solid #000000;
+}
+.break { word-wrap:break-word; }
+.nowrap { white-space:nowrap; }
+.va-top { vertical-align:top; }
+.va-bottom { vertical-align:bottom; }
+.text-left { text-align:left; }
+.text-center { text-align:center; }
+.text-right { text-align:right; }
+</style>
+</head>
+<body onload="window.print()">
+
+<table class="data">
+
+<?php
+echo th_print();
+
+if ($total_data > 0)
 {
-	$id = $obj->fields['KODE_BLOK'];
+	$query = "
+	SELECT 
+		A.KODE_BLOK,A.NAMA_PEMBELI,A.ALAMAT_SURAT,A.TELP_KANTOR,A.TELP_LAIN,A.TELP_RUMAH,B.TANGGAL,B.NILAI
+	FROM 
+		SPP A JOIN RENCANA B ON A.KODE_BLOK = B.KODE_BLOK
+	WHERE
+		(select dbo.tambah_tgl(B.TANGGAL,$query_pemb_jt)) = CONVERT(DATETIME,'$tgl',105)AND 
+	b.KODE_BLOK NOT IN($query_blok_lunas_bayar)
+	ORDER BY A.KODE_BLOK
+	";
+
+	$obj = $conn->Execute($query);
+	
+	$i = 1;
+	
+	$total_rows = $obj->RecordCount();
+	
+	while( ! $obj->EOF)
+	{
+		$id = $obj->fields['KODE_BLOK'];
+		$tanggal_tempo = tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL'])));
 		$TELP_KANTOR=(trim($obj->fields["TELP_KANTOR"])!="")?trim(strtoupper($obj->fields["TELP_KANTOR"])):"";
 		$TELP_LAIN=(trim($obj->fields["TELP_LAIN"])!="")?",".trim(strtoupper($obj->fields["TELP_LAIN"])):"";
 		$TELP_RUMAH=(trim($obj->fields["TELP_RUMAH"])!="")?",".trim(strtoupper($obj->fields["TELP_RUMAH"])):"";
@@ -85,15 +204,27 @@ while( !$obj->EOF)
 			<td><?php echo $obj->fields['NAMA_PEMBELI']; ?></td>
 			<td><?php echo $obj->fields['ALAMAT_SURAT']; ?></td>
 			<td><?php echo $TELP; ?></td>
-			<td class="text-center"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?></td>
-			<td><?php echo $obj->fields['NILAI']; ?></td>
+			<td class="text-center"><input type="hidden" name="tanggal_tempo" id="tanggal_tempo" value="<?php echo $tanggal_tempo; ?>"><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TANGGAL']))); ?></td>
+			<td class="text-right"><?php echo to_money($obj->fields['NILAI']); ?></td>
 		</tr>
 		<?php
+	
+		if ($i % $per_page === 0)
+		{
+			echo '<tr><td class="nb"><div class="newpage"></div></td></tr>';
+			th_print();
+		}
+		$i++;
+		
 		$obj->movenext();
+	}
+	
 }
-
 ?>
 </table>
-
 </body>
 </html>
+<?php
+close($conn);
+exit;
+?>

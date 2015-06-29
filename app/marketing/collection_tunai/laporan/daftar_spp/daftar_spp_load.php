@@ -13,7 +13,7 @@ $query_search = '';
 
 if ($periode_awal <> '' || $periode_akhir <> '')
 {
-	$query_search .= "WHERE TANGGAL_SPP >= CONVERT(DATETIME,'$periode_awal',105) AND TANGGAL_SPP <= CONVERT(DATETIME,'$periode_akhir',105)";
+	$query_search .= "AND TANGGAL_SPP >= CONVERT(DATETIME,'$periode_awal',105) AND TANGGAL_SPP <= CONVERT(DATETIME,'$periode_akhir',105)";
 }
 
 $query_blok_lunas = "SELECT C.KODE_BLOK FROM (SELECT A.KODE_BLOK,B.SUMOFREALISASI,A.SUMOFPLAN,(B.SUMOFREALISASI-A.SUMOFPLAN) AS REMAIN FROM (
@@ -37,6 +37,7 @@ FROM
 	LEFT JOIN HARGA_BANGUNAN e ON b.KODE_SK_BANGUNAN = e.KODE_SK
 	LEFT JOIN FAKTOR f ON b.KODE_FAKTOR = f.KODE_FAKTOR
 	LEFT JOIN CS_VIRTUAL_ACCOUNT g ON a.NOMOR_CUSTOMER = g.NOMOR_VA	
+	WHERE STATUS_KOMPENSASI IS NOT NULL
 $query_search
 ";
 $total_data = $conn->execute($query)->fields['TOTAL'];
@@ -49,6 +50,10 @@ $page_start = (($page_num-1) * $per_page);
 
 <table id="pagging-1" class="t-control w60">
 <tr>
+	<td>
+		<input type="button" id="excel" value=" Excel ">
+		<input type="button" id="print" value=" Print ">
+	</td>
 	<td class="text-right">
 		<input type="button" id="prev_page" value=" < ">
 		Hal : <input type="text" name="page_num" size="5" class="page_num apply text-center" value="<?php echo $page_num; ?>">
@@ -97,7 +102,8 @@ if ($total_data > 0)
 		LEFT JOIN HARGA_TANAH d ON b.KODE_SK_TANAH = d.KODE_SK
 		LEFT JOIN HARGA_BANGUNAN e ON b.KODE_SK_BANGUNAN = e.KODE_SK
 		LEFT JOIN FAKTOR f ON b.KODE_FAKTOR = f.KODE_FAKTOR
-		LEFT JOIN CS_VIRTUAL_ACCOUNT g ON a.NOMOR_CUSTOMER = g.NOMOR_VA		
+		LEFT JOIN CS_VIRTUAL_ACCOUNT g ON a.NOMOR_CUSTOMER = g.NOMOR_VA	
+		WHERE STATUS_KOMPENSASI IS NOT NULL		
 		$query_search
 	";
 	$obj = $conn->selectlimit($query, $per_page, $page_start);

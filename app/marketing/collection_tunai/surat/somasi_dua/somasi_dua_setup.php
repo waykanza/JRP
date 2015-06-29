@@ -67,7 +67,7 @@ jQuery(function($) {
 	
 	$(document).on('click', '#print', function(e) {
 		e.preventDefault();
-		location.href = base_marketing + 'collection_tunai/surat/somasi_dua/print_somasi_dua.php?' + $('#form').serializeArray();
+		window.open(base_marketing + 'collection_tunai/surat/somasi_dua/print_somasi_dua.php?' + $('#form').serialize());
 		return false;
 	});
 	

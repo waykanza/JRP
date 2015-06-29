@@ -67,7 +67,7 @@ jQuery(function($) {
 	
 	$(document).on('click', '#print', function(e) {
 		e.preventDefault();
-		location.href = base_marketing + 'collection_tunai/surat/somasi_satu/print_somasi_satu.php?' + $('#form').serializeArray();
+		window.open(base_marketing + 'collection_tunai/surat/somasi_satu/print_somasi_satu.php?' + $('#form').serialize());
 		return false;
 	});
 	

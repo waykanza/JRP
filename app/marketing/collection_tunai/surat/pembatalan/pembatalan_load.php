@@ -48,7 +48,7 @@ SELECT
 	FROM 
 		SPP A JOIN RENCANA B ON A.KODE_BLOK = B.KODE_BLOK
 	WHERE
-		DATEADD(dd,$query_pemb_jt,B.TANGGAL)  = CONVERT(DATETIME,'$tgl',105)AND 
+		(select dbo.tambah_tgl(B.TANGGAL,$query_pemb_jt)) = CONVERT(DATETIME,'$tgl',105)AND 
 	b.KODE_BLOK NOT IN($query_blok_lunas_bayar)
 	ORDER BY A.KODE_BLOK
 ";
@@ -96,7 +96,7 @@ if ($total_data > 0)
 	FROM 
 		SPP A JOIN RENCANA B ON A.KODE_BLOK = B.KODE_BLOK
 	WHERE
-		DATEADD(dd,$query_pemb_jt,B.TANGGAL) = CONVERT(DATETIME,'$tgl',105)AND 
+		(select dbo.tambah_tgl(B.TANGGAL,$query_pemb_jt)) = CONVERT(DATETIME,'$tgl',105)AND 
 	B.KODE_BLOK NOT IN($query_blok_lunas_bayar)
 	ORDER BY A.KODE_BLOK
 	";

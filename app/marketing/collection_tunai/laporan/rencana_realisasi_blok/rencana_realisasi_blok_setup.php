@@ -6,6 +6,7 @@
 <td width="100">Kriteria</td><td width="10">:</td>
 	<td>
 		<select name="field1" id="field1" class="wauto">
+			<option value=""> --Pilih Kriteria-- </option>
 			<option value="all"> Keseluruhan </option>
 			<option value="periode"> Periode SPP </option>
 		</select>
@@ -33,12 +34,31 @@
 jQuery(function($) {
 	/* -- FILTER -- */
 	
+	$('#periode_awal').prop('disabled',true);
+	$('#periode_akhir').prop('disabled',true);
+	
 	$(document).on('keypress', '.apply', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
 		if (code == 13) { $('#apply').trigger('click'); return false; }
 	});
 	
 	/* -- BUTTON -- */
+	$('#field1').on('change', function(e) {
+		e.preventDefault();
+		if($(this).val() == 'all'){
+			$('#periode_awal').prop('disabled',true);
+			$('#periode_akhir').prop('disabled',true);
+			$('#periode_awal').val('');
+			$('#periode_akhir').val('');
+			loadData();
+		} 
+		else if($(this).val() == 'periode'){
+			$('#periode_awal').prop('disabled',false);
+			$('#periode_akhir').prop('disabled',false);
+		}
+		return false;
+	});
+	
 	$(document).on('click', '#apply', function(e) {
 		e.preventDefault();
 		if (jQuery('#periode_awal').val() == '') {
@@ -54,21 +74,7 @@ jQuery(function($) {
 		}	
 		return false;
 	});
-	
 		
-	$(document).on('click', '#excel', function(e) {
-		e.preventDefault();
-		location.href = base_marketing + 'kredit/pelaporan/laporan_kuitansi_lain/print_report_kuitansi.php?' + $('#form').serialize();
-		return false;
-	});
-	
-	$(document).on('click', '#print', function(e) {
-		e.preventDefault();
-		var url = base_marketing + 'kredit/pelaporan/laporan_kuitansi_lain/laporan_kuitansi_lain_print.php?' + $('#form').serialize();
-		open_print(url)
-		return false;
-	});
-	
 	$(document).on('click', '#next_page', function(e) {
 		e.preventDefault();
 		var total_page = parseInt($('#total_page').val()),
@@ -90,6 +96,17 @@ jQuery(function($) {
 		}
 	});
 	
+	$(document).on('click', '#excel', function(e) {
+		e.preventDefault();
+		location.href = base_marketing + 'collection_tunai/laporan/rencana_realisasi_blok/excel_rencana_realisasi_blok.php?' + $('#form').serialize();
+		return false;
+	});
+	
+	$(document).on('click', '#print', function(e) {
+		e.preventDefault();
+		window.open(base_marketing + 'collection_tunai/laporan/rencana_realisasi_blok/print_rencana_realisasi_blok.php?' + $('#form').serialize());
+		return false;
+	});
 	
 });
 

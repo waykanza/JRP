@@ -26,16 +26,62 @@
 
 			// Create a new PHPWord Object
 			$PHPWord = new PHPWord();	
-				
-			$document = $PHPWord->loadTemplate('../../../../surat/spp/SPP.docx');
+			
+			if($sess_db == 'JAYA'){
+				$document = $PHPWord->loadTemplate('../../../../surat/spp/SPP_Bintaro.docx');
+			}else
+			if($sess_db == 'SERPONG_BETA'){
+				if($lokasi == 1){
+					$document = $PHPWord->loadTemplate('../../../../surat/spp/SPP_SJ_De_Garden.docx');
+				}else
+				if($lokasi == 2){
+					$document = $PHPWord->loadTemplate('../../../../surat/spp/SPP_SJ_De_View.docx');
+				}else
+				if($lokasi == 4){
+					$document = $PHPWord->loadTemplate('../../../../surat/spp/SPP_SJ_The_Spring.docx');
+				}
+			}
+			
+
 			//header
+			if($nup == ''){
+				$document->setValue('nup', '-');
+			}else{
+				$document->setValue('nup', $nup);
+			}
 			$document->setValue('nomor_spp', $no_spp);
 			$document->setValue('nama', $nama);
 			$document->setValue('alamat_ktp_1', $alamat_rumah);
-			$document->setValue('alamat_surat_2', $alamat_surat);
+			if($alamat_surat == ''){
+				$document->setValue('alamat_surat_2', '-');
+			}else{
+				$document->setValue('alamat_surat_2', $alamat_surat);
+			}
+			
 			$document->setValue('alamat_email', $email);
-			$document->setValue('telepon', $tlp_lain);
-			$document->setValue('npwp', $npwp);
+			if($tlp_lain == ''){
+				$document->setValue('telepon', '-');
+			}else{
+				$document->setValue('telepon', $tlp_lain);
+			}
+			
+			if($npwp == ''){
+				$document->setValue('npwp', '-');
+			}else{
+				$document->setValue('npwp', $npwp);
+			}
+			
+			if($tgl_cair_kpr == ''){
+				$document->setValue('tgl_rencana_kpr', '-');
+			}else{
+				$document->setValue('tgl_rencana_kpr', $tgl_cair_kpr);
+			}
+			
+			if($no_identitas == ''){
+				$document->setValue('nomor_id', '-');
+			}else{
+				$document->setValue('nomor_id', $no_identitas);
+			}
 			if ($jenis_npwp == '1'){
 				$document->setValue('status_pkp', '-');
 				$document->setValue('status_non_pkp', 'X');
@@ -48,7 +94,13 @@
 				$document->setValue('status_non_pkp', '-');
 			}
 			$document->setValue('kode_blok', $id);
-			$document->setValue('no_va', $no_customer);
+			
+			if($no_customer == ''){
+				$document->setValue('no_va', '-');
+			}else{
+				$document->setValue('no_va', $no_customer);
+			}
+			
 			$document->setValue('tipe', $r_tipe_bangunan);
 			$document->setValue('luas_tanah', $r_luas_tanah);
 			$document->setValue('luas_bangunan', $r_luas_bangunan);
@@ -108,16 +160,6 @@
 				$i++;
 			}
 			$document->cloneRow('TGL',$data1);
-			
-			// $i=1;
-			// while(!$obj->EOF){
-				// $TANGGAL= $obj->fields['TANGGAL'];
-				// $NILAI = $obj->fields['NILAI'];
-			
-			
-			// }
-			// $document->cloneRow('TANGGAL', $TANGGAL);
-			// $document->cloneRow('NILAI', $NILAI);
 			
 			$namafile = "SPP"."_".$id." ".date('d F Y').".doc";
 			

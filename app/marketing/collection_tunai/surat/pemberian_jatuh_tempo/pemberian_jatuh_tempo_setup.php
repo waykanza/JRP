@@ -67,7 +67,7 @@ jQuery(function($) {
 	
 	$(document).on('click', '#print', function(e) {
 		e.preventDefault();
-		location.href = base_marketing + 'collection_tunai/surat/pemberian_jatuh_tempo/print_pemberian_jatuh_tempo.php?' + $('#form').serializeArray();
+		window.open(base_marketing + 'collection_tunai/surat/pemberian_jatuh_tempo/print_pemberian_jatuh_tempo.php?' + $('#form').serialize());
 		return false;
 	});
 	

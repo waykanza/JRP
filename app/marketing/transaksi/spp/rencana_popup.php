@@ -49,7 +49,7 @@
 			{
 				return false;
 			}			
-		
+
 			$.post(url, data, function(data) {
 				if (data.error == true)
 				{
@@ -57,6 +57,7 @@
 				}				
 				else
 				{
+					
 					alert(data.msg);
 					parent.loadData();
 				}

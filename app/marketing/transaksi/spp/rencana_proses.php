@@ -26,9 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		// die_mod('');
 		$conn = conn($sess_db);
 		die_conn($conn);
+		$conn->begintrans();
+		$error = false;
 		
 		if ($act == 'Apply') # Proses Ubah
 			{
+			
+				ex_empty($pola_bayar, 'Pola Bayar harus diisi.');
+				
+				
 				$query = "DELETE FROM RENCANA WHERE KODE_BLOK = '$id'";
 				
 				ex_false($conn->execute($query), $query);
@@ -51,32 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				$kali5 		= $obj->fields['KALI5'];
 				$nilai_jenis = $obj->fields['NILAI_JENIS'];
 			
-				//ex_ha('', 'U');
-				//CONVERT(DATETIME,'$tanggal',105),
-				// $pecah_tgl  = explode("-",$tgl_input);
-				// $tgl		= $pecah_tgl[0];
-				// $bln		= $pecah_tgl[1];
-				// $thn		= $pecah_tgl[2];
 				
-				// if($tgl <= 28)
-				// {
-					// $tempo = 1;
-				// }
-				// else
-				// {
-					// $tempo = 2;
-				// }
-				
-				// $next_bln	= $bln + $tempo;  
-				// $next_thn	= $thn;
-				// if($next_bln > 12)
-				// {
-					// $next_bln = $nexy_bln % 12;
-					// $next_thn = $next_thn + 1;
-					
-				// }
-				
-				// $tanggal_input = '25-07-2015';
 				$b = $tanggal_input;
 				
 				$pecah_tgl  = explode("-",$tanggal_input);
@@ -124,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 					$nilai_bagi[] = ($nilai * $nilai5)/100;
 				}
 				
-				//$nilai_a = $nilai;
+				
 				$kali = $kali1+$kali2+$kali3+$kali4+$kali5;
 				$nilai_fix=0;
 				for($i=0;$i<$kali;$i++){				
@@ -201,13 +182,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 							STATUS_KOMPENSASI	= '$kode_jenis',
 							JUMLAH_KPR			= '$jumlah_kpr',
 							TANGGAL_AKAD		= '$tgl_akad'
-						  WHERE KODE_BLOK = '$id'
+						  WHERE KODE_BLOK		= '$id'
 						  ";
 				
 				ex_false($conn->execute($query), $query);
 
-				$msg = $b;
-				// $msg = $nilai_bagi.','.$kali;
+				$msg = 'Rencana Pembayaran Berhasil Disimpan';
 			}
 		
 		$conn->committrans(); 

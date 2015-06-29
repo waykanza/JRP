@@ -67,7 +67,7 @@ jQuery(function($) {
 	
 	$(document).on('click', '#print', function(e) {
 		e.preventDefault();
-		location.href = base_marketing + 'collection_tunai/surat/pembatalan/print_pembatalan.php?' + $('#form').serializeArray();
+		window.open(base_marketing + 'collection_tunai/surat/pembatalan/print_pembatalan.php?' + $('#form').serialize());
 		return false;
 	});
 	

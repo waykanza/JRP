@@ -134,6 +134,10 @@
 			AND TANGGAL < CONVERT(DATETIME,'01-$next_bln-$next_thn',105)";
 			ex_false($conn->execute($query), $query);
 			
+			$query = "update SPP set STATUS_WANPRESTASI = 1 
+			WHERE KODE_BLOK = '$id' ";
+			ex_false($conn->execute($query), $query);
+			
 			// Create a new PHPWord Object
 			$PHPWord = new PHPWord();	
 				

@@ -66,7 +66,18 @@ jQuery(function($) {
 		return false;
 	});
 	
-	loadData();
+	$(document).on('click', '#excel', function(e) {
+		e.preventDefault();
+		location.href = base_marketing + 'collection_tunai/laporan/daftar_memo_pembatalan/excel_daftar_memo_pembatalan.php?' + $('#form').serialize();
+		return false;
+	});
+	
+	$(document).on('click', '#print', function(e) {
+		e.preventDefault();
+		window.open(base_marketing + 'collection_tunai/laporan/daftar_memo_pembatalan/print_daftar_memo_pembatalan.php?' + $('#form').serialize());
+		return false;
+	});
+	
 });
 
 function loadData()

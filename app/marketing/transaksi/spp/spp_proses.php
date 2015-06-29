@@ -250,6 +250,7 @@ if ($act == 'Ubah')
 	$tgl_redistribusi	= tgltgl(f_tgl($obj->fields['SPP_REDISTRIBUSI_TANGGAL']));
 	$keterangan			= $obj->fields['KETERANGAN'];	
 	$status_otorisasi	= $obj->fields['OTORISASI'];	
+	$nup				= $obj->fields['NUP'];	
 	
 	
 	$obj = $conn->Execute("
@@ -377,6 +378,12 @@ if ($act == 'Ubah')
 	$r_harga_setelah_ppn	= $r_harga_net + $r_base_nilai_ppn;
 	$r_base_sisa_1			= $r_harga_setelah_ppn - $jumlah_kpr;
 	$r_base_sisa_2			= $r_base_sisa_1 - $tanda_jadi;
+
+	
+	$query 		= "SELECT * FROM STOK
+				WHERE KODE_BLOK = '$id'";
+	$obj 		= $conn->execute($query);
+	$lokasi		= $obj->fields['KODE_LOKASI'];
 }
 if ($act == 'Tambah')
 {

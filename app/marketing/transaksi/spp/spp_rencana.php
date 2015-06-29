@@ -16,12 +16,6 @@ die_conn($conn);
 <script type="text/javascript">
 jQuery(function($) {
 	
-	// $('.dd-mm-yyyy').Zebra_DatePicker({
-		// format: 'd-m-Y',
-		// readonly_element : false,
-		// inside: true
-	// });
-	
 	$(document).on('click', '#tambah', function(e) {
 		e.preventDefault();
 		showPopup('Rencana', '<?php echo $id; ?>');

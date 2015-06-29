@@ -59,12 +59,6 @@
 		<li><a href="<?php echo base64_encode('A01_penjualan_p_unit'); ?>">Penjualan per Unit</a></li>
 		<li><a href="<?php echo base64_encode('A01_penjualan_p_lokasi'); ?>">Penjualan per Lokasi</a></li>
 		<li><a href="<?php echo base64_encode('A01_penjualan_p_class'); ?>">Penjualan per Class</a></li>
-		<!--
-		<li><a href="<?php echo base64_encode('A01_omset_p_unit_p_tahun'); ?>">Omset per Unit / Tahun</a></li>
-		<li><a href="<?php echo base64_encode('A01_omset_p_tipe_p_tahun'); ?>">Omset per Tipe / Tahun</a></li>
-		<li><a href="<?php echo base64_encode('A01_omset_p_lokasi_p_tahun'); ?>">Omset per Lokasi / Tahun</a></li>
-		<li><a href="<?php echo base64_encode('A01_omset_p_jenis_unit_p_tahun'); ?>">Omset per Jenis Unit / Tahun</a></li>
-		-->
 		<li><a href="<?php echo base64_encode('A01_laporan_reserve'); ?>">Laporan Reserve</a></li>
 		<li><a href="<?php echo base64_encode('A01_laporan_persediaan_stok'); ?>">Laporan Persediaan (Stok)</a></li>
 				</ul>
@@ -76,11 +70,7 @@
 	<ul>
 		<li><a href="">Transaksi<span></span></a>
 		<ul>
-			<!--<li><a href="">Denda Keterlambatan Pembayaran<span></span></a>
-			<ul>
-				<li><a href="<?php echo base64_encode('A01_entry'); ?>">Entry</a></li>
-				<li><a href="<?php echo base64_encode('A01_otoritas'); ?>">Otoritas</a></li>
-			</ul>-->
+			
 			<li><a href="<?php echo base64_encode('A01_virtual_account'); ?>">Virtual Account</a></li>
 			<li class="separator"></li>
 			<li><a href="<?php echo base64_encode('A01_ver_kwitansi_col'); ?>">Identifikasi</a></li>
@@ -204,24 +194,6 @@
 			<ul>
 		<li><a href="<?php echo base64_encode('A01_parameter_program_mark'); ?>">Parameter Program</a></li>
 		<li><a href="<?php echo base64_encode('A01_pemulihan_spp'); ?>">Pemulihan SPP Tenggang</a></li>
-		<li><a href="<?php echo base64_encode('A01_ubah_password'); ?>">Ubah Password</a></li>
-		<li><a href="<?php echo base64_encode('A01_configurasi_sistem'); ?>">Configurasi Sistem</a></li>
-		<li><a href="<?php echo base64_encode('A01_backup'); ?>">Backup</a></li>
-		<li><a href="<?php echo base64_encode('A01_recovery'); ?>">Recovery</a></li>
-		<li><a href="">Security Management <span></span></a>
-			<ul>
-				<li><a href="<?php echo base64_encode('A01_users'); ?>">Users</a></li>
-				<li><a href="<?php echo base64_encode('A01_aplications'); ?>">Aplications</a></li>
-				<li><a href="<?php echo base64_encode('A01_modules'); ?>">Modules</a></li>
-				<li><a href="<?php echo base64_encode('A01_rights'); ?>">Rights</a></li>
-			</ul>
-		</li>
-		<li><a href="<?php echo base64_encode('A01_nomor_customer'); ?>">Nomor Customer</a></li>
-		<li><a href="<?php echo base64_encode('A01_kartu_pembeli'); ?>">Kartu Pembeli</a></li>
-		<li><a href="<?php echo base64_encode('A01_spp_belum_distribusi'); ?>">SPP Belum Distribusi</a></li>
-		<li><a href="<?php echo base64_encode('A01_spp_redistribusi'); ?>">SPP Redistribusi</a></li>
-		<li><a href="<?php echo base64_encode('A01_ekspor_data_spp'); ?>">Ekspor Data SPP</a></li>
-		
 			</ul>
 		</li>
 		
@@ -231,32 +203,31 @@
 		<li><a href="<?php echo base64_encode('A01_upload_penerimaan_va'); ?>">Upload Penerimaan VA</a></li>
 		<!-- END PENAMBAHAN MODUL PENERIMAAN VA -->
 		<li><a href="<?php echo base64_encode('A01_parameter_program_coll'); ?>">Parameter Program</a></li>
-		<li><a href="<?php echo base64_encode('A01_registrasi_user'); ?>">Registrasi Pengguna/User Program</a></li>
 		<li><a href="<?php echo base64_encode('A01_nomor_surat'); ?>">Nomor Surat</a></li>
-		<li class="separator"></li>
-		<li><a href="<?php echo base64_encode('A01_spp_tidak_valid'); ?>">SPP Tidak Valid</a></li>
-		<li><a href="<?php echo base64_encode('A01_denda_manual'); ?>">Denda Manual</a></li>
-		<li class="separator"></li>
-		<li><a href="<?php echo base64_encode('A01_ubah_sandi'); ?>">Ubah Sandi</a></li>
 			</ul>	
 		</li>
 
 		<li><a href="">PPJB<span></span></a>
 			<ul>
 		<li><a href="<?php echo base64_encode('A01_parameter_program_ppjb'); ?>">Parameter Program</a></li>
-		<li><a href="<?php echo base64_encode('A01_registrasi_user'); ?>">Registrasi User</a></li>
-		<li class="separator"></li>
-		<li><a href="<?php echo base64_encode('A01_ubah_sandi'); ?>">Ubah Sandi</a></li>
 			</ul>
 		</li>
 		<li><a href="">Kwitansi<span></span></a>
 		<ul>
-		<li><a href="<?php echo base64_encode('A01_parameter'); ?>">Update Nomor Register</a></li>
-		<li><a href="<?php echo base64_encode('A01_denda'); ?>">Update Tarif Denda</a></li>
+		<li><a href="<?php echo base64_encode('A01_parameter'); ?>">Parameter Nomor Register</a></li>
 		<li><a href="<?php echo base64_encode('A01_kartu_pembeli'); ?>">Cetak Kartu Pembeli</a></li>
-		<li><a href="<?php echo base64_encode('A01_penomoran_fp'); ?>">Penomoran Faktur Pajak</a></li>
 		</ul>
 	</li>
+	<li class="separator"></li>
+	<li><a href="<?php echo base64_encode('A01_ubah_password'); ?>">Ubah Password</a></li>
+		<li><a href="">Security Management <span></span></a>
+			<ul>
+				<li><a href="<?php echo base64_encode('A01_users'); ?>">Users</a></li>
+				<li><a href="<?php echo base64_encode('A01_aplications'); ?>">Aplications</a></li>
+				<li><a href="<?php echo base64_encode('A01_modules'); ?>">Modules</a></li>
+				<li><a href="<?php echo base64_encode('A01_rights'); ?>">Rights</a></li>
+			</ul>
+		</li>
 	</ul>	
 </li>
 

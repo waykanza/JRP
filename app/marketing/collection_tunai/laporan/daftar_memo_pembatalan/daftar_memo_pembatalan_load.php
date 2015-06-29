@@ -34,6 +34,10 @@ $page_start = (($page_num-1) * $per_page);
 
 <table id="pagging-1" class="t-control w60">
 <tr>
+	<td>
+		<input type="button" id="excel" value=" Excel ">
+		<input type="button" id="print" value=" Print ">
+	</td>
 	<td class="text-right">
 		<input type="button" id="prev_page" value=" < ">
 		Hal : <input type="text" name="page_num" size="5" class="page_num apply text-center" value="<?php echo $page_num; ?>">

@@ -66,7 +66,18 @@ jQuery(function($) {
 		return false;
 	});
 	
-	loadData();
+	$(document).on('click', '#excel', function(e) {
+		e.preventDefault();
+		location.href = base_marketing + 'collection_tunai/laporan/pembatalan_spp/excel_pembatalan_spp.php?' + $('#form').serialize();
+		return false;
+	});
+	
+	$(document).on('click', '#print', function(e) {
+		e.preventDefault();
+		window.open(base_marketing + 'collection_tunai/laporan/pembatalan_spp/print_pembatalan_spp.php?' + $('#form').serialize());
+		return false;
+	});
+	
 });
 
 function loadData()

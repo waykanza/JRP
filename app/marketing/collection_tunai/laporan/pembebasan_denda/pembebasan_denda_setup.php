@@ -1,4 +1,4 @@
-<div class="title-page">LAPORAN PERSETUJUAN DENDA</div>
+<div class="title-page">LAPORAN PEMBEBASAN DENDA</div>
 
 <form name="form" id="form" method="post">
 <table class="t-control wauto">
@@ -63,6 +63,18 @@ jQuery(function($) {
 		e.preventDefault();
 		var page_num = parseInt($('.page_num').val()) - 1;
 		if (page_num > 0) { $('.page_num').val(page_num); $('#apply').trigger('click'); }
+		return false;
+	});
+	
+	$(document).on('click', '#excel', function(e) {
+		e.preventDefault();
+		location.href = base_marketing + 'collection_tunai/laporan/pembebasan_denda/excel_pembebasan_denda.php?' + $('#form').serialize();
+		return false;
+	});
+	
+	$(document).on('click', '#print', function(e) {
+		e.preventDefault();
+		window.open(base_marketing + 'collection_tunai/laporan/pembebasan_denda/print_pembebasan_denda.php?' + $('#form').serialize());
 		return false;
 	});
 	

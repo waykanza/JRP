@@ -59,20 +59,6 @@ jQuery(function($) {
 		return false;
 	});
 	
-		
-	$(document).on('click', '#excel', function(e) {
-		e.preventDefault();
-		location.href = base_marketing + 'kredit/pelaporan/laporan_kuitansi_lain/print_report_kuitansi.php?' + $('#form').serialize();
-		return false;
-	});
-	
-	$(document).on('click', '#print', function(e) {
-		e.preventDefault();
-		var url = base_marketing + 'kredit/pelaporan/laporan_kuitansi_lain/laporan_kuitansi_lain_print.php?' + $('#form').serialize();
-		open_print(url)
-		return false;
-	});
-	
 	$(document).on('click', '#next_page', function(e) {
 		e.preventDefault();
 		var total_page = parseInt($('#total_page').val()),
@@ -94,6 +80,17 @@ jQuery(function($) {
 		}
 	});
 	
+	$(document).on('click', '#excel', function(e) {
+		e.preventDefault();
+		location.href = base_marketing + 'collection_tunai/laporan/surat_penagihan/excel_surat_penagihan.php?' + $('#form').serialize();
+		return false;
+	});
+	
+	$(document).on('click', '#print', function(e) {
+		e.preventDefault();
+		window.open(base_marketing + 'collection_tunai/laporan/surat_penagihan/print_surat_penagihan.php?' + $('#form').serialize());
+		return false;
+	});
 	
 });
 

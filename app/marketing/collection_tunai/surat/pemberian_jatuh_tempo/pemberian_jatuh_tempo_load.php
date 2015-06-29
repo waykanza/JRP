@@ -65,8 +65,6 @@ $page_start = (($page_num-1) * $per_page);
 	<th class="w10">TELEPON</th>
 	<th class="w10">TANGGAL JATUH TEMPO</th>
 	<th class="w10">NILAI JATUH TEMPO</th>
-	
-
 </tr>
 
 <?php
