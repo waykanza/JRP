@@ -31,15 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		//ex_app('');
-		//ex_mod('');
+		// ex_app('C');
+		ex_mod('C03');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 		$conn->begintrans(); 
 		
 		if ($act == 'Ubah') # Proses Ubah
 		{
-			//ex_ha('', 'U');
+			ex_ha('C03', 'U');
 		
 			ex_empty($jenis_pembayaran, 'Jenis Pembayaran harus diisi.');
 			ex_empty($nama_pembayar, 'Telah Terima Dari harus diisi.');
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Tambah') # Proses Tambah
 		{
-			//ex_ha('', 'I');
+			ex_ha('C03', 'I');
 			ex_empty($jenis_pembayaran, 'Jenis Pembayaran harus diisi.');
 			ex_empty($nama_pembayar, 'Telah Terima Dari harus diisi.');
 			ex_empty($keterangan, 'Untuk Pembayaran harus diisi.');
@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		else if($act == 'Hapus') #Proses Hapus
 		{			
-			//ex_ha('', 'D');
+			ex_ha('C03', 'D');
 		
 			$act = array();
 			$cb_data = $_REQUEST['cb_data'];
@@ -260,7 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Pindah') # Proses Pindah
 		{
-			//ex_ha('', 'U');
+			ex_ha('C03', 'U');
 		
 			ex_empty($blok_baru, 'Blok baru harus diisi.');
 			
@@ -300,8 +300,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	exit;
 }
 die_login();
-//die_app('');
-//die_mod('');
+// die_app('C');
+die_mod('C03');
 $conn = conn($sess_db);
 die_conn($conn);
 	

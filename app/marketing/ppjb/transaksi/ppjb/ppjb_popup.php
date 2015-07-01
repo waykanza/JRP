@@ -150,17 +150,31 @@ jQuery(function($) {
 		window.open(base_marketing + 'ppjb/transaksi/ppjb/ppjb_cetak.php?id=<?php echo $id; ?>&act=Ubah&kode_jenis_ppjb='+kode_jenis_ppjb+'&jenis_ppjb='+jenis_ppjb);		
 		return false;
 	});
+	//addendum
 	var addendum = $('#addendum').val();
-	// if(addendum!=''){
-		// $('#addendum2').hide();
+	if(addendum == ''){	
+		$('#addendum2').hide();
+	}
+	
+	// $('#addendum').on('change', function(e) {
+	// var addendum = $('#addendum').val();
+	//alert(addendum);
+		// if(addendum == ''){	
+			// $('#addendum2').hide();
+		// }else{
+			// $('#addendum2').show();
+		// }
+	// });
+	
+	
 		$('#addendum2').on('click', function(e) {
 			e.preventDefault();		
-			var kode_jenis_ppjb = $('#kode_jenis_ppjb').val();
+			var kode_jenis_addendum = $('#kode_jenis_addendum').val();
 			var jenis_ppjb = $('#jenis_ppjb').val();
-			window.open(base_marketing + 'ppjb/transaksi/ppjb/addendum_cetak.php?id=<?php echo $id; ?>&act=Ubah&kode_jenis_ppjb='+kode_jenis_ppjb+'&jenis_ppjb='+jenis_ppjb);		
+			window.open(base_marketing + 'ppjb/transaksi/ppjb/addendum_cetak.php?id=<?php echo $id; ?>&act=Ubah&kode_jenis_addendum='+kode_jenis_addendum);		
 			return false;
 		});
-	// }
+	
 	
 	$('#alamat').on('click', function(e) {
 		e.preventDefault();		
@@ -349,7 +363,7 @@ jQuery(function($) {
 	</td>
 </tr>
 <tr>
-	<td>Addendum</td><td>:</td>
+	<td>Addendum</td><td><input type="hidden" id="kode_jenis_addendum" value="<?php echo $addendum; ?>">:</td>
 	<td>
 	<select name="addendum" id="addendum">
 		<option value=""> -- Addendum -- </option>

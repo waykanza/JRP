@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		ex_app('A01');
-		ex_mod('PU05');
+		//ex_app('A');
+		ex_mod('A05');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 

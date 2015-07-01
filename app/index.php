@@ -54,7 +54,7 @@ body {
 			<?php 
 			switch ($sess_app_id)
 			{
-				case 'A01' : echo '<span class="big">M</span>arketing'; break;
+				case 'M' : echo '<span class="big">M</span>arketing'; break;
 				case 'C01' : 
 					echo '
 					<span class="big">C</span>ollection 
@@ -94,7 +94,7 @@ body {
 			<?php 
 			switch ($sess_app_id)
 			{
-				case 'A01' : die_app($sess_app_id); include('marketing/menu.php'); break;
+				case 'M' : die_app($sess_app_id); include('marketing/menu.php'); break;
 				case 'C01' : die_app($sess_app_id); include('collection_tunai/menu.php'); break;
 				case 'C02' : die_app($sess_app_id); include('collection_kpr/menu.php'); break;
 				case 'C03' : die_app($sess_app_id); include('ppjb/menu.php'); break;
@@ -116,7 +116,7 @@ body {
 		$cmd = (isset($_REQUEST['cmd'])) ? strip_tags($_REQUEST['cmd']) : '';
 		switch ($sess_app_id)
 		{
-			case 'A01' : include('marketing/module.php'); break;
+			case 'M' : include('marketing/module.php'); break;
 			case 'C01' : include('collection_tunai/module.php'); break;
 			case 'C02' : include('collection_kpr/module.php'); break;
 			case 'C03' : include('ppjb/module.php'); break;

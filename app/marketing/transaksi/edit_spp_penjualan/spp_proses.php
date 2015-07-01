@@ -68,8 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		//ex_app('');
-		//ex_mod('');
+		ex_app('M');
+		ex_mod('M18');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		if ($act == 'Spp') # Proses Tambah
 		{
-			//ex_ha('', 'I');
+			ex_ha('M18', 'I');
 			
 			ex_empty($nama, 'Nama pembeli harus diisi.');
 			ex_empty($alamat_rumah, 'Alamat rumah harus diisi.');
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Ubah') # Proses Ubah
 		{
-			//ex_ha('', 'U');
+			ex_ha('M18', 'U');
 			
 			$query = "
 			UPDATE SPP
@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Hapus') # Proses Hapus
 		{
-			//ex_ha('', 'D');
+			ex_ha('M18', 'D');
 			
 			$act = array();
 			$cb_data = $_REQUEST['cb_data'];
@@ -242,8 +242,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-//die_app('');
-//die_mod('');
+die_app('M');
+die_mod('M18');
 $conn = conn($sess_db);
 die_conn($conn);
 	

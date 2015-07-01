@@ -1,8 +1,8 @@
 <?php
 require_once('../../../../config/config.php');
 die_login();
-//die_app('');
-//die_mod('');
+die_app('M');
+die_mod('M23');
 $conn = conn($sess_db);
 die_conn($conn);
 

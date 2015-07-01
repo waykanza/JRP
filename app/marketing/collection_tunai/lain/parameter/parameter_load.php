@@ -1,11 +1,16 @@
 <?php
 require_once('../../../../../config/config.php');
 die_login();
+// die_app('C');
+die_mod('C37');
 $conn = conn($sess_db);
 die_conn($conn);
 
 $query = "SELECT * FROM CS_PARAMETER_COL";
 $obj = $conn->Execute($query);
+
+$query2 = "SELECT * FROM CS_REGISTER_CUSTOMER_SERVICE";
+$obj2 = $conn->Execute($query2);
 ?>
 
 <script type="text/javascript">
@@ -134,6 +139,35 @@ jQuery(function($) {
 		  <td>Masa Berlaku Denda </td>
 		  <td><input type="text" class="text-right" name="masa_berlaku_denda" id="masa_berlaku_denda" size="10" value="<?php echo $obj->fields['MASA_BERLAKU_DENDA']; ?>">
 		  Hari Kerja</td>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		</tr>
+		
+		<tr>
+		  <td colspan="2">Nomor Surat<hr></td>
+		  <td width="164">&nbsp;</td>
+		  <td width="132">&nbsp;</td>
+		  <td>&nbsp;</td>
+		</tr>
+		<tr>
+		  <td>Nomor Surat Akhir Tunai</td>
+		  <td><input type="text" class="text-right" name="no_surat_akhir_tunai" id="no_surat_akhir_tunai" size="10" value="<?php echo $obj2->fields['NOMOR_SURAT_TUNAI']; ?>"></td></td>
+		  <td width="35">&nbsp;</td>
+		</tr>
+		<tr>
+		  <td>Registtrasi Tunai</td>
+		  <td><input type="text" name="registrasi_tunai" id="registrasi_tunai" size="40" value="<?php echo $obj2->fields['REG_SURAT_TUNAI']; ?>"></td></td>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		</tr>
+		<tr>
+		  <td>Nomor Surat Akhir KPR</td>
+		  <td><input type="text" class="text-right" name="no_surat_akhir_kpr" id="no_surat_akhir_kpr" size="10" value="<?php echo $obj2->fields['NOMOR_SURAT_KPR']; ?>"></td></td>
+		  <td width="35">&nbsp;</td>
+		</tr>
+		<tr>
+		  <td>Registtrasi KPR</td>
+		  <td><input type="text" name="registrasi_kpr" id="registrasi_kpr" size="40" value="<?php echo $obj2->fields['REG_SURAT_KPR']; ?>"></td></td>
 		  <td>&nbsp;</td>
 		  <td>&nbsp;</td>
 		</tr>

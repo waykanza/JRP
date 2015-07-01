@@ -11,6 +11,8 @@ Class Terbilang {
 		$this->satuan = array('trilliun','milyar','juta','ribu','ratus','puluh','');
 	}
 	function eja($n) {
+		$angka = explode(",",$n);
+		$n = implode("",$angka);
 		$i=0;
 		$str = '';
 		while($n!=0){

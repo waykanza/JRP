@@ -69,12 +69,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' AND $act == 'login')
 			r.R_DELETE
 		FROM 
 			APPLICATION_RIGHTS r 
-			LEFT JOIN APPLICATION_MODULS m ON r.MODUL_ID = m.MODUL_ID 
+			
 		WHERE
 			r.USER_ID = '$user_id' 
-			AND m.APP_ID = '$app_id' 
+			
 		");
-		
+		//LEFT JOIN APPLICATION_MODULS m ON r.MODUL_ID = m.MODUL_ID 
+		//AND m.APP_ID = '$app_id' 
 		while( ! $obj->EOF) {
 			$modul_id[] = $obj->fields['MODUL_ID'];
 			$modul_ha[$obj->fields['MODUL_ID']] = array(

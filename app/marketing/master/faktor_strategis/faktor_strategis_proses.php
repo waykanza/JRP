@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		ex_app('A01');
-		ex_mod('PM03');
+		ex_app('M');
+		ex_mod('M05');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		if ($act == 'Tambah') # Proses Tambah
 		{
-			ex_ha('PM03', 'I');
+			ex_ha('M05', 'I');
 			
 			ex_empty($kode_faktor, 'Kode faktor strategis harus diisi.');
 			ex_empty($faktor_strategis, 'Nama faktor strategis harus diisi.');
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Ubah') # Proses Ubah
 		{
-			ex_ha('PM03', 'U');
+			ex_ha('M05', 'U');
 			
 			ex_empty($kode_faktor, 'Kode faktor strategis harus diisi.');
 			ex_empty($faktor_strategis, 'Nama faktor strategis harus diisi.');
@@ -114,8 +114,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-die_app('A01');
-die_mod('PM03');
+die_app('M');
+die_mod('M05');
 $conn = conn($sess_db);
 die_conn($conn);
 

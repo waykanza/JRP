@@ -2,7 +2,7 @@
 require_once('../../../../../config/config.php');
 die_login();
 //die_app('');
-//die_mod('');
+die_mod('K06');
 $conn = conn($sess_db);
 die_conn($conn);
 

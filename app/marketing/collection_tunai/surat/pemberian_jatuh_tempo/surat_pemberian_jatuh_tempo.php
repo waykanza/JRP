@@ -38,11 +38,24 @@
 			$tanggal_spp	= fm_date(date("Y-m-d", strtotime($obj->fields['TANGGAL_SPP'])));
 			$nilai			= to_money($obj->fields['NILAI']);
 			
-			$query = "select NOMOR_SURAT_TUNAI,REG_SURAT_TUNAI from CS_REGISTER_CUSTOMER_SERVICE";
+			$query = "select STATUS_KOMPENSASI FROM SPP WHERE KODE_BLOK = '$id'";
+			$obj = $conn->execute($query);
+			$status			= $obj->fields['STATUS_KOMPENSASI'];
+			
+			$query = "select * from CS_REGISTER_CUSTOMER_SERVICE";
 			$obj = $conn->execute($query);
 			
-			$no				= 1 + $obj->fields['NOMOR_SURAT_TUNAI'];
-			$reg			= $obj->fields['REG_SURAT_TUNAI'];
+			if($status == 2)
+			{
+				$no			= 1 + $obj->fields['NOMOR_SURAT_TUNAI'];
+				$reg		= $obj->fields['REG_SURAT_TUNAI'];
+			}
+			else if($status == 1)
+			{
+				$no			= 1 + $obj->fields['NOMOR_SURAT_KPR'];
+				$reg		= $obj->fields['REG_SURAT_KPR'];
+			}
+			
 			$nomor_surat	= $no.$reg;
 			$tanggal_cetak 	= kontgl(tgltgl(date("d M Y")));
 			$kode_blok		= $id;

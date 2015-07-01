@@ -1,8 +1,14 @@
 <?php 
 switch (trim(base64_decode($cmd)))
 {
-	# Master
+	
 	case 'A01_home' 					: include('marketing/home/home_setup.php');break;
+	case 'A01_ubah_password'			: include('marketing/utilitas/ubah_password/ubah_password_setup.php');break;
+}
+
+switch (trim(base64_decode($cmd)))
+{	
+	# Master
 	case 'A01_lokasi' 					: die_mod('M01'); include('marketing/master/lokasi/lokasi_setup.php');break;
 	case 'A01_desa' 					: die_mod('M02'); include('marketing/master/desa/desa_setup.php');break;
 	case 'A01_nomor_va' 				: die_mod('M03'); include('marketing/master/nomor_va/nomor_va_setup.php');break;
@@ -40,13 +46,15 @@ switch (trim(base64_decode($cmd)))
 	# Utilitas
 	
 	case 'A01_parameter_program_mark'	: die_mod('M26');include('marketing/utilitas/parameter/parameter_setup.php');break;
-	case 'A01_pemulihan_spp'			: die_mod('M27'); include('marketing/utilitas/pemulihan_spp/pemulihan_spp_setup.php');break;
 	
 	#User Management
-	case 'A01_users'					: die_mod('A01'); include('marketing/utilitas/security_management/users/users_setup.php');break;
-	case 'A01_aplications'				: die_mod('A02'); include('marketing/utilitas/security_management/aplications/aplications_setup.php');break;
-	case 'A01_modules'					: die_mod('A03'); include('marketing/utilitas/security_management/modules/modules_setup.php');break;
-	case 'A01_rights'					: die_mod('A04'); include('marketing/utilitas/security_management/rights/rights_setup.php');break;
+	case 'A01_aplications'				: die_mod('A01'); include('marketing/utilitas/security_management/aplications/aplications_setup.php');break;
+	case 'A01_modules'					: die_mod('A02'); include('marketing/utilitas/security_management/modules/modules_setup.php');break;
+	case 'A01_manage_users'				: die_mod('A03'); include('marketing/utilitas/security_management/users/users_setup.php');break;
+	case 'A01_manage_modules'			: die_mod('A04'); include('marketing/utilitas/security_management/manage_modules/manage_modules_setup.php');break;
+	case 'A01_rights'					: die_mod('A05'); include('marketing/utilitas/security_management/rights/rights_setup.php');break;
+	case 'A01_pemulihan_spp'			: die_mod('A06'); include('marketing/utilitas/pemulihan_spp/pemulihan_spp_setup.php');break;
+	
 }
 ?>
 <?php 
@@ -103,6 +111,8 @@ switch (trim(base64_decode($cmd)))
 	
 	# Lain-lain
 	case 'A01_parameter_program_coll'		: die_mod('C37'); include('marketing/collection_tunai/lain/parameter/parameter_setup.php');break;
+	case 'A01_upload_penerimaan_va'			: die_mod('C38'); include('marketing/collection_tunai/lain/upload_penerimaan_va/upload_penerimaan_va_setup.php');break;
+
 }
 ?>
 
@@ -152,6 +162,7 @@ switch (trim(base64_decode($cmd)))
 	
 	# Utilitas
 	case 'A01_parameter'				: die_mod('K09'); include('marketing/kredit/utilitas/parameter/parameter_setup.php');break;
+	case 'A01_penomoran_fp'				: die_mod('K10');include('marketing/kredit/utilitas/penomoran_fp/penomoran_fp_setup.php');break;
 	case 'A01_kartu_pembeli'			: die_mod('K11');include('marketing/kredit/utilitas/kartu_pembeli/kartu_pembeli_setup.php');break;
 	
 }

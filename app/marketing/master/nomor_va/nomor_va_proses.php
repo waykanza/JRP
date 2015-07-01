@@ -15,8 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		ex_app('A01');
-		ex_mod('PM09');
+		ex_app('M');
+		ex_mod('M03');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		if ($act == 'Tambah') # Proses Tambah
 		{
-			ex_ha('PM09', 'I');
+			ex_ha('M03', 'I');
 					
 			$query = "SELECT * FROM STOK";
 			$obj = $conn->execute($query);
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Ubah') # Proses Ubah
 		{
-			ex_ha('PM09', 'U');
+			ex_ha('M03', 'U');
 					
 			$obj = $conn->Execute("SELECT COUNT(KODE_BLOK) AS TOTAL FROM STOK WHERE NO_VA = '$nomor_va'");
 			$total	= $obj->fields['TOTAL'];
@@ -91,8 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-die_app('A01');
-die_mod('PM09');
+die_app('M');
+die_mod('M03');
 $conn = conn($sess_db);
 die_conn($conn);
 	

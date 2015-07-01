@@ -199,11 +199,8 @@
 		
 		<li><a href="">Collection<span></span></a>
 			<ul>
-		<!-- PENAMBAHAN MODUL PENERIMAAN VA -->
-		<li><a href="<?php echo base64_encode('A01_upload_penerimaan_va'); ?>">Upload Penerimaan VA</a></li>
-		<!-- END PENAMBAHAN MODUL PENERIMAAN VA -->
 		<li><a href="<?php echo base64_encode('A01_parameter_program_coll'); ?>">Parameter Program</a></li>
-		<li><a href="<?php echo base64_encode('A01_nomor_surat'); ?>">Nomor Surat</a></li>
+		<li><a href="<?php echo base64_encode('A01_upload_penerimaan_va'); ?>">Upload Penerimaan VA</a></li>
 			</ul>	
 		</li>
 
@@ -215,6 +212,7 @@
 		<li><a href="">Kwitansi<span></span></a>
 		<ul>
 		<li><a href="<?php echo base64_encode('A01_parameter'); ?>">Parameter Nomor Register</a></li>
+		<li><a href="<?php echo base64_encode('A01_penomoran_fp'); ?>">Penomoran Faktur Pajak</a></li>
 		<li><a href="<?php echo base64_encode('A01_kartu_pembeli'); ?>">Cetak Kartu Pembeli</a></li>
 		</ul>
 	</li>
@@ -222,10 +220,12 @@
 	<li><a href="<?php echo base64_encode('A01_ubah_password'); ?>">Ubah Password</a></li>
 		<li><a href="">Security Management <span></span></a>
 			<ul>
-				<li><a href="<?php echo base64_encode('A01_users'); ?>">Users</a></li>
 				<li><a href="<?php echo base64_encode('A01_aplications'); ?>">Aplications</a></li>
 				<li><a href="<?php echo base64_encode('A01_modules'); ?>">Modules</a></li>
-				<li><a href="<?php echo base64_encode('A01_rights'); ?>">Rights</a></li>
+				<li class="separator"></li>
+				<li><a href="<?php echo base64_encode('A01_manage_users'); ?>">Manage Users</a></li>
+				<li><a href="<?php echo base64_encode('A01_manage_modules'); ?>">Manage Modules</a></li>
+				<li><a href="<?php echo base64_encode('A01_rights'); ?>">Application Rights</a></li>
 			</ul>
 		</li>
 	</ul>	

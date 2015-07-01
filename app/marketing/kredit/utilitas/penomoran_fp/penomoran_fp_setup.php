@@ -1,26 +1,6 @@
-<div class="title-page">PENOMORAN & PENCETAKAN FAKTUR PAJAK</div>
-
-<form name="form" id="form" method="post">
-<table class="t-control wauto">
-<tr>	
-	<td width="100">Periode</td><td width="10">:</td>
-	<td><input type="text" name="periode_awal" id="periode_awal" class="apply dd-mm-yyyy" size="15" value=""> s/d
-	<input type="text" name="periode_akhir" id="periode_akhir" class="apply dd-mm-yyyy" size="15" value=""></td>
-</tr>
-<tr>
-	<td>Jumlah Baris</td><td>:</td>
-	<td>
-		<input type="text" name="per_page" size="3" id="per_page" class=" apply text-center" value="20">
-		<input type="button" name="apply" id="apply" value=" Apply ">
-	</td>
-</tr>
-<tr>
-	<td>Total Data</td><td>:</td>
-	<td id="total-data"></td>
-</tr>
-</table>
-
 <script type="text/javascript">
+var this_base = base_marketing + 'kredit/utilitas/penomoran_fp/';
+
 jQuery(function($) {
 	
 	/* -- FILTER -- */
@@ -46,17 +26,22 @@ jQuery(function($) {
 		return false;
 	});
 	
-	$(document).on('click', '#excel', function(e) {
+	$(document).on('click', '#tambah', function(e) {
 		e.preventDefault();
-		location.href = base_marketing + 'kredit/utilitas/penomoran_fp/lap_penomoranfp_xls.php?' + $('#form').serialize();
-		return false;
-	});
-	
-	$(document).on('click', '#print', function(e) {
-		e.preventDefault();
-		var url = base_marketing + 'kredit/utilitas/laporan_kuitansi/laporan_kuitansi_print.php?' + $('#form').serialize();
-		open_print(url)
-		return false;
+		if (confirm('Apa anda yakin akan generate nomor faktur pajak?'))
+		{	
+			var url		= this_base + 'penomoran_fp_proses.php',
+			data		= $('#form').serialize();
+			
+			$.post(url, data, function(result) {
+				alert(result.msg);
+				if (result.error == false) {
+					parent.loadData();
+				}
+			}, 'json');
+			return false;
+		}
+		
 	});
 	
 	$(document).on('click', '#next_page', function(e) {
@@ -76,7 +61,7 @@ jQuery(function($) {
 	$(document).on('click', 'tr.onclick td:not(.notclick)', function(e) {
 		e.preventDefault();
 		var id = $(this).parent().attr('id');
-		showPopup('Penomoran', id);
+		showPopup('Edit', id);
 		return false;
 	});
 });
@@ -96,6 +81,29 @@ function showPopup(act, id)
 	return false;
 }
 </script>
+
+<div class="title-page">PENOMORAN FAKTUR PAJAK</div>
+
+<form name="form" id="form" method="post">
+<table class="t-control wauto">
+<tr>	
+	<td width="100">Periode</td><td width="10">:</td>
+	<td><input type="text" name="periode_awal" id="periode_awal" class="apply dd-mm-yyyy" size="15" value=""> s/d
+	<input type="text" name="periode_akhir" id="periode_akhir" class="apply dd-mm-yyyy" size="15" value=""></td>
+</tr>
+<tr>
+	<td>Jumlah Baris</td><td>:</td>
+	<td>
+		<input type="text" name="per_page" size="3" id="per_page" class=" apply text-center" value="20">
+		<input type="button" name="apply" id="apply" value=" Apply ">
+		<input type="hidden" name="act" id="act" value="Tambah">
+	</td>
+</tr>
+<tr>
+	<td>Total Data</td><td>:</td>
+	<td id="total-data"></td>
+</tr>
+</table>
 
 <div id="t-detail"></div>
 </form>

@@ -12,8 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		//ex_app('');
-		//ex_mod('');
+		// ex_app('C');
+		ex_mod('05');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		if ($act == 'Pemulihan') # Proses Otorisasi
 		{
-			//ex_ha('PT05', 'U');
+			ex_ha('C05', 'U');
 			
 			$act = array();
 			$cb_data = $_REQUEST['cb_data'];

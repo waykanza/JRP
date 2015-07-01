@@ -52,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		//ex_app('');
-		//ex_mod('');
+		// ex_app('C');
+		ex_mod('C01');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -61,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	
 		if ($act == 'Ubah') # Proses Ubah
 		{
+			ex_ha('C01', 'U');
 			$query = "
 			UPDATE SPP
 			SET
@@ -88,8 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-//die_app('');
-//die_mod('');
+// die_app('C');
+die_mod('C01');
 $conn = conn($sess_db);
 die_conn($conn);
 	

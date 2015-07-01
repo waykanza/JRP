@@ -55,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		//ex_app('');
-		//ex_mod('');
+		ex_app('M');
+		ex_mod('M19');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		
 		if ($act == 'Ubah') # Proses Ubah
 		{
-			//ex_ha('', 'U');
+			ex_ha('M19', 'U');
 
 			$query = "
 			UPDATE SERAH_TERIMA
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Hapus') # Proses Hapus
 		{
-			//ex_ha('', 'D');
+			ex_ha('M19', 'D');
 			
 			$act = array();
 			$cb_data = $_REQUEST['cb_data'];
@@ -123,8 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-//die_app('');
-//die_mod('');
+die_app('M');
+die_mod('M19');
 $conn = conn($sess_db);
 die_conn($conn);
 	

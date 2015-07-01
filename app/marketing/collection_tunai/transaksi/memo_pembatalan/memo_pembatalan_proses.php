@@ -19,8 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		//ex_app('');
-		//ex_mod('');
+		// ex_app('C');
+		ex_mod('C06');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		
 		if ($act == 'Tambah') # Proses Tambah
 		{
+			ex_ha('C06', 'I');
+			
 			ex_empty($kode_blok, 'Kode blok harus diisi.');
 			
 			$query = "
@@ -94,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		else if($act == 'Hapus') #Proses Hapus
 		{			
-			//ex_ha('', 'D');
+			ex_ha('C06', 'D');
 		
 			$act = array();
 			$cb_data = $_REQUEST['cb_data'];
@@ -116,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		
 		else if($act == 'HapusMemo') #Proses Hapus
 		{			
-			//ex_ha('', 'D');
+			ex_ha('C06', 'D');
 		
 			$act = array();
 			$cb_data = $_REQUEST['cb_data'];
@@ -152,8 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-//die_app('');
-//die_mod('');
+// die_app('C');
+die_mod('C06');
 $conn = conn($sess_db);
 die_conn($conn);
 	

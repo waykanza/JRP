@@ -1,8 +1,8 @@
 <?php
 require_once('../../../../../config/config.php');
 die_login();
-//die_app('');
-//die_mod('');
+// die_app('C');
+die_mod('C28');
 $conn = conn($sess_db);
 die_conn($conn);
 
@@ -13,8 +13,7 @@ $tahun				= (isset($_REQUEST['tahun'])) ? clean($_REQUEST['tahun']) : '';
 
 $array_bulan 		= array(1=>'Januari','Februari','Maret', 'April', 'Mei', 'Juni','Juli','Agustus','September','Oktober', 'November','Desember'); 
 	
-$query_blok_lunas = "SELECT C.KODE_BLOK, C.REMAIN, ISNULL(D.NILAI_CAIR_KPR,0) AS NILAI_KPR, (C.REMAIN - (ISNULL(D.NILAI_CAIR_KPR,0))) AS SISA FROM
-( SELECT A.KODE_BLOK,B.SUMOFREALISASI,A.SUMOFPLAN,(B.SUMOFREALISASI-A.SUMOFPLAN) AS REMAIN FROM 
+$query_blok_lunas = "SELECT C.KODE_BLOK FROM ( SELECT A.KODE_BLOK,B.SUMOFREALISASI,A.SUMOFPLAN,(B.SUMOFREALISASI-A.SUMOFPLAN) AS REMAIN FROM 
 ( SELECT SUM (A.NILAI) as SUMOFPLAN, A.KODE_BLOK from ( select A.KODE_BLOK,A.TANGGAL_TANDA_JADI AS TANGGAL,ISNULL(A.TANDA_JADI,0) 
 AS NILAI from spp A where A.KODE_BLOK is not null UNION ALL SELECT A.KODE_BLOK,A.TANGGAL,ISNULL(A.NILAI,0) FROM RENCANA A WHERE A.KODE_BLOK IS NOT NULL
 )a GROUP BY a.KODE_BLOK ) A LEFT JOIN (SELECT SUM(A.NILAI) AS SUMOFREALISASI,A.KODE_BLOK FROM REALISASI A GROUP BY  A.KODE_BLOK)B 
@@ -30,11 +29,12 @@ $tahun_depan = $tahun + 1;
 $query = "
 SELECT COUNT(*) AS TOTAL
 FROM 
-	SPP
+	SPP a JOIN REALISASI b 
+	ON a.KODE_BLOK = b.KODE_BLOK
 WHERE
-	KODE_BLOK IN ($query_blok_lunas) 
-	AND TANGGAL_SPP >= CONVERT(DATETIME,'$tahun',105) 
-	AND TANGGAL_SPP < CONVERT(DATETIME,'$tahun_depan',105)
+	a.KODE_BLOK IN ($query_blok_lunas) 
+	AND b.TANGGAL >= CONVERT(DATETIME,'$tahun',105) 
+	AND b.TANGGAL < CONVERT(DATETIME,'$tahun_depan',105)
 ";
 
 $total_data = $conn->execute($query)->fields['TOTAL'];
@@ -115,10 +115,11 @@ if ($total_data > 0)
 			LEFT JOIN HARGA_BANGUNAN e ON b.KODE_SK_BANGUNAN = e.KODE_SK
 			LEFT JOIN FAKTOR f ON b.KODE_FAKTOR = f.KODE_FAKTOR
 			LEFT JOIN CS_VIRTUAL_ACCOUNT g ON a.NOMOR_CUSTOMER = g.NOMOR_VA	
+			LEFT JOIN REALISASI h ON a.KODE_BLOK = h.KODE_BLOK
 		WHERE
 			a.KODE_BLOK IN ($query_blok_lunas) 
-			AND a.TANGGAL_SPP >= CONVERT(DATETIME,'01-$bln-$tahun',105) 
-			AND a.TANGGAL_SPP < CONVERT(DATETIME,'01-$bln_depan-$tahun_depan',105)
+			AND h.TANGGAL >= CONVERT(DATETIME,'01-$bln-$tahun',105) 
+			AND h.TANGGAL < CONVERT(DATETIME,'01-$bln_depan-$tahun_depan',105)
 		";
 		
 		$obj 	= $conn->execute($query);
@@ -223,10 +224,11 @@ if ($total_data > 0)
 			LEFT JOIN HARGA_BANGUNAN e ON b.KODE_SK_BANGUNAN = e.KODE_SK
 			LEFT JOIN FAKTOR f ON b.KODE_FAKTOR = f.KODE_FAKTOR
 			LEFT JOIN CS_VIRTUAL_ACCOUNT g ON a.NOMOR_CUSTOMER = g.NOMOR_VA	
+			LEFT JOIN REALISASI h ON a.KODE_BLOK = h.KODE_BLOK
 		WHERE
 			a.KODE_BLOK IN ($query_blok_lunas) 
-			AND a.TANGGAL_SPP >= CONVERT(DATETIME,'$tahun',105) 
-			AND a.TANGGAL_SPP < CONVERT(DATETIME,'$tahun_depan',105)
+			AND h.TANGGAL >= CONVERT(DATETIME,'01-$bln-$tahun',105) 
+			AND h.TANGGAL < CONVERT(DATETIME,'01-$bln_depan-$tahun_depan',105)
 		";
 		
 		$obj 	= $conn->execute($query);

@@ -1,4 +1,4 @@
-<div class="title-page">LAPORAN PROYEKSI PENAGIHAN</div>
+<div class="title-page">LAPORAN SPP LUNAS TAHUNAN</div>
 
 <form name="form" id="form" method="post">
 <table class="t-control wauto">
@@ -37,14 +37,13 @@ jQuery(function($) {
 	
 	$(document).on('click', '#excel', function(e) {
 		e.preventDefault();
-		location.href = base_marketing + 'kredit/pelaporan/laporan_kuitansi_lain/print_report_kuitansi.php?' + $('#form').serialize();
+		location.href = base_marketing + 'collection_tunai/laporan/spp_lunas_tahunan/excel_spp_lunas_tahunan.php?' + $('#form').serialize();
 		return false;
 	});
 	
 	$(document).on('click', '#print', function(e) {
 		e.preventDefault();
-		var url = base_marketing + 'kredit/pelaporan/laporan_kuitansi_lain/laporan_kuitansi_lain_print.php?' + $('#form').serialize();
-		open_print(url)
+		window.open(base_marketing + 'collection_tunai/laporan/spp_lunas_tahunan/print_spp_lunas_tahunan.php?' + $('#form').serialize());
 		return false;
 	});
 	

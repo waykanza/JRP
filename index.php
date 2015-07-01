@@ -76,7 +76,7 @@ body {
 		<form id="form-login" method="post">
 			<div class="title-page text-center">Login Form</div>
 			<table class="t-control w100">
-			<input type="hidden" name="app_id" id="app_id" value="A01">		
+			<input type="hidden" name="app_id" id="app_id" value="M">		
 			<tr>
 				<td><label for="db">Database</label></td>
 				<td>

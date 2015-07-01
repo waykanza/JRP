@@ -2,8 +2,8 @@
 require_once('../../../../../config/config.php');
 require_once('../../../../../config/terbilang.php');
 die_login();
-die_app('A01');
-die_mod('JB06');
+// die_app('P');
+die_mod('P06');
 $conn = conn($sess_db);
 die_conn($conn);
 

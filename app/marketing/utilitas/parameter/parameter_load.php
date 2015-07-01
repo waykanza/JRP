@@ -1,6 +1,8 @@
 <?php
 require_once('../../../../config/config.php');
 die_login();
+die_app('M');
+die_mod('M26');
 $conn = conn($sess_db);
 die_conn($conn);
 
@@ -44,7 +46,19 @@ jQuery(function($) {
 		</tr>
 		<tr>
 			<td width="150">Tenggang Distribusi</td><td width="1">:</td>
-			<td><input type="text" name="nama_pejabat" id="nama_pejabat" size="20" value="<?php echo $obj->fields['TENGGANG_DISTRIBUSI']; ?>"></td></td>
+			<td><input type="text" name="tenggang_distribusi" id="tenggang_distribusi" size="20" value="<?php echo $obj->fields['TENGGANG_DISTRIBUSI']; ?>"></td></td>
+		</tr>
+		<tr>
+			<td colspan="6" class="text-center"><br><b>V I R T U A L    A C C O U N T</b><hr></td>
+		</tr>
+		
+		<tr>
+			<td width="250">Kode Virtual Account BCA Unit</td><td width="1">:</td>
+			<td><input type="text" name="va_bca" id="va_bca" size="20" value="<?php echo $obj->fields['VA_BCA_UNIT']; ?>"></td>
+		</tr>
+		<tr>
+			<td width="250">Kode Virtual Account Mandiri Unit</td><td width="1">:</td>
+			<td><input type="text" name="va_mandiri" id="va_mandiri" size="20" value="<?php echo $obj->fields['VA_MANDIRI_UNIT']; ?>"></td></td>
 		</tr>
 		
 	</table>

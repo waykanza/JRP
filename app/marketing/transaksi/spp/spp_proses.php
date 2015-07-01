@@ -71,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		//ex_app('');
-		//ex_mod('');
+		ex_app('M');
+		ex_mod('M16');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		if ($act == 'Ubah') # Proses Ubah
 		{
-			//ex_ha('', 'U');
+			ex_ha('M16', 'U');
 			
 			$query = "
 			UPDATE SPP
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Hapus') # Proses Hapus
 		{
-			//ex_ha('', 'D');
+			ex_ha('M16', 'D');
 			
 			$act = array();
 			$cb_data = $_REQUEST['cb_data'];
@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		
 		elseif ($act == 'Otorisasi') # Proses Otorisasi
 		{
-			//ex_ha('PT05', 'U');
+			ex_ha('M16', 'U');
 			
 			$act = array();
 			$cb_data = $_REQUEST['cb_data'];
@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		
 		elseif ($act == 'Batal_Otorisasi') # Proses Batal Otorisasi
 		{
-			//ex_ha('PT05', 'U');
+			ex_ha('M16', 'U');
 			
 			$act = array();
 			$cb_data = $_REQUEST['cb_data'];
@@ -202,8 +202,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-//die_app('');
-//die_mod('');
+die_app('M');
+die_mod('M16');
 $conn = conn($sess_db);
 die_conn($conn);
 	

@@ -28,7 +28,7 @@ $(function() {
 	
 	$('#save').on('click', function(e) {
 		e.preventDefault();
-		var url		= base_marketing + '_kredit/utilitas/penomoran_fp/penomoran_fp_proses.php',
+		var url		= base_marketing + 'kredit/utilitas/penomoran_fp/penomoran_fp_proses.php',
 			data	= $('#form').serialize();
 		
 		if (confirm("Nama pejabat akan disimpan ?") == false)
@@ -42,7 +42,7 @@ $(function() {
 			{
 				alert(data.msg);
 			}
-				else if (data.act == 'Penomoran')
+				else if (data.act == 'Edit')
 				{
 					alert(data.msg);
 					parent.loadData();

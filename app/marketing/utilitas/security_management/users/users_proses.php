@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		ex_app('A01');
-		ex_mod('PU05');
+		//ex_app('A');
+		ex_mod('A03');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		if ($act == 'Tambah') # Proses Tambah
 		{
-			ex_ha('PU05', 'I');
+			ex_ha('A03', 'I');
 			
 			ex_empty($user_id, 'User id harus diisi.');
 			ex_empty($login_id, 'Login id harus diisi.');
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Edit') # Proses Ubah
 		{
-			ex_ha('PU05', 'U');
+			ex_ha('A03', 'U');
 			
 			ex_empty($user_id, 'User id harus diisi.');
 			ex_empty($login_id, 'Login id harus diisi.');
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Hapus') # Proses Delete
 		{
-			ex_ha('PU05', 'D');
+			ex_ha('A03', 'D');
 			
 			$act = array();
 			$cb_data = $_REQUEST['cb_data'];
@@ -117,8 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-die_app('A01');
-die_mod('PU05');
+//die_app('A');
+die_mod('A03');
 $conn = conn($sess_db);
 die_conn($conn);
 

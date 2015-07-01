@@ -44,7 +44,18 @@ jQuery(function($) {
 		e.preventDefault();
 		return parent.loadData();
 	});
-	
+	//ADD PRINT
+	$('#print').on('click', function(e) {
+		e.preventDefault();	
+		if (confirm("Apakah data ini akan dicetak ?") == false)
+		{
+			return false;
+		}	
+		var no_ppjb_hak = $('#no_ppjb_hak').val();
+		window.open(base_marketing + 'ppjb/transaksi/pengalihan_hak/pengalihan_cetak.php?id=<?php echo $id; ?>&act=Ubah&no_ppjb_hak='+no_ppjb_hak);		
+		return false;
+	});
+	// END PRINT
 	$('#save').on('click', function(e) {
 		e.preventDefault();
 		var url		= base_marketing + 'ppjb/transaksi/pengalihan_hak/pengalihan_hak_proses.php',

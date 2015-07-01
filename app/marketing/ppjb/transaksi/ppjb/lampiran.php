@@ -2,11 +2,27 @@
 require_once('../../../../../config/config.php');
 require_once('../../../../../config/terbilang.php');
 die_login();
-die_app('A01');
-die_mod('JB06');
+// die_app('P');
+die_mod('P06');
 $conn = conn($sess_db);
 die_conn($conn);
 
+//Format Tanggal Berbahasa Indonesia 
+
+	// Array Hari
+	$array_hari = array(1=>'Senin','Selasa','Rabu','Kamis','Jumat', 'Sabtu','Minggu');
+	$hari = $array_hari[date('N')];
+
+	//Format Tanggal 
+	$tgl = date ('j');
+
+	//Array Bulan 
+	$array_bulan = array(1=>'Januari','Februari','Maret', 'April', 'Mei', 'Juni','Juli','Agustus','September','Oktober', 'November','Desember'); 
+	$bulan = $array_bulan[date('n')];
+	 
+	//Format Tahun 
+	$tahun = date('Y');
+	
 $terbilang 	= new Terbilang;
 $id			= (isset($_REQUEST['id'])) ? base64_decode(clean($_REQUEST['id'])) : '';
 
@@ -111,7 +127,6 @@ $query = "
 	}
 	
 	.wrap {
-		font-family: "Times New Roman", Times, serif;
 		position: relative;
 		margin: 0px 80px 0px 80px;
 	}
@@ -138,24 +153,34 @@ $query = "
 	.clear { clear: both; }
 	.text-left { text-align: left; }
 	.text-right { text-align: right; }
+	.text-center { text-align: center; }
 	.va-top { vertical-align:top; }
+	body{
+	font-family : Tahoma;
+	font-size: 14px;
+	
+	}
+	h4{
+	 text-align:center;
+	}
 </style>
 </head>
 
-<body onload="window.print()">
+<body>
 <div class="wrap">
 	<div class="clear"></div>
-<font size="1">
 Lampiran : 1
-<center>	
+<h4>
 
 PERJANJIAN PENGIKATAN JUAL BELI<br>
 TANAH<br>
-BINTARO JAYA<br>
-<br>	
+BINTARO JAYA
+</h4>
+<div class="text-center">	
 Nomor : <?php echo $nomor; ?><br>
+</div>
 <br>
-</center>
+
 Daftar perincian harga dan cara pembayaran atas pembelian <?php echo tanah_bangunan($luas_bangunan); ?> di Perumahan<br>
 Bintaro Jaya Blok : <?php echo $kode_blok; ?> Tipe <?php echo $tipe_bangunan; ?><br>
 <br>
@@ -288,9 +313,9 @@ $query = "SELECT * FROM CS_PARAMETER_PPJB";
 $obj = $conn->execute($query);
 ?>	
 
-<center>
-<?php echo $obj->fields['KOTA']; ?>, <?php echo $tanggal; ?>
-
+<div class="text-right">
+<?php echo $obj->fields['KOTA']; ?>, <?php echo $tgl. " " . $bulan . " " . $tahun; ?>
+</div>
 <table>
 	<tr>
 		<td align="center" width="300">PIHAK KEDUA <br> PEMBELI</td>
@@ -347,4 +372,19 @@ $obj = $conn->execute($query);
 </body>
 </html>
 
-<?php close($conn); ?>
+<?php 
+	
+	
+	$nama_file= "LAMPIRAN ".$nama_pembeli." (". $tgl . " " . $bulan . " " . $tahun .").doc";
+	
+	header("Content-Disposition: attachment; filename=\"" . basename($nama_file) . "\"");
+	header('Content-Transfer-Encoding: binary');
+	header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+	header('Expires: 0');
+	header('Pragma: public');
+	flush();
+	
+		
+	exit;
+	close($conn); 
+?>

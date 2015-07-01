@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		ex_app('A01');
-		ex_mod('JB08');
+		// ex_app('P');
+		ex_mod('P08');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -61,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-die_app('A01');
-die_mod('JB08');
+// die_app('P');
+die_mod('P08');
 $conn = conn($sess_db);
 die_conn($conn);
 

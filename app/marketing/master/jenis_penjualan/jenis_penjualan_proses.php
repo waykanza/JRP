@@ -15,8 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		ex_app('A01');
-		ex_mod('PM05');
+		ex_app('M');
+		ex_mod('M07');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		if ($act == 'Tambah') # Proses Tambah
 		{
-			ex_ha('PM05', 'I');
+			ex_ha('M07', 'I');
 			
 			ex_empty($kode_jenis, 'Kode penjualan harus diisi.');
 			ex_empty($jenis_penjualan, 'Nama penjualan harus diisi.');
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Ubah') # Proses Ubah
 		{
-			ex_ha('PM05', 'U');
+			ex_ha('M07', 'U');
 			
 			ex_empty($kode_jenis, 'Kode penjualan harus diisi.');
 			ex_empty($jenis_penjualan, 'Nama penjualan harus diisi.');
@@ -82,8 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-die_app('A01');
-die_mod('PM05');
+die_app('M');
+die_mod('M07');
 $conn = conn($sess_db);
 die_conn($conn);
 	

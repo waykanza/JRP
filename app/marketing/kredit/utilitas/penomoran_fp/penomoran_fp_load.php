@@ -1,8 +1,8 @@
 <?php
 require_once('../../../../../config/config.php');
 die_login();
-//die_app('');
-//die_mod('');
+//die_app('K');
+die_mod('K10');
 $conn = conn($sess_db);
 die_conn($conn);
 
@@ -37,8 +37,7 @@ $page_start = (($page_num-1) * $per_page);
 <table id="pagging-1" class="t-control">
 <tr>
 	<td>
-		<input type="button" id="excel" value=" Excel ">
-		<input type="button" id="print" value=" Print ">
+		<input type="button" id="tambah" value=" Generate Nomor Sesuai Periode ">
 	</td>
 	<td class="text-right">
 		<input type="button" id="prev_page" value=" < ">
@@ -64,7 +63,7 @@ $page_start = (($page_num-1) * $per_page);
 if ($total_data > 0)
 {
 	$query = "
-	SELECT *
+	SELECT *, ISNULL(NOMOR_SERI_FAKTUR, '') AS NOMOR_FAKTUR
 	FROM 
 		FAKTUR_PAJAK
 	$query_search
@@ -81,7 +80,7 @@ if ($total_data > 0)
 			<td><?php echo $obj->fields['KODE_BLOK']; ?></td>
 			<td><?php echo $obj->fields['NAMA']; ?></td>
 			<td><?php echo tgltgl(date("d-m-Y", strtotime($obj->fields['TGL_FAKTUR']))); ?></td>			
-			<td><?php echo $obj->fields['NOMOR_SERI_FAKTUR']; ?></td>
+			<td><?php echo $obj->fields['NOMOR_FAKTUR']; ?></td>
 		</tr>
 		<?php
 		$i++;

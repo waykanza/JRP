@@ -1,7 +1,7 @@
 <?php
 die_login();
-die_app('C01');
-die_mod('COL03');
+// die_app('C01');
+// die_mod('COL03');
 $conn = conn($sess_db);
 die_conn($conn);
 ?>

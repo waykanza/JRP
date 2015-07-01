@@ -1,8 +1,8 @@
 <?php
 require_once('../../../../../config/config.php');
 die_login();
-//die_app('C01');
-//die_mod('COS01');
+// die_app('C');
+die_mod('C13');
 $conn = conn($sess_db);
 die_conn($conn);
 
@@ -52,7 +52,14 @@ SELECT
 	b.KODE_BLOK NOT IN($query_blok_lunas_bayar)
 	ORDER BY A.KODE_BLOK
 ";
-$total_data = $conn->execute($query)->recordcount();
+$n = 0;
+$obj = $conn->execute($query);
+while( ! $obj->EOF)
+{
+	$n++;
+	$obj->movenext();
+}
+$total_data = $n;
 $total_page = ceil($total_data/$per_page);
 
 $page_num = ($page_num > $total_page) ? $total_page : $page_num;

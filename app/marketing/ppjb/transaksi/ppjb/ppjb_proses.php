@@ -31,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	try
 	{
 		ex_login();
-		ex_app('A01');
-		ex_mod('JB06');
+		// ex_app('P');
+		ex_mod('P06');
 		$conn = conn($sess_db);
 		ex_conn($conn);
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		if ($act == 'Tambah') # Proses Tambah
 		{
-			ex_ha('JB06', 'I');
+			ex_ha('P06', 'I');
 			
 			ex_empty($tanggal, 'Tanggal PPJB harus diisi.');
 			ex_empty($jenis_ppjb, 'Jenis PPJB harus diisi.');
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Ubah') # Proses Ubah
 		{
-			ex_ha('JB06', 'U');
+			ex_ha('P06', 'U');
 			
 			ex_empty($tanggal, 'Tanggal PPJB harus diisi.');
 			ex_empty($jenis_ppjb, 'Jenis PPJB harus diisi.');
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Hapus') # Proses Hapus
 		{
-			ex_ha('JB06', 'D');
+			ex_ha('P06', 'D');
 			
 			$query = "DELETE FROM CS_PPJB WHERE KODE_BLOK = '$id'";
 			ex_false($conn->execute($query), $query);
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		elseif ($act == 'Ttd') # Proses Ttd
 		{
-			ex_ha('JB06', 'U');
+			ex_ha('P06', 'U');
 			
 			$nama		= (isset($_REQUEST['nama'])) ? clean($_REQUEST['nama']) : '';
 			$jabatan	= (isset($_REQUEST['jabatan'])) ? clean($_REQUEST['jabatan']) : '';
@@ -132,8 +132,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 die_login();
-die_app('A01');
-die_mod('JB06');
+// die_app('P');
+die_mod('P06');
 $conn = conn($sess_db);
 die_conn($conn);
 	

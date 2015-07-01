@@ -1,8 +1,8 @@
 <?php
 require_once('../../../../config/config.php');
 die_login();
-//die_app('');
-//die_mod('');
+die_app('M');
+die_mod('M17');
 $conn = conn($sess_db);
 die_conn($conn);
 
@@ -179,11 +179,8 @@ if ($total_data > 0)
 ?>
 </table>
 
-<table id="pagging-2" class="t-control w90"></table>
-
 <script type="text/javascript">
 jQuery(function($) {
-	$('#pagging-2').html($('#pagging-1').html());
 	$('#total-data').html('<?php echo $total_data; ?>');
 	$('#per_page').val('<?php echo $per_page; ?>');
 	$('.page_num').inputmask('integer');
