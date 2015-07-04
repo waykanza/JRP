@@ -85,6 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			";
 			ex_false($conn->execute($query), $query);
 			
+			// histori insert
+			
+			
+			
+			
+			
 			$query = "
 			UPDATE SPP SET 
 				NAMA_PEMBELI = '$pihak_kedua',
@@ -143,7 +149,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			WHERE NO_PPJB_PH = '$no_ppjb_hak'
 			";
 			ex_false($conn->execute($query), $query);
-
+			
+			// histori insert
+			
 			$query = "
 			UPDATE SPP SET 
 				NAMA_PEMBELI = '$pihak_kedua',

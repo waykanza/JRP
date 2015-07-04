@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		{
 			ex_ha('M03', 'I');
 					
-			$query = "SELECT * FROM STOK";
+			$query = "SELECT * FROM STOK WHERE STATUS_STOK = '0' AND TERJUAL = '0' AND NO_VA ISNULL";
 			$obj = $conn->execute($query);
 			
 			$no = 1;

@@ -350,5 +350,11 @@ if ($act == 'Simpan')
 	$query = "SELECT * FROM CS_REGISTER_CUSTOMER_SERVICE";
 	$obj = $conn->execute($query);
 	$no_spp		= 1 + $obj->fields['NOMOR_SPP'];
+	
+	$query = "
+			UPDATE CS_REGISTER_CUSTOMER_SERVICE SET
+				NOMOR_SPP = '$no_spp' 
+			";
+	ex_false($conn->Execute($query), $query);
 }
 ?>

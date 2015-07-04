@@ -47,6 +47,15 @@
 </tr>
 </table>
 
+<table>
+<tr></tr>
+<tr>
+	<td>
+		<input type="button" name="update_all" id="update_all" value=" Update SK Untuk Data Tersortir ">
+	</td>
+</tr>
+</table>
+
 <input type="hidden" name="tombol" id="tombol" value="otorisasi">
 <input type="hidden" name="nama_tombol" id="nama_tombol" value="Otorisasi">
 
@@ -75,7 +84,26 @@ jQuery(function($) {
 	/* -- BUTTON -- */
 	$(document).on('click', '#apply', function(e) {
 		e.preventDefault();
-		loadData();
+		if($('#s_opf1').val() == 's.KODE_BLOK'){
+			loadData();
+		}
+		else if($('#s_opf1').val() == 's.KODE_SK_TANAH'){
+			if($('#kode_sk_tanah').val() == ''){
+				alert('Pilih SK Tanah Yang Akan Ditampilkan');
+			}
+			else{
+			loadData();
+			}
+		}
+		else if($('#s_opf1').val() == 's.KODE_SK_BANGUNAN'){
+			if($('#kode_sk_bangunan').val() == ''){
+				alert('Pilih SK Bangunan Yang Akan Ditampilkan');
+			}
+			else{
+			loadData();
+			}
+		}
+		
 		return false;
 	});
 	
@@ -140,20 +168,50 @@ jQuery(function($) {
 	
 	$(document).on('click', '#update_all', function(e) {
 		e.preventDefault();
-		var id;
-		var jenis;
-		if($('#s_opf1').val() == 's.KODE_SK_TANAH') {
-			id = $('#kode_sk_tanah').val();
-			jenis = 'Tanah';
+		if($('#s_opf1').val() == 's.KODE_SK_TANAH'){
+			if($('#kode_sk_tanah').val() == ''){
+				alert('Pilih SK Tanah Terlebih Dahulu');
+			}
+			else{
+				var id;
+				var jenis;
+				if($('#s_opf1').val() == 's.KODE_SK_TANAH') {
+					id = $('#kode_sk_tanah').val();
+					jenis = 'Tanah';
+				}
+				else{
+					id = $('#kode_sk_bangunan').val();
+					jenis = 'Bangunan';
+				}
+				
+				var act = 'Ubah_SK';
+				var url = this_base + 'edit_sk_popup.php?act=' + act + '&id=' + id + '&jenis=' + jenis;
+				setPopup('Edit SK Stok Belum Terjual', url, 600, 400);
+				
+			}
 		}
-		else{
-			id = $('#kode_sk_bangunan').val();
-			jenis = 'Bangunan';
+		else if($('#s_opf1').val() == 's.KODE_SK_BANGUNAN'){
+			if($('#kode_sk_bangunan').val() == ''){
+				alert('Pilih SK Bangunan Terlebih Dahulu');
+			}
+			else{
+				var id;
+				var jenis;
+				if($('#s_opf1').val() == 's.KODE_SK_TANAH') {
+					id = $('#kode_sk_tanah').val();
+					jenis = 'Tanah';
+				}
+				else{
+					id = $('#kode_sk_bangunan').val();
+					jenis = 'Bangunan';
+				}
+				
+				var act = 'Ubah_SK';
+				var url = this_base + 'edit_sk_popup.php?act=' + act + '&id=' + id + '&jenis=' + jenis;
+				setPopup('Edit SK Stok Belum Terjual', url, 600, 400);
+				
+			}
 		}
-		
-		var act = 'Ubah_SK';
-		var url = this_base + 'edit_sk_popup.php?act=' + act + '&id=' + id + '&jenis=' + jenis;
-		setPopup('Edit SK Stok Belum Terjual', url, 600, 400);
 		return false;
 	});
 	

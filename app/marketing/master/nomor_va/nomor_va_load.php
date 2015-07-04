@@ -16,7 +16,7 @@ $s_opv1	= (isset($_REQUEST['s_opv1'])) ? clean($_REQUEST['s_opv1']) : '';
 $query_search = '';
 if ($s_opv1 != '')
 {
-	$query_search .= " WHERE $s_opf1 LIKE '%$s_opv1%' ";
+	$query_search .= " AND $s_opf1 LIKE '%$s_opv1%' ";
 }
 
 # Pagination
@@ -25,6 +25,7 @@ SELECT
 	COUNT(*) AS TOTAL
 FROM 
 	STOK
+WHERE STATUS_STOK = '0' AND TERJUAL = '0'
 $query_search
 ";
 
@@ -66,6 +67,7 @@ if ($total_data > 0)
 		KODE_BLOK, ISNULL(NO_VA, '') AS VA
 	FROM 
 		STOK
+	WHERE STATUS_STOK = '0' AND TERJUAL = '0'
 	$query_search
 	ORDER BY KODE_BLOK ASC
 	";

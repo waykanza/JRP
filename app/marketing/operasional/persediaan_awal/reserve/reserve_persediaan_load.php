@@ -13,6 +13,7 @@
 	$s_opv1		= (isset($_REQUEST['s_opv1'])) ? clean($_REQUEST['s_opv1']) : '';
 	
 	$query_search = '';
+
 	if ($s_opv1 != '')
 	{
 		$query_search .= " WHERE $s_opf1 LIKE '%$s_opv1%' ";

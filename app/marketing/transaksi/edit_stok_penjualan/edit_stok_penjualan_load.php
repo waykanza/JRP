@@ -52,9 +52,6 @@ $page_start = (($page_num-1) * $per_page);
 
 <table id="pagging-1" class="t-control w90">
 <tr>
-	<td>
-		<input type="button" name="update_all" id="update_all" value=" Update SK Untuk Data Tersortir ">
-	</td>
 	<td class="text-right">
 		<input type="button" id="prev_page" value=" < ">
 		Hal : <input type="text" name="page_num" size="5" class="page_num apply text-center" value="<?php echo $page_num; ?>">

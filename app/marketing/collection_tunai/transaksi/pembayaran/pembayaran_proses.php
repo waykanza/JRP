@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			ex_empty($nama_pembayar, 'Telah Terima Dari harus diisi.');
 			ex_empty($keterangan, 'Untuk Pembayaran harus diisi.');
 			ex_empty($jumlah, 'Jumlah harus diisi.');
-			ex_empty($diposting, 'Diposting harus diisi.');
+			//ex_empty($diposting, 'Diposting harus diisi.');
 			ex_empty($tanggal, 'Tanggal harus diisi.');
 			
 			$user = $_SESSION['USER_ID']; 
@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				ex_empty($jumlah, 'Jumlah harus diisi.');
 			}
-			ex_empty($diposting, 'Diposting harus diisi.');
+			//ex_empty($diposting, 'Diposting harus diisi.');
 			ex_empty($tanggal, 'Tanggal harus diisi.');
 			
 			$user = $_SESSION['USER_ID']; 	

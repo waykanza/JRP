@@ -116,10 +116,11 @@
 				if ($total_data == 0) {
 								
 					
-					$query = "INSERT INTO CS_VIRTUAL_ACCOUNT (NOMOR_VA, TANGGAL, NILAI)
+					$query = "INSERT INTO CS_VIRTUAL_ACCOUNT (NOMOR_VA, TANGGAL, NILAI,SISA)
 					VALUES(
 						'$nomor_va',
 						CONVERT(DATETIME,'$tanggal',105),
+						'$nilai',
 						'$nilai'
 					)";
 					
