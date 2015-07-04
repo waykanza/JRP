@@ -13,10 +13,9 @@
 	$s_opv1		= (isset($_REQUEST['s_opv1'])) ? clean($_REQUEST['s_opv1']) : '';
 	
 	$query_search = '';
-
 	if ($s_opv1 != '')
 	{
-		$query_search .= " WHERE $s_opf1 LIKE '%$s_opv1%' ";
+		$query_search .= " WHERE $s_opf1 LIKE '%$s_opv1%'";
 	}
 	
 	# Pagination
@@ -123,7 +122,13 @@
 		});
 		
 		/* -- BUTTON -- */
-		
+		/*
+		$(document).on('click', '#apply', function(e) {
+		e.preventDefault();
+		loadData3();
+		return false;
+		});
+		*/
 		/*
 			$(document).on('keyup', '#s_opv1', function(e) {
 			e.preventDefault();

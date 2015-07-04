@@ -8,6 +8,7 @@ jQuery(function($) {
 	
 	/* -- BUTTON -- */
 	$(document).on('click', '#apply', function(e) {
+		alert('qq');
 		e.preventDefault();
 		loadData();
 		return false;

@@ -3,6 +3,8 @@ var this_base = base_marketing + 'operasional/persediaan_awal/';
 
 jQuery(function($) {
 	
+	var stat = 0;
+	
 	$(document).on('keypress', '.apply', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
 		if (code == 13) { $('#apply').trigger('click'); }
@@ -12,7 +14,16 @@ jQuery(function($) {
 
 	$(document).on('click', '#apply', function(e) {
 		e.preventDefault();
-		loadData1();
+		if(stat == 0){
+			loadData1();
+		} else if(stat == 1){
+			loadData2();
+		} else if(stat == 2){
+			loadData3();
+		} else if(stat == 3){
+			loadData4();
+		}
+		
 		return false;
 	});	
 
@@ -56,28 +67,32 @@ jQuery(function($) {
 	$('input:radio[name="status_otorisasi"]').change(function(e){
 		e.preventDefault();
 		if($(this).val() == '0'){
+			stat = 0;
+			jQuery('#s_opv1').val('');
 			$('#otorisasi').show();
 			$('#batal_otorisasi').hide();
 			jQuery('#nama_tombol').val('Otorisasi');
 			jQuery('#tombol').val('otorisasi');
 			loadData1();
 		} else if($(this).val() == '1'){
+			stat = 1;
+			jQuery('#s_opv1').val('');
 			$('#otorisasi').hide();
 			$('#batal_otorisasi').show();
 			jQuery('#nama_tombol').val('Batal Otorisasi');
 			jQuery('#tombol').val('batal_otorisasi');
 			loadData2();
 		} else if($(this).val() == '2'){
+			stat = 2;
+			jQuery('#s_opv1').val('');
 			$('#otorisasi').hide();
 			$('#batal_otorisasi').hide();
-			//jQuery('#nama_tombol').val('Batal Otorisasi');
-			//jQuery('#tombol').val('batal_otorisasi');
-			loadData3()
+			loadData3();
 		} else if($(this).val() == '3'){
+			stat = 3;
+			jQuery('#s_opv1').val('');
 			$('#otorisasi').hide();
 			$('#batal_otorisasi').hide();
-			//jQuery('#nama_tombol').val('Batal Otorisasi');
-			//jQuery('#tombol').val('batal_otorisasi');
 			loadData4();
 		}
 		return false;
@@ -178,7 +193,7 @@ function hapusData() {
 	jQuery.post(url, data, function(result) {
 		var list_id = result.act.join(', #');
 		alert(result.msg);
-		loadData();
+		loadData1();
 	}, 'json');
 	return false;
 }
@@ -220,7 +235,7 @@ function unotorisasiData()
 	<td width="100">Pencarian</td><td width="10">:</td>
 	<td>
 		<select name="s_opf1" id="s_opf1" class="auto">
-			<option value="s.KODE_BLOK"> KODE BLOK </option>
+			<option value="KODE_BLOK"> KODE BLOK </option>
 		</select>
 		<input type="text" name="s_opv1" id="s_opv1" class="apply" value="">
 	</td>
